@@ -19,11 +19,11 @@
   * where averaging good weights may give bad set of weights
 * Simplest example: linear neuron with squared error
 
-### Linear Neurons, AKA Linear Filters![](/assets/Screen Shot 2017-04-04 at 5.14.21 AM.png)
+### Linear Neurons, AKA Linear Filters
+
+### ![](/assets/Screen Shot 2017-04-04 at 5.14.21 AM.png)
 
 * ### 
-
-
 
 ## 3b - Linear Neuron Error Surface
 
