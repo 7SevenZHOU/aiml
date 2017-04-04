@@ -6,9 +6,24 @@
 
 ### Perceptron Learning Does Not Work For Hidden Layers
 
-* every step, weights use averaging to get closer to "generously feasible" ideal weightings
+* every step, weights use averaging to get closer to "generously feasible" good weights
 * networks where avg of two good solutions is a worse solution exist
 * "multi-layer" NNs don't use perceptron 
+
+### Alternative Learning Method Compares Target Output
+
+* Perceptron shows weights get closer to good weights
+* Alternative approach: show output values move closer to target
+* Works for non-convex problems
+  * where there exists several independent sets of good weights
+  * where averaging good weights may give bad set of weights
+* Simplest example: linear neuron with squared error
+
+### Linear Neurons, AKA Linear Filters![](/assets/Screen Shot 2017-04-04 at 5.14.21 AM.png)
+
+* ### 
+
+
 
 ## 3b - Linear Neuron Error Surface
 
