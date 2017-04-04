@@ -21,7 +21,7 @@
 
 ### Linear Neurons, AKA Linear Filters
 
-### ![](/assets/Screen Shot 2017-04-04 at 5.14.21 AM.png) {#linear-neuron-def1}
+### ![](/assets/linear-neurons-def1.png) {#linear-neuron-def1}
 
 * ### 
 
