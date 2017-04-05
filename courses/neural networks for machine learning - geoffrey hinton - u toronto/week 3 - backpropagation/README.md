@@ -40,9 +40,10 @@
 
 * First, you guess \(50, 50, 50\) for the prices / weights. This would give a total of \(50, 50, 50\) \* \(2, 5, 3\) = 500. This means that the _residual error_ is 800 - 500 = 350.
 
-* * _Delta rule_ for learning prices / weights is $$\Delta w_i = \varepsilon x_i(t-y)$$, where i is the index of the "lunch ingredient," $$\varepsilon$$ is the learning rate of 1/35 \(chosen by you\), $$x_i$$ is the count of the number of the $$i$$th things you order, $$t$$ is the target price of the entire meal, and $$y$$ is the output generated in this iteration of the model given by \(50, 50, 50\) here.
-  * This gives new weights of \(1/35\)\(2, 5, 3\)\(50, 50, 50\)\(350\) = 10\*\(2, 5, 3\)\(50, 50, 50\) = \(70, 100, 80\)
-    * weight for chips got worse - this is different than perceptron
+* The _Delta rule_ for learning prices / weights is $$\Delta w_i = \varepsilon x_i(t-y)$$, where i is the index of the "lunch ingredient," $$\varepsilon$$ is the learning rate of 1/35 \(chosen by you\), $$x_i$$ is the count of the number of the $$i$$th things you order, $$t$$ is the target price of the entire meal, and $$y$$ is the output generated in this iteration of the model given by \(50, 50, 50\) here.
+
+* This gives new weights of \(1/35\)\(2, 5, 3\)\(50, 50, 50\)\(350\) = 10\*\(2, 5, 3\)\(50, 50, 50\) = \(70, 100, 80\)
+  * weight for chips got worse - this is different than perceptron
 
 ## 3b - Linear Neuron Error Surface
 
