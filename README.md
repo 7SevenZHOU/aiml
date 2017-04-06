@@ -6,7 +6,7 @@ Studies in Artificial Intelligence and Machine Learning
 
 ### Neural Networks for Machine Learning - Geoffrey Hinton - U Toronto
 
-* [Week 3 - Backpropagation](/aiml/courses/neural networks for machine learning - geoffrey hinton - u toronto/week 3 - backpropagation/)
+* [Week 3 - Backpropagation](/./courses/neural_networks_geoffrey_hinton/week03_backpropagation/README.md)
 
 
 
