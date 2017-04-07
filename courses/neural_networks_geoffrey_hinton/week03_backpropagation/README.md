@@ -88,7 +88,7 @@ For multi-layer, non-linear nets the error surface is more complicated than this
 
 * First guess:
 
-  * Squared error loss function is the type applicable to the error surface just described. 
+  * Squared error loss function is the type applicable to the error surface just described.
 
   * Here, we're given two data points and we have to pick the equation of the error surface given the relationship between them.
 
@@ -98,7 +98,7 @@ For multi-layer, non-linear nets the error surface is more complicated than this
 
   * 0.5\(w1^2, w2^2\) + 0.5\(-1^2, \(w2-1\)^2\)
 
-  * 0.5\(w1^2, w2^2\) + 0.5\(1, w2^2 - 2w2 + 1\) 
+  * 0.5\(w1^2, w2^2\) + 0.5\(1, w2^2 - 2w2 + 1\)
 
   * 0.5\(w1^2+1, 2w2^2 - 2w2 + 1\)
 
@@ -108,10 +108,12 @@ For multi-layer, non-linear nets the error surface is more complicated than this
 
 * Correct Answer: A
 
-  * The error summed over all training cases is  
-    $$E = \frac{1}{2}(w_1  -w_2 - 0)^2 + \frac{1}{2}(0w_1 + w_2 - 1)^2 = \frac{1}{2}\left(w_1^2 + 2w_2^2 - 2w_1w_2 -2w_2 + 1\right)$$
+  > The error summed over all training cases is  
+  > $$E = \frac{1}{2}(w_1  -w_2 - 0)^2 + \frac{1}{2}(0w_1 + w_2 - 1)^2 = \frac{1}{2}\left(w_1^2 + 2w_2^2 - 2w_1w_2 -2w_2 + 1\right)$$
+  >
+  > Note the quadratic form of the energy surface. For any fixed value of E, the contours will be ellipses. For fixed values of w1, it's a parabolic relation between E and w2. Similarly for fixed values of w2."
 
-  * "Note the quadratic form of the energy surface. For any fixed value of E, the contours will be ellipses. For fixed values of w1, it's a parabolic relation between E and w2. Similarly for fixed values of w2."
+* Somehow, you are able to just add w1 to w2 to arrive at E
 
 ### 3b - Online vs batch learning
 
@@ -122,11 +124,7 @@ Simplest _online learning_ - zig-zag around direction of steepest descent:![](/a
 * It looks like paths are determined by movements that are perpendicular to constraints
 * I'm not sure where the constraints come from in this case. I believe you triangulate them by plotting the intersection from two points on the same contour.
 
-
-
 ## 3c - Logistic Output Neuron Weight Learning
-
-
 
 ## 3d - Backpropagation Algorithm
 
