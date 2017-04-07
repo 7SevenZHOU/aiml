@@ -115,6 +115,8 @@ For multi-layer, non-linear nets the error surface is more complicated than this
 
 * Somehow, you are able to just add w1 to w2 to arrive at E
 
+* I made a mistake between step 1 and step 2 when I moved -1 inside the parens on the right - I duplicated the -1, which is why I ended up with +2 instead of +1 `#offByOneError`
+
 ### 3b - Online vs batch learning
 
 Simplest _batch learning_ - do _steepest descent_, traveling perpendicular to the contour lines to the bottom of the bowl
