@@ -61,13 +61,72 @@ Visualizing simple linear network error surface:
 
 ![](/assets/error-surface-linear-neuron.png)
 
-* horizontal axis for each weight
+* horizontal axis for _each_ weight \(why not?\)
 * vertical error axis
 * plotting horizontal axis against vertical axis makes a bowl
 * plotting weights against each other makes elliptical contours; inner ellipse is at bottom of error bowl
-* For multi-layer, non-linear nets the error surface is more complicated than this single bowl
+
+For multi-layer, non-linear nets the error surface is more complicated than this single bowl.
+
+### 3b question
+
+* Suppose we have a dataset of two training points.
+
+  $$\begin{align*} x_1 &= (1, -1) & t_1&=0 \\ x_2 &= (0, 1) & t_2&=1 \end{align*}$$
+
+* Consider a network with two input units connected to a linear neuron with weights $$w=(w_1, w_2)$$. What is the equation for the error surface when using a squared error loss function?
+
+* Hint: The squared error is defined as $$\frac{1}{2}(w^T x_1 - t_1)^2 + \frac{1}{2}(w^T x_2 - t_2)^2$$
+
+  * A: $$E = \frac{1}{2}\left(w_1^2 + 2w_2^2 - 2w_1w_2 -2w_2 + 1\right)$$
+
+  * B: $$E = \frac{1}{2}\left((w_1 - w_2 - 1)^2 + w_2^2\right)$$
+
+  * C: $$E = \frac{1}{2}\left(w_1^2 - 2w_2^2 + 2w_1w_2 + 1\right)$$
+
+  * D: $$E = \frac{1}{2}(w_1 - w_2)^2$$
+
+* First guess:
+
+  * Squared error loss function is the type applicable to the error surface just described. 
+
+  * Here, we're given two data points and we have to pick the equation of the error surface given the relationship between them.
+
+  * 0.5\(\(w1, w2\)\(1, -1\) - 0\)^2 + 0.5\(\(w1, w2\)\(0, 1\) -1\)^2
+
+  * 0.5\(1w1, -1w2\)^2 + 0.5\(0w1-1, 1w2-1\)^2
+
+  * 0.5\(w1^2, w2^2\) + 0.5\(-1^2, \(w2-1\)^2\)
+
+  * 0.5\(w1^2, w2^2\) + 0.5\(1, w2^2 - 2w2 + 1\) 
+
+  * 0.5\(w1^2+1, 2w2^2 - 2w2 + 1\)
+
+  * My vector arithmetic is rusty, but I don't understand how you can use the squared error equation to arrive at a scalar
+
+  * If one were able to add the two vector components, it would be: 0.5\(w1^2 + 2w2^2 - 2w2 + 2\), which is very close to answer A
+
+* Correct Answer: A
+
+  * The error summed over all training cases is  
+    $$E = \frac{1}{2}(w_1  -w_2 - 0)^2 + \frac{1}{2}(0w_1 + w_2 - 1)^2 = \frac{1}{2}\left(w_1^2 + 2w_2^2 - 2w_1w_2 -2w_2 + 1\right)$$
+
+  * "Note the quadratic form of the energy surface. For any fixed value of E, the contours will be ellipses. For fixed values of w1, it's a parabolic relation between E and w2. Similarly for fixed values of w2."
+
+### 3b - Online vs batch learning
+
+Simplest _batch learning_ - do _steepest descent_, traveling perpendicular to the contour lines to the bottom of the bowl
+
+Simplest _online learning_ - zig-zag around direction of steepest descent:![](/assets/linear-neuron-online-zigzag-constraints.png)
+
+* It looks like paths are determined by movements that are perpendicular to constraints
+* I'm not sure where the constraints come from in this case. I believe you triangulate them by plotting the intersection from two points on the same contour.
+
+
 
 ## 3c - Logistic Output Neuron Weight Learning
+
+
 
 ## 3d - Backpropagation Algorithm
 
