@@ -57,6 +57,16 @@
 
 ## 3b - Linear Neuron Error Surface
 
+Visualizing simple linear network error surface:
+
+![](/assets/error-surface-linear-neuron.png)
+
+* horizontal axis for each weight
+* vertical error axis
+* plotting horizontal axis against vertical axis makes a bowl
+* plotting weights against each other makes elliptical contours; inner ellipse is at bottom of error bowl
+* For multi-layer, non-linear nets the error surface is more complicated than this single bowl
+
 ## 3c - Logistic Output Neuron Weight Learning
 
 ## 3d - Backpropagation Algorithm
