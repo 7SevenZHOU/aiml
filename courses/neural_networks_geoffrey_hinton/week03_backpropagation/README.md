@@ -40,10 +40,20 @@
 
 * First, you guess \(50, 50, 50\) for the prices / weights. This would give a total of \(50, 50, 50\) \* \(2, 5, 3\) = 500. This means that the _residual error_ is 800 - 500 = 350.
 
-* The _Delta rule_ for learning prices / weights is $$\Delta w_i = \varepsilon x_i(t-y)$$, where i is the index of the "lunch ingredient," $$\varepsilon$$ is the learning rate of 1/35 \(chosen by you\), $$x_i$$ is the count of the number of the $$i$$th things you order, $$t$$ is the target price of the entire meal, and $$y$$ is the output generated in this iteration of the model given by \(50, 50, 50\) here.
+* _Delta rule_ for learning prices / weights is $$\Delta w_i = \varepsilon x_i(t-y)$$, where i is the index of the lunch ingredient, $$\varepsilon$$ is the learning rate of 1/35 \(chosen by you\), $$x_i$$ is the count of the number of the $$i$$th things you order, $$t$$ is the target price of the entire meal, and $$y$$ is the output generated in this iteration of the model given by \(50, 50, 50\) here.
 
 * This gives new weights of \(1/35\)\(2, 5, 3\)\(50, 50, 50\)\(350\) = 10\*\(2, 5, 3\)\(50, 50, 50\) = \(70, 100, 80\)
+
   * weight for chips got worse - this is different than perceptron
+
+### 3a Iterative Learning Procedure - Behavior
+
+* There may not be a perfect solution.
+* By making learning rate small, we can get closer to good enough solution. 
+* If all dimensions are highly correlated, it will take much longer. 
+* vs. Perceptrons
+  * in perceptrons, we change the weight vector by input vector _only when an error of a certain size is made \(&gt;= generously feasible\)_
+  * in _online_ version of delta-rule, we continually change weight vector by _error scaled by learning rate_. 
 
 ## 3b - Linear Neuron Error Surface
 
