@@ -119,12 +119,14 @@ For multi-layer, non-linear nets the error surface is more complicated than this
 
 ### 3b - Online vs batch learning
 
-Simplest _batch learning_ - do _steepest descent_, traveling perpendicular to the contour lines to the bottom of the bowl
+Simplest _batch learning_ - do _steepest descent_, traveling perpendicular to the contour lines to the bottom of the bowl. "We get the gradient, summed over all training cases."
 
 Simplest _online learning_ - zig-zag around direction of steepest descent:![](/assets/linear-neuron-online-zigzag-constraints.png)
 
-* It looks like paths are determined by movements that are perpendicular to constraints
-* I'm not sure where the constraints come from in this case. I believe you triangulate them by plotting the intersection from two points on the same contour.
+* _online learning_ - after each training case, change the weights in proportion to the error gradient for that single training case
+* The change in the weights moves us towards a constraint plane. In picture above, there are two training cases: each of the blue lines. Training case one is at upper right.
+* Start at outer red dot and compute the gradient on first training case using delta rule. This moves us perpendicularly towards the first constraint plane. 
+* If we alternate between the training cases, we'll zigzag backwards and forwards between the two constraint planes until we intersect.
 
 ## 3c - Logistic Output Neuron Weight Learning
 
