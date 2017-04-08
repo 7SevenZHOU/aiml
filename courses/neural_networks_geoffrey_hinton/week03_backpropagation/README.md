@@ -117,7 +117,7 @@ For multi-layer, non-linear nets the error surface is more complicated than this
 
 * I made a mistake between step 1 and step 2 when I moved -1 inside the parens on the right - I duplicated the -1, which is why I ended up with +2 instead of +1 `#offByOneError`
 
-### 3b - Online vs batch learning
+### 3b - Online vs Batch Learning
 
 Simplest _batch learning_ - do _steepest descent_, traveling perpendicular to the contour lines to the bottom of the bowl. "We get the gradient, summed over all training cases."
 
@@ -128,7 +128,19 @@ Simplest _online learning_ - zig-zag around direction of steepest descent:![](/a
 * Start at outer red dot and compute the gradient on first training case using delta rule. This moves us perpendicularly towards the first constraint plane. 
 * If we alternate between the training cases, we'll zigzag backwards and forwards between the two constraint planes until we intersect.
 
-## 3c - Logistic Output Neuron Weight Learning
+#### Learning Speed
+
+* If picking a random starting point, it's ideal if the error space cross sections are more like circles than elongated ellipse. 
+* If cross sections are circular, then the chances of picking a bad starting point are lower.
+* If cross sections are elongated ellipses, it's possible for the direction to a constraint to lead away from the bottom of the error surface.
+  * This happens when lines that correspond to training cases are almost parallel
+  * "Nasty property" - gradient is big in direction we do not want to learn, and small in the direction we do want to learn, which is the bottom of the error bowl
+  * The way I picture this is to review the unit circle and the graph of $$tan(\theta)$$
+  * Here is [a Kahn Academy link to that](https://youtu.be/FK6-tZ5D7xM?t=387).
+  * If the angle/slope between the two training cases is parallel, the amount of incorrect descent goes to infinity
+  * If the angle/slope between the two training cases is perpendicular, the amount of incorrect descent is zero. This only happens when the error contours are circular.
+
+#### 3c - Logistic Output Neuron Weight Learning
 
 ## 3d - Backpropagation Algorithm
 
