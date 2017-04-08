@@ -142,32 +142,28 @@ Simplest _online learning_ - zig-zag around direction of steepest descent:![](/a
 
 #### Learning Speed Question:
 
-If our initial weight vector is $$(w_1, 0)$$ for some real number $$w_1$$, then on which of the following error surfaces can we expect steepest descent to converge poorly? Check all that apply. 
+_If our initial weight vector is _$$(w_1, 0)$$_ for some real number _$$w_1$$_, then on which of the following error surfaces can we expect steepest descent to converge poorly? Check all that apply._
 
 | A: ![](/assets/error_surface_bad1.png) | B: ![](/assets/error_surface_nice.png) |
 | :--- | :--- |
 | C: ![](/assets/error_surface_nice2.png) | D: ![](/assets/error_surface_bad2.png) |
 
-I guessed that A and D would converge poorly, since they were elongated ellipticals. 
+I guessed that A and D would converge poorly, since they were elongated ellipticals.
 
 I do not know what the significance of the axis is or what the position of the gradient in the axis represents.
 
-After submitting, I see that A was a correct answer but D was marked as incorrect. 
+After submitting, I see that A was a correct answer but D was marked as incorrect.
 
 The explanation for A is:
 
-> The first one is similar to the picture shown in the lectures. It is a diagonally oriented ellipse and steepest descent will still tend to zig-zag on this error surface. Even though the second and third **have different minima locations** and scalings, the steepest descent direction will still take you very close to the minimum with the appropriate learning rate. The last case is tricky: even though the shape is an ellipse, the **initial weight vector starts off somewhere along the x axis**, and so again the steepest descent direction points directly toward the minimum. In other words, **there is zero gradient along the vertical axis** and therefore we are simply minimizing a parabola along one dimension from that point to get to the minimum.
+> _The first one is similar to the picture shown in the lectures. It is a diagonally oriented ellipse and steepest descent will still tend to zig-zag on this error surface. Even though the second and third **have different minima locations** and scalings, the steepest descent direction will still take you very close to the minimum with the appropriate learning rate. The last case is tricky: even though the shape is an ellipse, the **initial weight vector starts off somewhere along the x axis**, and so again the steepest descent direction points directly toward the minimum. In other words, **there is zero gradient along the vertical axis** and therefore we are simply minimizing a parabola along one dimension from that point to get to the minimum._
 
 There are several things that I am lost on here:
 
-* What is are the "different minima locations" referred to in B and C?  
+* What are the "different minima locations" referred to in B and C?  
 * When discussing D, he says "the initial weight vector starts somewhere along the x axis." Where is the initial weight vector? 
-* It would help if the axis were labeled here.
-* Going back to the problem statement, the initial vector is \(w1, 0\), so we know that w2 is zero in the initial case.
-  * This means that the initial vector is somewhere on the X axis
-  * I assume that the shape of the ellipse comes from two training cases, as in the lectures. I'm still not clear on how to picture this, though.
-
-
+  * Going back to the problem statement, it is \(w1, 0\), so we know that w2 is zero in the initial point.
+* I assume that the shape of the ellipse comes from two training cases, as in the lectures.
 
 ## 3c - Logistic Output Neuron Weight Learning
 
