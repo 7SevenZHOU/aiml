@@ -189,10 +189,11 @@ because $$\frac{e^{-z}}{1+e^{-z}}=\frac{(1+e^{-z})-1}{1+e^{-z}}=\frac{(1+e^{-z})
   * $$\frac{\delta y}{\delta w_i}=\frac{\delta z}{\delta w_i}\frac{dy}{dz}=x_iy(1-y)$$, multiplying the derivative with respect to z by the derivative with respect to the ith weight, which is just x\_i
   * The derivative of the total error with respect to an individual weight,$$\frac{\delta E}{\delta w_i}$$ is equal to the sum of the derivatives of the outputs on the nth neuron w.r.t. its ith input multiplied by the derivative of the total error by the output of the nth neuron: 
   * $$ \sum_n \frac{\delta y^{n}}{\delta w_i}\frac{\delta E}{\delta y^{n}} $$, which is equal to the negative sum of \(x\)\(y\(1-y\)\)\(t-y\), 
-    * _x_ refers to the _i_th input of the _n_th neuron 
-    * _y_ refers to the output of the _n_th neuron
-    * _t_ refers to the target output of the _n_th neuron
+    * _x_ refers to the \_i\_th input of the \_n\_th neuron 
+    * _y_ refers to the output of the \_n\_th neuron
+    * _t_ refers to the target output of the \_n\_th neuron
     * x\(t-y\) is the delta rule and y\(1-y\) is the extra term, which represents the slope of the logistic
+    * question: _why the negative sum_?
 
 ## 3d - Backpropagation Algorithm
 
