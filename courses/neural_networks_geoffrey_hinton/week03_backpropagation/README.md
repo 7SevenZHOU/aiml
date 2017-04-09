@@ -197,6 +197,13 @@ because $$\frac{e^{-z}}{1+e^{-z}}=\frac{(1+e^{-z})-1}{1+e^{-z}}=\frac{(1+e^{-z})
 
 ## 3d - Backpropagation Algorithm
 
+* convert diff between output and target output into an error derivative
+* then compute error derivatives in each hidden layer from layer above
+* use error derivatives w.r.t "activities" to get error derivatives w.r.t. incoming weights
+  * Hinton uses the word "activities" without defining it, and I'm not sure what he means
+  * It uses it only after referencing an inefficient darwinian algorithm that has to do with random perturbations of weights, so one could infer that by "activities" he means varying weights in hidden layers, but it's not clear
+  * 
+
 ## 3e - Using Backpropagation Algorithm Derivatives
 
 
