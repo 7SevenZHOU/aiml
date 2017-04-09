@@ -262,11 +262,11 @@ Will be discussed more in lecture 7
 | :--- | :--- |
 | C ![](http://spark-public.s3.amazonaws.com/neuralnets/images/Lecture 3/backprop1.png) | D ![](http://spark-public.s3.amazonaws.com/neuralnets/images/Lecture 3/backprop4.png) |
 
-I chose A and C because they are tiered and do not have cycles. B and D have cycles.
+I chose A and C because they are tiered and flow up without cycles. B and D have cycles.
 
 ### 2. Backpropagation Calculation of $$w_i$$
 
-Consider a neural network with only one training case with input $$\mathbf{x} = (x_1, x_2, \ldots, x_n)^\top$$ and correct output $$t$$. There is only one output neuron, which is logistic, i.e. $$y = \sigma(\mathbf{w}^\top\mathbf{x})$$ \(notice that there are no biases\). The loss function is squared error. The network has no hidden units, so the inputs are directly connected to the output neuron with weights $$\mathbf{w} = (w_1, w_2, \ldots, w_n)^\top$$. We're in the process of training the neural network with backpropagation algorithm. What will the algorithm add to $$w_i$$for the next iteration if we use a step size \(also known as a learning rate\) of $$\epsilon$$?
+Consider a neural network with only one training case with input $$\mathbf{x} = (x_1, x_2, \ldots, x_n)^\top$$ and correct output $$t$$. There is only one output neuron, which is logistic, i.e. $$y = \sigma(\mathbf{w}^\top\mathbf{x})$$ \(notice that there are no biases\). The loss function is squared error. The network has no hidden units, so the inputs are directly connected to the output neuron with weights $$\mathbf{w} = (w_1, w_2, \ldots, w_n)^\top$$. We're in the process of training the neural network with backpropagation algorithm. What will the algorithm add to $$w_i$$for the next iteration if we use a step size \(also known as a learning rate\) of $$\epsilon$$? \[multiple choice\]
 
 * A: $$\epsilon(t - y)y(1-y)x_i$$
 * B: $$\epsilon(t - y)y(1-y)w_ix_i$$
@@ -275,7 +275,19 @@ Consider a neural network with only one training case with input $$\mathbf{x} = 
 
 #### Work
 
+We  have one neuron and no hidden units. We're going to use the method of learning the weights of a logistic unit: the negative of sum of the partial derivatives of the output with respect to the weights times the partial derivative of the error $$E$$ w.r.t. the output. This is the delta rule times the slope of the logistic.
 
+The delta rule for learning with a linear neuron was originally $$\Delta w_i=\epsilon x_i(t-y)$$. The question is, what do we use for a logistic neuron? The slope of the logistic or the derivative of the neuron output w.r.t. the logit is $$y^{n}(1-y^{n})$$. 
+
+The _batch_ delta rule for a linear neuron changes weights in proportion to their error derivatives _summed over all training cases_: 
+
+$$\Delta w_i=-\epsilon \frac{\delta E}{\delta w_i}=\sum_n \epsilon x_i^{n}(t^{n}-y^{n})$$
+
+We're not doing batch learning since we're doing one iteration.
+
+I'm going to choose A, as that has the most similarity to the equation where we found the derivative of E w.r.t. w\_i for a logistic unit. That was before we used backpropagation, though, so I am not sure what to make of the statement that we're in the process of training the neural network with the backpropagation algorithm. I think really, we just need to find the weights at the top level before backpropagation makes sense, and A is the one that makes the most sense. 
+
+I'm not going to select any others, as I think it is a mistake that it is multiple choice.
 
 
 
