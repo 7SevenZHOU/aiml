@@ -256,7 +256,9 @@ Will be discussed more in lecture 7
 
 ## 3f - Lecture 3 Quiz
 
-### 1. Which of the following neural networks are examples of a feed-forward network?
+### q1 
+
+Which of the following neural networks are examples of a feed-forward network?
 
 | **A**![](http://spark-public.s3.amazonaws.com/neuralnets/images/Lecture 3/backprop3.png) | B ![](http://spark-public.s3.amazonaws.com/neuralnets/images/Lecture 3/backprop6.png) |
 | :--- | :--- |
@@ -264,7 +266,7 @@ Will be discussed more in lecture 7
 
 I chose A and C because they are tiered and flow up without cycles. B and D have cycles.
 
-### 2. Backpropagation Calculation of $$w_i$$
+### q2
 
 Consider a neural network with only one training case with input $$\mathbf{x} = (x_1, x_2, \ldots, x_n)^\top$$ and correct output $$t$$. There is only one output neuron, which is logistic, i.e. $$y = \sigma(\mathbf{w}^\top\mathbf{x})$$ \(notice that there are no biases\). The loss function is squared error. The network has no hidden units, so the inputs are directly connected to the output neuron with weights $$\mathbf{w} = (w_1, w_2, \ldots, w_n)^\top$$. We're in the process of training the neural network with backpropagation algorithm. What will the algorithm add to $$w_i$$for the next iteration if we use a step size \(also known as a learning rate\) of $$\epsilon$$? \[multiple choice\]
 
@@ -273,7 +275,7 @@ Consider a neural network with only one training case with input $$\mathbf{x} = 
 * C: $$\epsilon(t - y)x_i$$
 * D: $$\epsilon(y- t)y(1-y)w_ix_i$$
 
-#### Work
+#### q2 - work
 
 We  have one neuron and no hidden units. We're going to use the method of learning the weights of a logistic unit: the negative of sum of the partial derivatives of the output with respect to the weights times the partial derivative of the error $$E$$ w.r.t. the output. This is the delta rule times the slope of the logistic.
 
@@ -289,7 +291,7 @@ I'm going to choose A, as that has the most similarity to the equation where we 
 
 I'm not going to select any others, as I think it is a mistake that it is multiple choice.
 
-### 3 - 
+### q3
 
 Suppose we have a set of examples and Brian comes in and duplicates every example, then randomly reorders the examples. We now have twice as many examples, but no more information about the problem than we had before. If we do not remove the duplicate entries, which one of the following methods will _not_ be affected by this change, in terms of the computer time \(time in seconds, for example\) it takes to come close to convergence? \[Multiple Choice\]
 
@@ -297,13 +299,39 @@ Suppose we have a set of examples and Brian comes in and duplicates every exampl
 2. Mini-batch learning, where for every iteration we randomly pick 100 training cases
 3. Online learning, where for every iteration we randomly pick a training case
 
-#### Work
+#### q3 - work
 
 Full batch learning will be slower, since the data set will be bigger.
 
 Mini-batch learning will be a bit slower, since the information will be more diluted, but the situation is not as bad as it would be if Brian had duplicated them 500 times.
 
-I believe that online learning will likely converge a bit slower as well, since the chance of getting the same data point twice is increased. 
+I believe that online learning will likely converge a bit slower as well, since the chance of getting the same data point twice is increased.
 
 I'm not going to select any of the options.
+
+### q4
+
+Consider a linear output unit versus a logistic output unit for a feed-forward network with _no hidden layer _shown below. The network has a set of inputs x and an output neuron y connected to the input by weights w and bias b.
+
+![](/assets/w3qp4.png)
+
+We're using the squared error cost function even though the task that we care about, in the end, is binary classification. At training time, the target output values are 1 \(for one class\) and 0 \(for the other class\). At test time we will use the classifier to make decisions in the standard way: the class of an input x according to our model after training is as follows:
+
+$$\text{class of }x=\begin{cases} 1 \text{ if } w^Tx + b \geq 0 \\ 0 \text{ otherwise} \end{cases}$$
+
+Note that we will be training the network using, but that the decision rule shown above will be the same at test time, regardless of the type of output neuron we use for training.
+
+Which of the following statements is true?
+
+1. Unlike a logistic unit, using a linear unit will penalize us for getting the answer right too confidently.
+
+2. The error function \(the error as a function of the weights\) for both types of units will form a quadratic bowl.
+
+3. At the solution that minimizes the error, the learned weights are always the same for both types of units; they only differ in how they get to this solution.
+
+4. For a logistic unit, the derivatives of the error function with respect to the weights can have unbounded magnitude, while for a linear unit they will have bounded magnitude.
+
+#### 4 - Work
+
+
 
