@@ -277,19 +277,33 @@ Consider a neural network with only one training case with input $$\mathbf{x} = 
 
 We  have one neuron and no hidden units. We're going to use the method of learning the weights of a logistic unit: the negative of sum of the partial derivatives of the output with respect to the weights times the partial derivative of the error $$E$$ w.r.t. the output. This is the delta rule times the slope of the logistic.
 
-The delta rule for learning with a linear neuron was originally $$\Delta w_i=\epsilon x_i(t-y)$$. The question is, what do we use for a logistic neuron? The slope of the logistic or the derivative of the neuron output w.r.t. the logit is $$y^{n}(1-y^{n})$$. 
+The delta rule for learning with a linear neuron was originally $$\Delta w_i=\epsilon x_i(t-y)$$. The question is, what do we use for a logistic neuron? The slope of the logistic or the derivative of the neuron output w.r.t. the logit is $$y^{n}(1-y^{n})$$.
 
-The _batch_ delta rule for a linear neuron changes weights in proportion to their error derivatives _summed over all training cases_: 
+The _batch_ delta rule for a linear neuron changes weights in proportion to their error derivatives _summed over all training cases_:
 
 $$\Delta w_i=-\epsilon \frac{\delta E}{\delta w_i}=\sum_n \epsilon x_i^{n}(t^{n}-y^{n})$$
 
 We're not doing batch learning since we're doing one iteration.
 
-I'm going to choose A, as that has the most similarity to the equation where we found the derivative of E w.r.t. w\_i for a logistic unit. That was before we used backpropagation, though, so I am not sure what to make of the statement that we're in the process of training the neural network with the backpropagation algorithm. I think really, we just need to find the weights at the top level before backpropagation makes sense, and A is the one that makes the most sense. 
+I'm going to choose A, as that has the most similarity to the equation where we found the derivative of E w.r.t. w\_i for a logistic unit. That was before we used backpropagation, though, so I am not sure what to make of the statement that we're in the process of training the neural network with the backpropagation algorithm. I think really, we just need to find the weights at the top level before backpropagation makes sense, and A is the one that makes the most sense.
 
 I'm not going to select any others, as I think it is a mistake that it is multiple choice.
 
+### 3 - 
 
+Suppose we have a set of examples and Brian comes in and duplicates every example, then randomly reorders the examples. We now have twice as many examples, but no more information about the problem than we had before. If we do not remove the duplicate entries, which one of the following methods will _not_ be affected by this change, in terms of the computer time \(time in seconds, for example\) it takes to come close to convergence? \[Multiple Choice\]
 
+1. Full-batch learning
+2. Mini-batch learning, where for every iteration we randomly pick 100 training cases
+3. Online learning, where for every iteration we randomly pick a training case
 
+#### Work
+
+Full batch learning will be slower, since the data set will be bigger.
+
+Mini-batch learning will be a bit slower, since the information will be more diluted, but the situation is not as bad as it would be if Brian had duplicated them 500 times.
+
+I believe that online learning will likely converge a bit slower as well, since the chance of getting the same data point twice is increased. 
+
+I'm not going to select any of the options.
 
