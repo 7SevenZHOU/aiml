@@ -167,7 +167,7 @@ There are several things that I am lost on here:
 
 ## 3c - Logistic Output Neuron Weight Learning
 
-![](/assets/logistic-neuron-def1.png)Logistic neurons have an output that is a monotonically increasing function of its input. The output of the neuron is \(0, 1\) on \(-inf, inf\). Once the sum of the weights multiplied by the inputs approaches a certain threshold, the neuron's output continuously and quickly changes from zero to one. 
+![](/assets/logistic-neuron-def1.png)Logistic neurons have an output that is a monotonically increasing function of its input. The output of the neuron is \(0, 1\) on \(-inf, inf\). Once the sum of the weights multiplied by the inputs approaches a certain threshold, the neuron's output continuously and quickly changes from zero to one.
 
 The neuron's output is a function of the _logit z_, which is the biased sum of the product of the wights and inputs. The output y = 1/\(1 + e^-z\).
 
@@ -175,15 +175,24 @@ The neuron's output is a function of the _logit z_, which is the biased sum of t
 
 Derivatives of the logit z with respect to the inputs and weights are simple: dz/dw\__i = x\_i; dz/dx\_i = w\_i. _
 
-The derivative of whole logistic neuron w.r.t. the logit is simple: $$dy/dz=y(1-y)$$. The reason why: 
+The derivative of whole logistic neuron w.r.t. the logit is simple: $$dy/dz=y(1-y)$$. The reason why:
 
-$$y=\frac{1}{1+e^{-z}}=(1+e^{-z})^-1$$
+$$y=\frac{1}{1+e^{-z}}=(1+e^{-z})^{-1}$$ by definition of negative power. So using the [power rule](https://www.khanacademy.org/math/ap-calculus-ab/basic-differentiation-ab/power-rule-ab/v/power-rule), $$\frac{dy}{dz}=-1(1+e^{-z})^{-2}=-1(1+\frac{1}{(1+e^{-z})^{2}})=\frac{-1e^{-z}}{(1+e^{-z})^{2}}-1$$. Using fraction addition, we end up with:
 
 $$\frac{dy}{dz}=\frac{-1(-e^{-z})}{(1+e^{-z})^{2}}=(\frac{1}{1+e^{-z}})(\frac{e^{-z}}{1+e^{-z}})=y(1-y)$$
 
 because $$\frac{e^{-z}}{1+e^{-z}}=\frac{(1+e^{-z})-1}{1+e^{-z}}=\frac{(1+e^{-z})}{1+e^{-z}}\frac{-1}{1+e^{-z}}=1-y$$
 
+#### Learn Weights Using Chain Rule
 
+* To learn the weights, we need derivative of output w.r.t. each weight:
+  * $$\frac{\delta y}{\delta w_i}=\frac{\delta z}{\delta w_i}\frac{dy}{dz}=x_iy(1-y)$$, multiplying the derivative with respect to z by the derivative with respect to the ith weight, which is just x\_i
+  * The derivative of the total error with respect to an individual weight,$$\frac{\delta E}{\delta w_i}$$ is equal to the sum of the derivatives of the outputs on the nth neuron w.r.t. its ith input multiplied by the derivative of the total error by the output of the nth neuron: 
+  * $$ \sum_n \frac{\delta y^{n}}{\delta w_i}\frac{\delta E}{\delta y^{n}} $$, which is equal to the negative sum of \(x\)\(y\(1-y\)\)\(t-y\), 
+    * _x_ refers to the _i_th input of the _n_th neuron 
+    * _y_ refers to the output of the _n_th neuron
+    * _t_ refers to the target output of the _n_th neuron
+    * x\(t-y\) is the delta rule and y\(1-y\) is the extra term, which represents the slope of the logistic
 
 ## 3d - Backpropagation Algorithm
 
