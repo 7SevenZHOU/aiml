@@ -167,6 +167,24 @@ There are several things that I am lost on here:
 
 ## 3c - Logistic Output Neuron Weight Learning
 
+![](/assets/logistic-neuron-def1.png)Logistic neurons have an output that is a monotonically increasing function of its input. The output of the neuron is \(0, 1\) on \(-inf, inf\). Once the sum of the weights multiplied by the inputs approaches a certain threshold, the neuron's output continuously and quickly changes from zero to one. 
+
+The neuron's output is a function of the _logit z_, which is the biased sum of the product of the wights and inputs. The output y = 1/\(1 + e^-z\).
+
+### Logistic Neuron Derivatives
+
+Derivatives of the logit z with respect to the inputs and weights are simple: dz/dw\__i = x\_i; dz/dx\_i = w\_i. _
+
+The derivative of whole logistic neuron w.r.t. the logit is simple: $$dy/dz=y(1-y)$$. The reason why: 
+
+$$y=\frac{1}{1+e^{-z}}=(1+e^{-z})^-1$$
+
+$$\frac{dy}{dz}=\frac{-1(-e^{-z})}{(1+e^{-z})^{2}}=(\frac{1}{1+e^{-z}})(\frac{e^{-z}}{1+e^{-z}})=y(1-y)$$
+
+because $$\frac{e^{-z}}{1+e^{-z}}=\frac{(1+e^{-z})-1}{1+e^{-z}}=\frac{(1+e^{-z})}{1+e^{-z}}\frac{-1}{1+e^{-z}}=1-y$$
+
+
+
 ## 3d - Backpropagation Algorithm
 
 ## 3e - Using Backpropagation Algorithm Derivatives
