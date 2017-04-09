@@ -206,5 +206,53 @@ because $$\frac{e^{-z}}{1+e^{-z}}=\frac{(1+e^{-z})-1}{1+e^{-z}}=\frac{(1+e^{-z})
 
 ## 3e - Using Backpropagation Algorithm Derivatives
 
+### Converting error derivatives into a learning procedure
+
+* Backpropagation is efficient algorithm for computing $$\frac{\delta E}{\delta w}$$ for _every_ weight on a _single_ training case. 
+
+To get to learning procedure, we need to overcome
+
+* **optimization issues**: how to use error derivatives to discover a good set of weights
+* **generalization issues**: how to ensure that learned weights work well for cases we did not see during training
+
+### Optimization Issues
+
+* _how often_ to update the weights
+  * **online** means after each training case, as though you were downloading each training case "in real time"
+  * **full batch** means after a full sweep through training data
+  * **mini batch** means after a small sample of training cases
+
+_how much_ to update weights \(discussed later in lecture 6\)
+
+* fixed learning rate?
+* adapt global learning rate?
+* adapt learning rate on each connection?
+* do _not_ use steepest descent?
+
+### Overfitting
+
+* training data contains noise
+  * **unreliable target values**, happen if the judgment of the entity that coded the target values doesn't have 100% of your confidence
+  * there is **sampling error**: accidental regularities just because of the particular training cases chosen
+* when fitting model, it cannot tell which regularities are real and which are caused by sampling error
+  * both of these get "fitted upon" just as if they were intentional, useful data
+  * If model is very flexible there is a danger that it can model the sampling error really well, which can be _a disaster_ \(Hinton's words\)![](/assets/overfitting-example.png)
+  * which model do you trust? 
+    * complicated model fits data better but it is not 
+    * _A model_ is convincing when it fits a lot of data surprisingly well.
+    * It is not surprising that a complicated model can fit a small amount of data well.
+
+### Reducing Overfitting
+
+Will be discussed more in lecture 7
+
+* Weight-decay
+* Weight-sharing
+* Early stopping
+* Model averaging
+* Bayesian fitting of neural nets
+* Dropout
+* Generative pre-training
+
 
 
