@@ -254,5 +254,21 @@ Will be discussed more in lecture 7
 * Dropout
 * Generative pre-training
 
+## 3f - Lecture 3 Quiz
+
+### 1. Which of the following neural networks are examples of a feed-forward network?
+
+| **A**![](http://spark-public.s3.amazonaws.com/neuralnets/images/Lecture%203/backprop3.png) | B ![](http://spark-public.s3.amazonaws.com/neuralnets/images/Lecture%203/backprop6.png) |
+| :--- | :--- |
+| C ![](http://spark-public.s3.amazonaws.com/neuralnets/images/Lecture%203/backprop1.png) | D ![](http://spark-public.s3.amazonaws.com/neuralnets/images/Lecture%203/backprop4.png) |
+
+I chose A and C because they are tiered and do not have cycles. B and D have cycles.
+
+### 2. Neural network with one training case
+
+
+
+
+
 
 
