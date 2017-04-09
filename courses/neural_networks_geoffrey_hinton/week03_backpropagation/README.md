@@ -258,13 +258,22 @@ Will be discussed more in lecture 7
 
 ### 1. Which of the following neural networks are examples of a feed-forward network?
 
-| **A**![](http://spark-public.s3.amazonaws.com/neuralnets/images/Lecture%203/backprop3.png) | B ![](http://spark-public.s3.amazonaws.com/neuralnets/images/Lecture%203/backprop6.png) |
+| **A**![](http://spark-public.s3.amazonaws.com/neuralnets/images/Lecture 3/backprop3.png) | B ![](http://spark-public.s3.amazonaws.com/neuralnets/images/Lecture 3/backprop6.png) |
 | :--- | :--- |
-| C ![](http://spark-public.s3.amazonaws.com/neuralnets/images/Lecture%203/backprop1.png) | D ![](http://spark-public.s3.amazonaws.com/neuralnets/images/Lecture%203/backprop4.png) |
+| C ![](http://spark-public.s3.amazonaws.com/neuralnets/images/Lecture 3/backprop1.png) | D ![](http://spark-public.s3.amazonaws.com/neuralnets/images/Lecture 3/backprop4.png) |
 
 I chose A and C because they are tiered and do not have cycles. B and D have cycles.
 
-### 2. Neural network with one training case
+### 2. Backpropagation Calculation of $$w_i$$
+
+Consider a neural network with only one training case with input $$\mathbf{x} = (x_1, x_2, \ldots, x_n)^\top$$ and correct output $$t$$. There is only one output neuron, which is logistic, i.e. $$y = \sigma(\mathbf{w}^\top\mathbf{x})$$ \(notice that there are no biases\). The loss function is squared error. The network has no hidden units, so the inputs are directly connected to the output neuron with weights $$\mathbf{w} = (w_1, w_2, \ldots, w_n)^\top$$. We're in the process of training the neural network with backpropagation algorithm. What will the algorithm add to $$w_i$$for the next iteration if we use a step size \(also known as a learning rate\) of $$\epsilon$$?
+
+* A: $$\epsilon(t - y)y(1-y)x_i$$
+* B: $$\epsilon(t - y)y(1-y)w_ix_i$$
+* C: $$\epsilon(t - y)x_i$$
+* D: $$\epsilon(y- t)y(1-y)w_ix_i$$
+
+#### Work
 
 
 
