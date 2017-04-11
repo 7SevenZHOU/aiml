@@ -33,7 +33,9 @@ Output Derivatives:
 
 $$\frac{\delta y_i}{\delta z_i}=y_i(1-y_i)$$
 
-This is not trivial to derive. 
+This is not trivial to derive.
+
+
 
 ## 4d - Neuro-Probabilistic Language Models
 
