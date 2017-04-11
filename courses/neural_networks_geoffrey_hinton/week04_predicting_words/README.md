@@ -12,6 +12,21 @@
 
 ## 4c - The Softmax Output Function
 
+Squared error cost function has drawbacks:
+
+* There is almost no gradient if desired output is 1 and actual output is 0.00000001
+* If we are trying to pick between mutually exclusive classes and we know probabilities should sum to one, no way to encode that
+
+Softmax is a cost function that is an alternative to squared error
+
+It is applied to a group of neurons called _a softmax group_
+
+Inputs to neurons in a softmax group are called _logits_
+
+In the group, the outputs all sum to one
+
+
+
 ## 4d - Neuro-Probabilistic Language Models
 
 ## 4e - Dealing With Many Possible Outputs In Neuro-Probab. Lang. Models
