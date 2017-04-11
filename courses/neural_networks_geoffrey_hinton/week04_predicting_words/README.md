@@ -25,7 +25,15 @@ Inputs to neurons in a softmax group are called _logits_
 
 In the group, the outputs all sum to one
 
+Outputs given by:
 
+$$y_i = \frac{e^{z_i}}{\sum_{j \in group} e^{z_j}}$$
+
+Output Derivatives:
+
+$$\frac{\delta y_i}{\delta z_i}=y_i(1-y_i)$$
+
+This is not trivial to derive. 
 
 ## 4d - Neuro-Probabilistic Language Models
 
