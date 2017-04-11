@@ -1,6 +1,4 @@
-# Table of Contents
-
-## Courses
+# Courses
 
 ### Neural Networks for Machine Learning - Geoffrey Hinton - U Toronto
 
