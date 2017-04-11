@@ -59,8 +59,8 @@ This is called the cross-entropy cost function
 
 * C has very big gradient when target value is zero and output is almost zero
 * value of 0.000001 \(1/M\) is much better with this cost function than 0.000000001 \(1/B\), unlike squared error
-* nice property: cost function _C _has very steep derivative when answer is wrong. 
-* output wrt input is flat when answer is wrong. When you multiply the two together, using the chain rule, giving how fast the cost function changes times how fast the output of a unit changes as you change zi, the result is the actual input minus the target output.
+* nice property: cost function _C_ has a very steep derivative when answer is wrong. 
+* output w.r.t. input is flat when answer is wrong. 
 * the steepness of the derivative of the cost function with respect to the neuron's output, dC/dy balances the flatness of the derivative of the output with respect to the logit, dy/dz.
 
 
