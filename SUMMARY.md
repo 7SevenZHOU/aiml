@@ -1,7 +1,5 @@
 # Table of Contents
 
-* [Introduction](README.md)
-
 ## Courses
 
 ### Neural Networks for Machine Learning - Geoffrey Hinton - U Toronto
