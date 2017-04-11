@@ -15,27 +15,20 @@
 Squared error cost function has drawbacks:
 
 * There is almost no gradient if desired output is 1 and actual output is 0.00000001
+  * it's way out on a plateau where the slope is almost exactly horizontal
+  * it will take a long time to adjust, even though it's a big mistake
 * If we are trying to pick between mutually exclusive classes and we know probabilities should sum to one, no way to encode that
+  * there is no reason to deprive network of this information
 
-Softmax is a cost function that is an alternative to squared error
+_Softmax_ is a different cost function applied to a group of neurons called _a softmax group. _It is a "soft, continuous version of the maximum function."
 
-It is applied to a group of neurons called _a softmax group_
+$$z_i$$ is the total input from layer below, called the _logit._
 
-Inputs to neurons in a softmax group are called _logits_
-
-In the group, the outputs all sum to one
-
-Outputs given by:
-
-
+$$y_i$$ is the output of each unit, which depends on the logits of the other units in the softmax group. In the group, the outputs all sum to one, because they are given by a formula that takes into account all of the logits of the group:
 $$
 y_i = \frac{e^{z_i}}{\sum_{j \in group} e^{z_j}}
 $$
-
-
-Simple output derivatives like derivative of logistic unit, though not as trivial to derive:
-
-
+Softmax has simple output derivatives, though not trivial to derive:
 $$
 \frac{\delta y_i}{\delta z_i}=y_i(1-y_i)
 $$
