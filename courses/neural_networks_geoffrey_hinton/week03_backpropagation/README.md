@@ -256,7 +256,7 @@ Will be discussed more in lecture 7
 
 ## 3f - Lecture 3 Quiz
 
-### q1 
+### q1
 
 Which of the following neural networks are examples of a feed-forward network?
 
@@ -311,7 +311,7 @@ I'm not going to select any of the options.
 
 ### q4
 
-Consider a linear output unit versus a logistic output unit for a feed-forward network with _no hidden layer _shown below. The network has a set of inputs x and an output neuron y connected to the input by weights w and bias b.
+Consider a linear output unit versus a logistic output unit for a feed-forward network with \_no hidden layer \_shown below. The network has a set of inputs x and an output neuron y connected to the input by weights w and bias b.
 
 ![](/assets/w3qp4.png)
 
