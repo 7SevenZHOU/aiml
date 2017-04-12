@@ -46,7 +46,7 @@ $$
 
 If $$\mathbf{z} = (z_1, z_2, \ldots z_k)$$ is the input to a k-way softmax unit, the output distribution is $$\mathbf{y}=(y_1, y_2, \ldots y_k)$$, where $$y_i = \dfrac{\exp(z_i)}{\sum_j\exp(z_j)}$$, which of the following statements are true?
 
-1. The output distribution would still be the same if the input vector was _c_**z**_ _for any positive constant_ c_. 
+1. The output distribution would still be the same if the input vector was _c_**z**_ \_for any positive constant_ c\_. 
 2. The output distribution would still be t he same if the input vector was _c _+ **z** for any positive constant _c_. 
 3. Any probability distribution _P_ over discrete states $$P(x) > 0  \ \ \forall x$$ can be represented as the output of a softmax unit for some inputs.
 4. Each output of a softmax unit always lies in \(0,1\).
@@ -68,7 +68,7 @@ Question: if we're using a softmax group for the outputs, what's the cost functi
 
 Answer: one that gives the negative log probability of right answer
 
-Cross-entropy cost function for _each_ output assumes that the for the unit under consideration, the target value is one, and all other target values for _j_ are zero. Then take the sum of the targets times the outputs for _all_ outputs. 
+Cross-entropy cost function for _each_ output assumes that the for the unit under consideration, the target value is one, and all other target values for _j_ are zero. Then take the sum of the targets times the outputs for _all_ outputs.
 
 
 $$
@@ -76,7 +76,7 @@ C=-\sum_{j} t_j \log{y_j}
 $$
 
 
-$$t_j$$ is the target value under consideration. 
+$$t_j$$ is the target value under consideration.
 
 This is called the cross-entropy cost function
 
@@ -99,6 +99,8 @@ $$
 ## 4d - Neuro-Probabilistic Language Models
 
 ## 4e - Dealing With Many Possible Outputs In Neuro-Probab. Lang. Models
+
+Hint: Someone on the board recommended reading [Minih and Hinton, 2009](http://www.cs.toronto.edu/~hinton/absps/andriytree.pdf) to get this
 
 
 
