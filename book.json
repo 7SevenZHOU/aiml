@@ -1,11 +1,6 @@
 {
-    "gitbook": "3.x.x",
+
     "plugins": [
         "katex"
-    ],
-    "links": {
-        "sidebar": {
-            "@MyerNore": "https://twitter.com/MyerNore"
-        }
-    },
-    "pluginsConfig": {}
+    ]
+}
