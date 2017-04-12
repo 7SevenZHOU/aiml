@@ -32,7 +32,7 @@ y_i = \frac{e^{z_i}}{\sum_{j \in group} e^{z_j}}
 $$
 
 
-Essentially, the output _yi_ is the _zi_ over the sum over all _zi_s in the softmax group, except where each is expressed as a power function of _e_. So _yi_ is always between zero and one.
+Essentially, the output _yi_ is the _zi_ over the sum over all _zi\_s in the softmax group, except where each is expressed as a power function of \_e_. So _yi_ is always between zero and one.
 
 Softmax has simple output derivatives, though not that trivial to derive:
 
@@ -46,7 +46,7 @@ $$
 
 If $$\mathbf{z} = (z_1, z_2, \ldots z_k)$$ is the input to a k-way softmax unit, the output distribution is $$\mathbf{y}=(y_1, y_2, \ldots y_k)$$, where $$y_i = \dfrac{\exp(z_i)}{\sum_j\exp(z_j)}$$, which of the following statements are true?
 
-1. The output distribution would still be the same if the input vector was _c_**z**_ _for any positive constant _c_. 
+1. The output distribution would still be the same if the input vector was _c_**z**_ \_for any positive constant \_c_. 
 2. The output distribution would still be t he same if the input vector was _c _+ **z** for any positive constant _c_. 
 3. Any probability distribution _P_ over discrete states $$P(x) > 0  \ \ \forall x$$ can be represented as the output of a softmax unit for some inputs.
 4. Each output of a softmax unit always lies in \(0,1\).
@@ -55,12 +55,12 @@ If $$\mathbf{z} = (z_1, z_2, \ldots z_k)$$ is the input to a k-way softmax unit,
 
 1. If you scale z, then you change the denominator much more than the numerator, so that will change the distribution. False. _Correct_
 2. If you add a constant to each term, that should not affect the distribution. True. 
-   1. _Correct. _Let's say we have two z's: z1=2, z2=-2. Now let's take a softmax over them:_ _$$\frac{\exp(z_1)}{\exp(z_1) + \exp(z_2)}=\frac{\exp(2)}{\exp(2)+\exp(-2)}$$. If we add some positive constant _c_ to each $$z_i$$ then this becomes:
+   1. _Correct. \_Let's say we have two z's: z1=2, z2=-2. Now let's take a softmax over them:_ $$\frac{\exp(z_1)}{\exp(z_1) + \exp(z_2)}=\frac{\exp(2)}{\exp(2)+\exp(-2)}$$_. If we add some positive constant \_c_ to each $$z_i$$ then this becomes:
       $$\frac{\exp(2+c)}{\exp(2+c) + \exp(-2+c)}=\frac{\exp(2)\exp(c)}{(\exp(2)+\exp(-2))\exp(c)}=\frac{\exp(2)}{\exp(2)+\exp(-2)}$$.
       Multiplying each $$z_i$$ by _c_ gives:
       $$\frac{\exp(2c)}{\exp(2c) + \exp(-2c)}=\frac{\exp(2)^c}{\exp(2)^c + \exp(-2)^c} \neq \frac{\exp(2)}{\exp(2)+\exp(-2)}$$
-3. I see no reason why any probability distribution over discrete states could not be represented by softmax. True.
-4. True. 
+3. I see no reason why any probability distribution over discrete states could not be represented by softmax. True. _Correct_
+4. True. _Correct_
 
 ### Cross-Entropy Is Cost Function To Use With Softmax
 
