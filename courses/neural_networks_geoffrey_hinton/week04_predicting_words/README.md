@@ -98,9 +98,30 @@ $$
 
 ## 4d - Neuro-Probabilistic Language Models
 
+We're use our understanding to hear the correct words
+
+* "We do this unconsciously when we wreck a nice beach."
+
+### Trigram Method 
+
+$$\frac{p(w_3=c \mid w_2=b, w_1=a)}{p(w_3=d \mid w_2=b, w_1=a)}=\frac{count(abc)}{count(abd)}$$
+
+* count freq of all triples of words in a corpus
+* use freqs to make bets on relative prob of words given two previous words
+* was state of art until recently
+* cannot use much bigger context because too many possibilities to store and counts would mostly be zero
+  * too many - really?
+* Dinosaur pizza ... then what? 
+  * "back-off" to digrams when count for trigram is too small
+
+### Trigram Limitations
+
+* example: “the cat got squashed in the garden on friday”
+  * should help us predict words in “the dog got flattened in the yard on monday”
+* does not understand similarities betwee
+  * cat/dog; squashed/flattened; garden/yard; friday/monday
+
 ## 4e - Dealing With Many Possible Outputs In Neuro-Probab. Lang. Models
 
 Hint: Someone on the board recommended reading [Minih and Hinton, 2009](http://www.cs.toronto.edu/~hinton/absps/andriytree.pdf) to get this
-
-
 
