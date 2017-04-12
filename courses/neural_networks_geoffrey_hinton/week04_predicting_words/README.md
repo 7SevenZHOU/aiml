@@ -55,7 +55,7 @@ If $$\mathbf{z} = (z_1, z_2, \ldots z_k)$$ is the input to a k-way softmax unit,
 
 1. If you scale z, then you change the denominator much more than the numerator, so that will change the distribution. False. _Correct_
 2. If you add a constant to each term, that should not affect the distribution. True. 
-   1. _Correct. \_Let's say we have two z's: z1=2, z2=-2. Now let's take a softmax over them:_ $$\frac{\exp(z_1)}{\exp(z_1) + \exp(z_2)}=\frac{\exp(2)}{\exp(2)+\exp(-2)}$$_. If we add some positive constant \_c_ to each $$z_i$$ then this becomes:
+   1. _Correct. _Let's say we have two z's: z1=2, z2=-2. Now let's take a softmax over them: $$\frac{\exp(z_1)}{\exp(z_1) + \exp(z_2)}=\frac{\exp(2)}{\exp(2)+\exp(-2)}$$_. If we add some positive constant \_c_ to each $$z_i$$ then this becomes:
       $$\frac{\exp(2+c)}{\exp(2+c) + \exp(-2+c)}=\frac{\exp(2)\exp(c)}{(\exp(2)+\exp(-2))\exp(c)}=\frac{\exp(2)}{\exp(2)+\exp(-2)}$$.
       Multiplying each $$z_i$$ by _c_ gives:
       $$\frac{\exp(2c)}{\exp(2c) + \exp(-2c)}=\frac{\exp(2)^c}{\exp(2)^c + \exp(-2)^c} \neq \frac{\exp(2)}{\exp(2)+\exp(-2)}$$
@@ -74,7 +74,7 @@ C=-\sum_{j} t_j \log{y_j}
 $$
 
 
-Here, $$t_j$$ is the target value.
+$$t_j$$ is the target value.
 
 This is called the cross-entropy cost function
 
