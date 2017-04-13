@@ -102,7 +102,7 @@ We're use our understanding to hear the correct words
 
 * "We do this unconsciously when we wreck a nice beach."
 
-### Trigram Method 
+### Trigram Method
 
 $$\frac{p(w_3=c \mid w_2=b, w_1=a)}{p(w_3=d \mid w_2=b, w_1=a)}=\frac{count(abc)}{count(abd)}$$
 
@@ -118,10 +118,70 @@ $$\frac{p(w_3=c \mid w_2=b, w_1=a)}{p(w_3=d \mid w_2=b, w_1=a)}=\frac{count(abc)
 
 * example: “the cat got squashed in the garden on friday”
   * should help us predict words in “the dog got flattened in the yard on monday”
-* does not understand similarities betwee
+* does not understand similarities between ...
   * cat/dog; squashed/flattened; garden/yard; friday/monday
+
+### Yoshua Bengio Next Word Prediction![](/assets/bengio-predicting-next-word.png)
+
+* put in candidate for third word, then get output score for how good that candidate word is in the context.
+
+* run forwards through net many times, one for each candidate.
+
+* input context to the big hidden layer is the same for each candidate word.
+
+### The Problem With 100k Output Words
+
+* Each unit layer A above has 100k outgoing weights
+  * so can't afford to have many hidden units
+    * unless we have huge num training cases
+      * _why?_
+  * We could make the last hidden layer small, but then it's hard to get the 100k probabilities correct; small probabilities are often important
 
 ## 4e - Dealing With Many Possible Outputs In Neuro-Probab. Lang. Models
 
-Hint: Someone on the board recommended reading [Minih and Hinton, 2009](http://www.cs.toronto.edu/~hinton/absps/andriytree.pdf) to get this
+Someone on the board recommended reading [Minih and Hinton, 2009](http://www.cs.toronto.edu/~hinton/absps/andriytree.pdf) for this part of the lecture
+
+### Serial Architecture
+
+![](/assets/4e-serial-arch-for-word-discovery.png)Trying to predict next word or middle word of string of words.
+
+Put the candidate in with the its context words as before.
+
+Go forwards through net, and then give score for how good that vector is in the net.
+
+After computing logit score for each candidate word, use all logits in a softmax to get word probabilities.
+
+The difference between the word probabilities and their target probabilities gives cross-entropy error derivatives.
+
+* The derivatives try to raise the score of the correct candidate and lower the scores of its high-scoring rivals.
+
+We can save tie if we only use a small set of candidates suggested by some other predictor, for example, revising the probabilities of the words the trigram model thinks are likely \(a second pass\).
+
+### Predicting Path Through Probability Tree
+
+Based on Minih and Hinton, 2009
+
+![](/assets/minh-and-hinton-08.png)Arrange all words in binary tree with words as leaves
+
+Use previous context to generate _prediction vector, _**v**.
+
+Compare v with a learned vector u at each node.
+
+Apply logistic function to scalar product of **u** and **v** to predict probabilities of taking the two branches of the tree.
+
+### Simpler Way To Learn Features For Words
+
+Collobert and Weston, 2008
+
+![](/assets/4e-collobert-and-weston-2008.png)By displaying on 2-D map, we can get idea of quality of learned feature vectors
+
+Easy substitutes area clustered near one another. [**See example image here**](/assets/4e-turian-t-sne-sample.png). 
+
+Multi-scale method **t-sne** displays similar clusters near each other too
+
+* no extra supervision
+* information is all in the context; some people think we learn words this way
+* "She scrommed him with the frying pan" - does it mean bludgeoned or does it mean impressed him with her cooking skills?
+
+
 
