@@ -8,6 +8,34 @@
 
 ## 4a - Learning To Predict The Next Word
 
+### Family Tree Example Intro
+
+![](/assets/4a-family-tree.png)alternative way to express family tree is to make a set of triples using 12 relationships connecting entities: son, daughter, nephew, niece, father, mother, uncle, aunt, brother, sister, husband, wife
+
+\(colin has-father james\) & \(colin has-mother victoria\) → \(james has-wife victoria\)
+
+\(charlotte has-brother colin\) & \(victoria has-brother arthur\) → \(charlotte has-uncle arthur\)
+
+relational learning task: given a large set of triples that come from some family trees, figure out the regularities.
+
+![](/assets/course-hinton-4a-family-tree-nn.png)![](/assets/course-hinton-4a-family-tree-nn-result.png)
+
+The six hidden units in the _bottleneck_ connected to the input representation of person 1 learn _nationality_, _generation_, _branch of family tree_
+
+These features are only useful if the other _bottlenecks_ use similar representations and the central layer learns how features predict other features: \(Input person is of generation 3\) & \(relationship requires answer to be one generation up\) → \(Output person is of generation 2\)
+
+If trained on eight of the relationship types, then tested on the remaining four, it gets answers 3/4 correct, which "is good for a 24-way choice."
+
+* How is 24 computed here?
+
+On "much bigger" datasets we can train on "a much smaller fraction" of the data.
+
+Suppose we have millions of relational facts in form \(A R B\).
+
+* We can train a neural net to discover a feature vector representations of the terms that allow the third term to be predicted from the first two.
+* We can use the trained net to find very unlikely triples. These are good candidates for errors in the database.
+* Instead of predicting third term we could use all three as input and predict the probability that the fact is correct. To do this we would need a good source of false facts.  
+
 ## 4b - A Brief Diversion Into Cognitive Science
 
 ## 4c - The Softmax Output Function
