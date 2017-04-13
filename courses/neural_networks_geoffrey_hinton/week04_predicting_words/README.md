@@ -175,9 +175,11 @@ Collobert and Weston, 2008
 
 ![](/assets/4e-collobert-and-weston-2008.png)By displaying on 2-D map, we can get idea of quality of learned feature vectors
 
-Easy substitutes area clustered near one another. [**See example image here**](/assets/4e-turian-t-sne-sample.png). 
+Easy substitutes area clustered near one another. Example Image:
 
-Multi-scale method **t-sne** displays similar clusters near each other too
+![](/assets/4e-turian-t-sne-sample.png)
+
+Multi-scale method **t-sne** displays similar clusters near each other, too
 
 * no extra supervision
 * information is all in the context; some people think we learn words this way
