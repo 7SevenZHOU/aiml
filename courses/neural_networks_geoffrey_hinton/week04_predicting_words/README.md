@@ -26,7 +26,7 @@ These features are only useful if the other _bottlenecks_ use similar representa
 
 If trained on eight of the relationship types, then tested on the remaining four, it gets answers 3/4 correct, which "is good for a 24-way choice."
 
-* How is 24 computed here?
+* _How is 24 computed here?_
 
 On "much bigger" datasets we can train on "a much smaller fraction" of the data.
 
@@ -37,6 +37,35 @@ Suppose we have millions of relational facts in form \(A R B\).
 * Instead of predicting third term we could use all three as input and predict the probability that the fact is correct. To do this we would need a good source of false facts.  
 
 ## 4b - A Brief Diversion Into Cognitive Science
+
+In cognitive science it's usually taught that there are two rival theories of a concept:
+
+**Feature Theory**: a concept is a set of semantic features.
+
+* good for explaining similarities between concepts
+* convenient for analysis because then a concept is a vector of feature activities.
+
+**Structuralist Theory**: the meaning of a concept lies in its relationships to other concepts.
+
+* conceptual knowledge is best expressed as a graph
+* Minsky used limitations of perceptrons as evidence against feature vectors and in favor of relational graph representations
+
+Hinton thinks both sides are wrong, and they need not be rivals. A neural net can use vectors to construct a graph.
+
+* In the family tree example, no "explicit" inference is required to arrive at the intuitively obvious consequences of the facts that have been explicitly learned.
+
+We do a lot of "analogical reasoning" by just "seeing" the answer with no commonsense or intervening steps. Even when we are using explicit rules \(as in math or logic?\), we need to "just see" which rules to apply. 
+
+### Localist vs Distributed Representations of Concepts
+
+The obvious way to implement a relational graph is to treat the neuron as a node in the graph. This won't work.
+
+* We need many different types of relationship and connections in a neural net do not have discrete labels.
+* We need ternary relationships as well as binary ones: A is between B and C.
+
+The right way is still an open issue
+
+* many neurons are probably used for each concept and each neuron is probably involved in many concepts: a _distributed representation_.
 
 ## 4c - The Softmax Output Function
 
