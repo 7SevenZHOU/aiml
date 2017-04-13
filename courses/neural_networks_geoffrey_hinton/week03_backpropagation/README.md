@@ -260,9 +260,9 @@ Will be discussed more in lecture 7
 
 Which of the following neural networks are examples of a feed-forward network?
 
-| **A**![](http://spark-public.s3.amazonaws.com/neuralnets/images/Lecture 3/backprop3.png) | B ![](http://spark-public.s3.amazonaws.com/neuralnets/images/Lecture 3/backprop6.png) |
+| **A**![](/assets/backprop3.png) | B ![](/assets/backprop6.png) |
 | :--- | :--- |
-| C ![](http://spark-public.s3.amazonaws.com/neuralnets/images/Lecture 3/backprop1.png) | D ![](http://spark-public.s3.amazonaws.com/neuralnets/images/Lecture 3/backprop4.png) |
+| C ![](/assets/backprop1.png) | D ![](/assets/backprop4.png) |
 
 I chose A and C because they are tiered and flow up without cycles. B and D have cycles.
 
