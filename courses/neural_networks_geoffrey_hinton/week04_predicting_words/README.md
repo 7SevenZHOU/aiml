@@ -54,7 +54,7 @@ Hinton thinks both sides are wrong, and they need not be rivals. A neural net ca
 
 * In the family tree example, no "explicit" inference is required to arrive at the intuitively obvious consequences of the facts that have been explicitly learned.
 
-We do a lot of "analogical reasoning" by just "seeing" the answer with no commonsense or intervening steps. Even when we are using explicit rules \(as in math or logic?\), we need to "just see" which rules to apply. 
+We do a lot of "analogical reasoning" by just "seeing" the answer with no commonsense or intervening steps. Even when we are using explicit rules \(as in math or logic?\), we need to "just see" which rules to apply.
 
 ### Localist vs Distributed Representations of Concepts
 
@@ -157,34 +157,78 @@ $$
 
 We're use our understanding to hear the correct words
 
-* "We do this unconsciously when we wreck a nice beach."
+"We do this unconsciously when we wreck a nice beach." -&gt; recognize speech
 
-### Trigram Method
+### Standard Trigram Method
+
+count frequencies of all triples on words in a huge corpus
 
 $$\frac{p(w_3=c \mid w_2=b, w_1=a)}{p(w_3=d \mid w_2=b, w_1=a)}=\frac{count(abc)}{count(abd)}$$
 
-* count freq of all triples of words in a corpus
 * use freqs to make bets on relative prob of words given two previous words
 * was state of art until recently
 * cannot use much bigger context because too many possibilities to store and counts would mostly be zero
-  * too many - really?
+  * too many - really? 10k^3
 * Dinosaur pizza ... then what? 
   * "back-off" to digrams when count for trigram is too small
 
 ### Trigram Limitations
 
-* example: “the cat got squashed in the garden on friday”
-  * should help us predict words in “the dog got flattened in the yard on monday”
-* does not understand similarities between ...
-  * cat/dog; squashed/flattened; garden/yard; friday/monday
+example: “the cat got squashed in the garden on friday”
+
+* should help us predict words in “the dog got flattened in the yard on monday”
+
+does not understand similarities between ...
+
+* cat/dog; squashed/flattened; garden/yard; friday/monday
+
+we need to convert the words into a feature vector
 
 ### Yoshua Bengio Next Word Prediction![](/assets/bengio-predicting-next-word.png)
 
-* put in candidate for third word, then get output score for how good that candidate word is in the context.
+This is a similar approach to the family trees neural network mentioned earlier, but bigger and applied to a real problem.
+
+The bottom layer, "index of a word" is _a set of neurons where only one is on at a time_. This is "equivalent to table look-up."
+
+* Here it sounds like there is a one to one correlation between neurons and words
+* What does it mean that only one is on at a time; is that during training, use, or both?
+
+"You have a stored feature vector for each word, and with learning, you modify that feature vector, which is exactly equivalent to modifying the weights coming from a single active-input unit."
+
+* Here it sounds like he's saying that there is one word per neuron, and their  inputs are fed an array of n-grams.
+* What algorithm determines how the feature vector is modified?
+* By "feature vector" does he mean the context of the words activated around the current word?
+
+You usually get "distributed representations" of a "few previous words," here shown as two, but it is typically around five.
+
+You can then use those "distributed representations" via the hidden layer to predict  "via huge softmax" what the probabilities are for all the various words that come next. 
+
+You put in candidate for third word, then get an output score for how good that candidate word is in the context.
 
 * run forwards through net many times, one for each candidate.
 
 * input context to the big hidden layer is the same for each candidate word.
+
+Bengio's model was slightly worse at predicting the next word than Trigram, but if you combined it with Trigram, it was better than Trigram.
+
+#### Question
+
+_Consider the following two networks with no bias weights. The network on the left takes 3 n-length word vectors corresponding to the previous 3 words, computes 3 d-length individual word-feature embeddings and then a k-length joint hidden layer which it uses to predict the 4th word. The network on the right is comparatively simpler in that it takes the previous 3 words and uses them to predict the 4th word._
+
+_If n = 100,000, d = 1,000, and k = 10,000, which network has more parameters?_
+
+![](/assets/courses-hinton-4d-langnetwork.png)
+
+1. _The network on the left_
+2. _The network on the right_
+
+##### Work
+
+I have no idea! Right? Left? Parameters? I guessed left. This was incorrect. 
+
+**Explanation**: _The network on the left as 3nd + 3dk + nk parameters which comes out to 1,330,000,000 while the network on the right has 30,000,000,000 parameters, an order of magnitude more. One advantage of the neural representation is that we can get much more compact representations of our data while still making good predictions._
+
+Where is the network on the right? There is only one network that I can see! Going back and reading the description, I can see they described the network on the left and right in the problem description. I need to pay more attention to the description of the problem. 
 
 ### The Problem With 100k Output Words
 
