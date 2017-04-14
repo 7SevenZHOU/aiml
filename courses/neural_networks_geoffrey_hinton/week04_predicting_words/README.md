@@ -42,7 +42,7 @@ Why don't we use a more succinct encoding like the ones computers use for repres
 
 ### Family Tree Network Design
 
-A \_bottleneck \_is when there are fewer neurons than there are bits of data, so that the neuron is forced to learn interesting representations; there are 24 people but only six hidden units, so the system must learn to identify things about the people from other characteristics than whether or not their 1/24th of the vector is active.
+A _bottleneck_ is when there are fewer neurons than there are bits of data, so that the neuron is forced to learn interesting representations; there are 24 people but only six hidden units, so the system must learn to identify things about the people from other characteristics than whether or not their 1/24th of the vector is active.
 
 In the _bottleneck_, it has to rerepresent those people as patterns of activity over those six neurons, with the hope that when it learns these propositions, the way in which it encodes a person will reveal structure in the domain.
 
@@ -52,11 +52,18 @@ We train it up on 112 propositions, and go through it many times, slowly changin
 
 He laid out the twelve English people along a row "on the top and the Italian people on a row underneath."
 
-Each of these blocks has 24 blobs in it, and the blobs tell you the incoming weights for one of the hidden units in that layer. If you go back to the slide "The structure of the neural net," look at the box "distributed encoding of person 1." There are six neurons there and we're looking at the incoming weights of each of those six neurons. So there are six blocks underneath each name representing the weights for that person coming into that neuron.
+Each of the six blocks is one of the six neurons encoding the people input layer. Each of these blocks has 24 blobs in it, and the blobs tell you the incoming weights for one of the people. He has arranged it so that within each neuron, the blobs on the top correspond to the English person and the blob on the bottom corresponds to the Italian equivalent.
 
-If you look at the big grey rectangle on the top right, you'll see an interesting structure to the weights. The weights along the top that come from English people are all positive, and the weights along the bottom are all negative. That means this unit tells you whether the input person is English or Italian. We never gave the network that information explicitly, but it's useful information to have in this simple world, so it learned it, because in the simple family trees that we've learned, if the input person is English, then the output person is always English.
+If you go back to the slide "The structure of the neural net," look at the box "distributed encoding of person 1." There are six neurons there in that box and the boxes and blobs in the second slide is the incoming weights for each of those six neurons. These six hidden units form the _bottleneck_ connected to the input representation of person 1 learn _nationality_, _generation_, _branch of family tree._ 
 
-The six hidden units in the _bottleneck_ connected to the input representation of person 1 learn _nationality_, _generation_, _branch of family tree._
+The diagram is a little confusing, because he's repeated the English names twice, but that's only because each English person has an Italian equivalent, and he wanted to represent the information in a horizontally compact form. A more realistic form would be like this: 
+
+| _Each column is both the English and the Italian. Each box is a neuron. The top row in the box is the data for the English person, the bottom row for the box is the data for the Italian. _  |
+| :--- |
+|   ![](/assets/courses-hinton-4a-family-tree-part1.png) |
+| ![](/assets/courses-hinton-4a-family-tree-part2.png) |
+
+If you look at the big grey rectangle on the top right \(4th from top box above\), you'll see that the weights along the top that come from English people are all positive, and the weights along the bottom are all negative. That means this neuron tells you whether the input person is English or Italian. We never gave the network that information explicitly, but it's useful information to have in this simple world, so the net learned it, because in the simple family trees that we've learned, if the input person is English, then the output person is always English. By encoding that information about each person it was able to halve the number of possibilities for that person.
 
 These features are only useful if the other _bottlenecks_ use similar representations and the central layer learns how features predict other features: \(Input person is of generation 3\) & \(relationship requires answer to be one generation up\) → \(Output person is of generation 2\)
 
