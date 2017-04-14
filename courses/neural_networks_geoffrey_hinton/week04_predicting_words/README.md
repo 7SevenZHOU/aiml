@@ -18,9 +18,49 @@
 
 A relational learning task: given a large set of triples that come from some family trees, figure out the regularities.
 
-![](/assets/course-hinton-4a-family-tree-nn.png)![](/assets/course-hinton-4a-family-tree-nn-result.png)
+#### ![](/assets/course-hinton-4a-family-tree-nn.png)Family Tree Neural Network Explanation
 
-The six hidden units in the _bottleneck_ connected to the input representation of person 1 learn _nationality_, _generation_, _branch of family tree_
+At the _bottom left_ of the diagram that says "local encoding of person one" has twenty four neurons, and exactly one of those will be turned on for each training case. 
+
+At the _bottom right_ of the diagram that says "local encoding of relationship," there are twelve relationships, and exactly one of the relationship units will be turned on. 
+
+At the _top_, there are twenty four output neurons, one for each person.
+
+After the network has been trained, one feeds a person and a relationship type into the network, and hopefully gets out a correct person or no person. 
+
+### 4a Question
+
+For the 24 people involved, the local encoding is created using a sparse 24-dimensional vector with all components zero, except one. E.g. Colin $$\equiv(1,0,0,0,0,\ldots,0)$$, Charlotte $$\equiv(0,0,1,0,0,\ldots,0)$$, Victoria $$\equiv (0,0,0,0,1,\ldots,0)$$ and so on. 
+
+Why don't we use a more succinct encoding like the ones computers use for representing numbers in binary? Colin $$\equiv (0, 0, 0,  0,  1)$$, Charlotte $$\equiv (0, 0, 0,  1, 1)$$, Victoria $$\equiv (0, 0, 1,  0, 1)$$ etc, even though this encoding will use 5-dimensional vectors as opposed to 24-dimensional ones. Check all that apply.
+
+1. It's always better to have more input dimensions
+2. The 24-d encoding makes each _subset_ of persons linearly separable from every other disjoint subset while the 5-d does not
+3. Considering the way this encoding is used, the 24-d encoding asserts no a-priori knowledge about the persons while the 5-d one does.
+
+#### 4a Question Work
+
+1. False. _Correct_
+2. True. I can picture how to make a perceptron partition subsets in the 24-d version of the problem, and it's harder to picture how that would work in the 5-d version as several people may share a bit. I'm not quite sure I can explain why or if the 5d version is completely not linearly separable or if it would just take a more complicated set of hidden units to separate it, though. _Correct_
+3. True. It is true that the 5-d version encodes an "ordering", so there is an opportunity for some a-priori knowledge to leak in. _Correct_
+
+### Family Tree Network Design
+
+A _bottleneck _is when there are fewer neurons than there are bits of data, so that the neuron is forced to learn interesting representations; there are 24 people but only six hidden units, so the system must learn to identify things about the people from other characteristics than whether or not their 1/24th of the vector is active.
+
+In the _bottleneck_, it has to rerepresent those people as patterns of activity over those six neurons, with the hope that when it learns these propositions, the way in which it encodes a person will reveal structure in the domain.
+
+We train it up on 112 propositions, and go through it many times, slowly changing the weights using backpropagation. Then we look at the weights in the six units in each of the distributed encoding layers right above the bottom layers. The resulting weights are shown in the grey boxes:
+
+![](/assets/course-hinton-4a-family-tree-nn-result.png)
+
+He laid out the twelve English people along a row "on the top and the Italian people on a row underneath." 
+
+Each of these blocks has 24 blobs in it, and the blobs tell you the incoming weights for one of the hidden units in that layer. If you go back to the slide "The structure of the neural net," look at the box "distributed encoding of person 1." There are six neurons there and we're looking at the incoming weights of each of those six neurons. So there are six blocks underneath each name representing the weights for that person coming into that neuron.
+
+If you look at the big grey rectangle on the top right, you'll see an interesting structure to the weights. The weights along the top that come from English people are all positive, and the weights along the bottom are all negative. That means this unit tells you whether the input person is English or Italian. We never gave the network that information explicitly, but it's useful information to have in this simple world, so it learned it, because in the simple family trees that we've learned, if the input person is English, then the output person is always English.
+
+The six hidden units in the _bottleneck_ connected to the input representation of person 1 learn _nationality_, _generation_, _branch of family tree._
 
 These features are only useful if the other _bottlenecks_ use similar representations and the central layer learns how features predict other features: \(Input person is of generation 3\) & \(relationship requires answer to be one generation up\) → \(Output person is of generation 2\)
 
@@ -203,7 +243,7 @@ You usually get "distributed representations" of a "few previous words," here sh
 
 You can then use those "distributed representations" via the hidden layer to predict  "via huge softmax" what the probabilities are for all the various words that come next.
 
-Refinement: add _skip-layer connections_ from the input words to the output layer, since individual words can have a big impact on the next word. 
+Refinement: add _skip-layer connections_ from the input words to the output layer, since individual words can have a big impact on the next word.
 
 * I'm not sure I understand this, but I believe it's like saying that in the case of rare digrams, the first word is all you need to determine the second word.
 
@@ -228,7 +268,7 @@ _If n = 100,000, d = 1,000, and k = 10,000, which network has more parameters?_
 
 ##### Work
 
-This is essentially like asking what takes more memory, the trigram model, or Yoshua Bengio's model given those specific tunings. 
+This is essentially like asking what takes more memory, the trigram model, or Yoshua Bengio's model given those specific tunings.
 
 I'm a little unclear about the definition of parameters here. Does parameters mean total inputs in the system? If there are 10k words, then there should be \(10^3\)^3 trigrams from which to produce the probability.
 
@@ -238,11 +278,11 @@ I'm a little unclear about the definition of parameters here. Does parameters me
 
 ### The Problem With 100k Output Words
 
-One problem with having a big softmax output layer is that you might have 100,000 different output weights. 
+One problem with having a big softmax output layer is that you might have 100,000 different output weights.
 
 There are various tenses of words, plural is different word than regular world.
 
-As each unit in last hidden layer of net might have 100k outgoing weights. 
+As each unit in last hidden layer of net might have 100k outgoing weights.
 
 * Then we have danger of overfitting.
   * unless we are google and have huge number of training cases.
@@ -285,9 +325,9 @@ Use previous context of previous words to generate _prediction vector, _**v**.
 
 We compare that prediction vector with a vector that we learn for each node of the tree.
 
-Then we compare by taking a scalar product of the prediction vector and the vector that we've learned for the node of the tree, and then apply the logistic function to that scalar product. 
+Then we compare by taking a scalar product of the prediction vector and the vector that we've learned for the node of the tree, and then apply the logistic function to that scalar product.
 
-That will give us the probability of taking the right branch in the tree. 
+That will give us the probability of taking the right branch in the tree.
 
 * This is meaning here seems to be elided. 
 * It's easy to see once you have a probability tree why it is useful, but it's not clear how to construct it.
@@ -327,8 +367,6 @@ Multi-scale method **t-sne** displays similar clusters near each other, too
 * adverbs: likely probably possibly perhaps
 * entirely completely fully greatly
 * which that whom what how whether why
-
-
 
 
 
