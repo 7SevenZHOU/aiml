@@ -2,10 +2,6 @@
 
 ## Week 4 - Links
 
-[Lecture Slides](https://d18ky98rnyall9.cloudfront.net/_4bd9216688e0605b8e05f5533577b3b8_lec4.pdf?Expires=1491955200&Signature=YYhlbLG4XsdPuiceHDrXNMJfTdzGApJK11GhS1Tkbq1nIvVv~0G4ZVtvnfSE-LfAOBmQ0R29P8zJt7qpxY5OdRv7ynlO~sht6h~Ah5uz7PwIcwXYNRURkfC1~zKlZsBLh2v~K7Iu8-joqGmdVtlg-5YwCF7-n4cchMtVOexxBWU_&Key-Pair-Id=APKAJLTNE6QMUY6HBC5A)
-
-[Week In Coursera](https://www.coursera.org/learn/neural-networks/lecture/68Koq/another-diversion-the-softmax-output-function-7-min)
-
 ## 4a - Learning To Predict The Next Word
 
 ### Family Tree Example Intro
@@ -20,17 +16,17 @@ A relational learning task: given a large set of triples that come from some fam
 
 #### ![](/assets/course-hinton-4a-family-tree-nn.png)Family Tree Neural Network Explanation
 
-At the _bottom left_ of the diagram that says "local encoding of person one" has twenty four neurons, and exactly one of those will be turned on for each training case. 
+At the _bottom left_ of the diagram that says "local encoding of person one" has twenty four neurons, and exactly one of those will be turned on for each training case.
 
-At the _bottom right_ of the diagram that says "local encoding of relationship," there are twelve relationships, and exactly one of the relationship units will be turned on. 
+At the _bottom right_ of the diagram that says "local encoding of relationship," there are twelve relationships, and exactly one of the relationship units will be turned on.
 
 At the _top_, there are twenty four output neurons, one for each person.
 
-After the network has been trained, one feeds a person and a relationship type into the network, and hopefully gets out a correct person or no person. 
+After the network has been trained, one feeds a person and a relationship type into the network, and hopefully gets out a correct person or no person.
 
 ### 4a Question
 
-For the 24 people involved, the local encoding is created using a sparse 24-dimensional vector with all components zero, except one. E.g. Colin $$\equiv(1,0,0,0,0,\ldots,0)$$, Charlotte $$\equiv(0,0,1,0,0,\ldots,0)$$, Victoria $$\equiv (0,0,0,0,1,\ldots,0)$$ and so on. 
+For the 24 people involved, the local encoding is created using a sparse 24-dimensional vector with all components zero, except one. E.g. Colin $$\equiv(1,0,0,0,0,\ldots,0)$$, Charlotte $$\equiv(0,0,1,0,0,\ldots,0)$$, Victoria $$\equiv (0,0,0,0,1,\ldots,0)$$ and so on.
 
 Why don't we use a more succinct encoding like the ones computers use for representing numbers in binary? Colin $$\equiv (0, 0, 0,  0,  1)$$, Charlotte $$\equiv (0, 0, 0,  1, 1)$$, Victoria $$\equiv (0, 0, 1,  0, 1)$$ etc, even though this encoding will use 5-dimensional vectors as opposed to 24-dimensional ones. Check all that apply.
 
@@ -46,7 +42,7 @@ Why don't we use a more succinct encoding like the ones computers use for repres
 
 ### Family Tree Network Design
 
-A _bottleneck _is when there are fewer neurons than there are bits of data, so that the neuron is forced to learn interesting representations; there are 24 people but only six hidden units, so the system must learn to identify things about the people from other characteristics than whether or not their 1/24th of the vector is active.
+A \_bottleneck \_is when there are fewer neurons than there are bits of data, so that the neuron is forced to learn interesting representations; there are 24 people but only six hidden units, so the system must learn to identify things about the people from other characteristics than whether or not their 1/24th of the vector is active.
 
 In the _bottleneck_, it has to rerepresent those people as patterns of activity over those six neurons, with the hope that when it learns these propositions, the way in which it encodes a person will reveal structure in the domain.
 
@@ -54,7 +50,7 @@ We train it up on 112 propositions, and go through it many times, slowly changin
 
 ![](/assets/course-hinton-4a-family-tree-nn-result.png)
 
-He laid out the twelve English people along a row "on the top and the Italian people on a row underneath." 
+He laid out the twelve English people along a row "on the top and the Italian people on a row underneath."
 
 Each of these blocks has 24 blobs in it, and the blobs tell you the incoming weights for one of the hidden units in that layer. If you go back to the slide "The structure of the neural net," look at the box "distributed encoding of person 1." There are six neurons there and we're looking at the incoming weights of each of those six neurons. So there are six blocks underneath each name representing the weights for that person coming into that neuron.
 
