@@ -10,13 +10,13 @@
 
 ### Family Tree Example Intro
 
-![](/assets/4a-family-tree.png)alternative way to express family tree is to make a set of triples using 12 relationships connecting entities: son, daughter, nephew, niece, father, mother, uncle, aunt, brother, sister, husband, wife
+![](/assets/4a-family-tree.png)An alternative way to express family tree is to make a set of triples using 12 relationships connecting entities: son, daughter, nephew, niece, father, mother, uncle, aunt, brother, sister, husband, wife
 
 \(colin has-father james\) & \(colin has-mother victoria\) → \(james has-wife victoria\)
 
 \(charlotte has-brother colin\) & \(victoria has-brother arthur\) → \(charlotte has-uncle arthur\)
 
-relational learning task: given a large set of triples that come from some family trees, figure out the regularities.
+A relational learning task: given a large set of triples that come from some family trees, figure out the regularities.
 
 ![](/assets/course-hinton-4a-family-tree-nn.png)![](/assets/course-hinton-4a-family-tree-nn-result.png)
 
@@ -26,7 +26,8 @@ These features are only useful if the other _bottlenecks_ use similar representa
 
 If trained on eight of the relationship types, then tested on the remaining four, it gets answers 3/4 correct, which "is good for a 24-way choice."
 
-* _How is 24 computed here?_
+* Q: _How is 24 computed here?_
+* A: _There are 24 people_
 
 On "much bigger" datasets we can train on "a much smaller fraction" of the data.
 
@@ -54,7 +55,7 @@ Hinton thinks both sides are wrong, and they need not be rivals. A neural net ca
 
 * In the family tree example, no "explicit" inference is required to arrive at the intuitively obvious consequences of the facts that have been explicitly learned.
 
-We do a lot of "analogical reasoning" by just "seeing" the answer with no commonsense or intervening steps. Even when we are using explicit rules \(as in math or logic?\), we need to "just see" which rules to apply.
+We do a lot of "analogical reasoning" by just "seeing" the answer with no commonsense or intervening steps. Even when we are using explicit rules \[as in math or logic\], we need to "just see" which rules to apply.
 
 ### Localist vs Distributed Representations of Concepts
 
@@ -63,9 +64,7 @@ The obvious way to implement a relational graph is to treat the neuron as a node
 * We need many different types of relationship and connections in a neural net do not have discrete labels.
 * We need ternary relationships as well as binary ones: A is between B and C.
 
-The right way is still an open issue
-
-* many neurons are probably used for each concept and each neuron is probably involved in many concepts: a _distributed representation_.
+The right way is still an open issue. Many neurons are probably used for each concept and each neuron is probably involved in many concepts: a _distributed representation_.
 
 ## 4c - The Softmax Output Function
 
@@ -197,11 +196,16 @@ The bottom layer, "index of a word" is _a set of neurons where only one is on at
 
 * Here it sounds like he's saying that there is one word per neuron, and their  inputs are fed an array of n-grams.
 * What algorithm determines how the feature vector is modified?
+  * At the beginning of Lecture 4a he talked about backpropagation... 
 * By "feature vector" does he mean the context of the words activated around the current word?
 
 You usually get "distributed representations" of a "few previous words," here shown as two, but it is typically around five.
 
-You can then use those "distributed representations" via the hidden layer to predict  "via huge softmax" what the probabilities are for all the various words that come next. 
+You can then use those "distributed representations" via the hidden layer to predict  "via huge softmax" what the probabilities are for all the various words that come next.
+
+Refinement: add _skip-layer connections_ from the input words to the output layer, since individual words can have a big impact on the next word. 
+
+* I'm not sure I understand this, but I believe it's like saying that in the case of rare digrams, the first word is all you need to determine the second word.
 
 You put in candidate for third word, then get an output score for how good that candidate word is in the context.
 
@@ -209,7 +213,7 @@ You put in candidate for third word, then get an output score for how good that 
 
 * input context to the big hidden layer is the same for each candidate word.
 
-Bengio's model was slightly worse at predicting the next word than Trigram, but if you combined it with Trigram, it was better than Trigram.
+Bengio's model is _slightly worse_ at predicting the next word than Trigram, but if you combined it with Trigram, it is better than Trigram.
 
 #### Question
 
@@ -224,27 +228,38 @@ _If n = 100,000, d = 1,000, and k = 10,000, which network has more parameters?_
 
 ##### Work
 
-I have no idea! Right? Left? Parameters? I guessed left. This was incorrect. 
+This is essentially like asking what takes more memory, the trigram model, or Yoshua Bengio's model given those specific tunings. 
+
+I'm a little unclear about the definition of parameters here. Does parameters mean total inputs in the system? If there are 10k words, then there should be \(10^3\)^3 trigrams from which to produce the probability.
 
 **Explanation**: _The network on the left as 3nd + 3dk + nk parameters which comes out to 1,330,000,000 while the network on the right has 30,000,000,000 parameters, an order of magnitude more. One advantage of the neural representation is that we can get much more compact representations of our data while still making good predictions._
 
-Where is the network on the right? There is only one network that I can see! Going back and reading the description, I can see they described the network on the left and right in the problem description. I need to pay more attention to the description of the problem. 
+**Follow Up**: Where does the 30,000,000,000 come from?
 
 ### The Problem With 100k Output Words
 
-* Each unit layer A above has 100k outgoing weights
-  * so can't afford to have many hidden units
-    * unless we have huge num training cases
-      * _why?_
-  * We could make the last hidden layer small, but then it's hard to get the 100k probabilities correct; small probabilities are often important
+One problem with having a big softmax output layer is that you might have 100,000 different output weights. 
+
+There are various tenses of words, plural is different word than regular world.
+
+As each unit in last hidden layer of net might have 100k outgoing weights. 
+
+* Then we have danger of overfitting.
+  * unless we are google and have huge number of training cases.
+* We could make the last hidden layer small, but then it's hard to get the 100k probabilities correct
+  * small probabilities are often important.
 
 ## 4e - Dealing With Many Possible Outputs In Neuro-Probab. Lang. Models
 
 Someone on the board recommended reading [Minih and Hinton, 2009](http://www.cs.toronto.edu/~hinton/absps/andriytree.pdf) for this part of the lecture
 
+### Avoiding having 100k different output units: Way 1
+
 ### Serial Architecture
 
 ![](/assets/4e-serial-arch-for-word-discovery.png)Trying to predict next word or middle word of string of words.
+
+The candidate's word index is used as part of the context sometimes and as a context later.
 
 Put the candidate in with the its context words as before.
 
@@ -252,29 +267,46 @@ Go forwards through net, and then give score for how good that vector is in the 
 
 After computing logit score for each candidate word, use all logits in a softmax to get word probabilities.
 
-The difference between the word probabilities and their target probabilities gives cross-entropy error derivatives.
+The difference between the word probabilities and their target probabilities gives cross-entropy error derivatives. The derivatives try to raise the score of the correct candidate and lower the scores of its high-scoring rivals.
 
-* The derivatives try to raise the score of the correct candidate and lower the scores of its high-scoring rivals.
+We can save time if we only use a small set of candidates suggested by some other predictor, for example, use the neural net to revise the probabilities of the words the trigram model thinks are likely \(a second pass\).
 
-We can save tie if we only use a small set of candidates suggested by some other predictor, for example, revising the probabilities of the words the trigram model thinks are likely \(a second pass\).
+### Avoiding having 100k different output units: Way 2
 
-### Predicting Path Through Probability Tree
+Predicting Path Through Probability Tree
 
 Based on Minih and Hinton, 2009
 
 ![](/assets/minh-and-hinton-08.png)Arrange all words in binary tree with words as leaves
 
-Use previous context to generate _prediction vector, _**v**.
+Use previous context of previous words to generate _prediction vector, _**v**.
 
-Compare v with a learned vector u at each node.
+* Since he mentions previous context, I assume that he means this process is repeated. How do we construct the prediction vector in one context? Is it an additive process, where every time we find a word, if we find a word before it pointing to it, we add to the probability? If so, how is that done? 
 
-Apply logistic function to scalar product of **u** and **v** to predict probabilities of taking the two branches of the tree.
+We compare that prediction vector with a vector that we learn for each node of the tree.
+
+Then we compare by taking a scalar product of the prediction vector and the vector that we've learned for the node of the tree, and then apply the logistic function to that scalar product. 
+
+That will give us the probability of taking the right branch in the tree. 
+
+* This is meaning here seems to be elided. 
+* It's easy to see once you have a probability tree why it is useful, but it's not clear how to construct it.
+
+It's fast at training time but slow at test time.
 
 ### Simpler Way To Learn Features For Words
 
 Collobert and Weston, 2008
 
-![](/assets/4e-collobert-and-weston-2008.png)By displaying on 2-D map, we can get idea of quality of learned feature vectors
+Learn feature vectors for words, look at 11 words, 5 in past and 5 in future. In middle of that, either put a correct word or a random net, and then use a neural net to go high if it's the right word, and low if it's the wrong word.
+
+![](/assets/4e-collobert-and-weston-2008.png)What they are doing is whether the middle word is the appropriate word for the context. They trained this on ~600 million examples from English wikipedia.
+
+### Displaying learned feature vectors in a 2-D map
+
+By displaying on 2-D map, we can get idea of quality of learned feature vectors
+
+Multi-scale method **t-sne**
 
 Easy substitutes area clustered near one another. Example Image:
 
@@ -285,6 +317,18 @@ Multi-scale method **t-sne** displays similar clusters near each other, too
 * no extra supervision
 * information is all in the context; some people think we learn words this way
 * "She scrommed him with the frying pan" - does it mean bludgeoned or does it mean impressed him with her cooking skills?
+
+### Examples of t-sne
+
+* matches, games, races, clubs teams, players together
+* things you win together: cup, bowl, medal, prize, award
+* games: rugby, soccer, baseball, sports
+* places: US states at top, then cities in north america, then underneath are a lot of countries. 
+* adverbs: likely probably possibly perhaps
+* entirely completely fully greatly
+* which that whom what how whether why
+
+
 
 
 
