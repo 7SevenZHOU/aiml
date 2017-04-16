@@ -54,13 +54,13 @@ He laid out the twelve English people along a row "on the top and the Italian pe
 
 Each of the six blocks is one of the six neurons encoding the people input layer. Each of these blocks has 24 blobs in it, and the blobs tell you the incoming weights for one of the people. He has arranged it so that within each neuron, the blobs on the top correspond to the English person and the blob on the bottom corresponds to the Italian equivalent.
 
-If you go back to the slide "The structure of the neural net," look at the box "distributed encoding of person 1." There are six neurons there in that box and the boxes and blobs in the second slide is the incoming weights for each of those six neurons. These six hidden units form the _bottleneck_ connected to the input representation of person 1 learn _nationality_, _generation_, _branch of family tree._ 
+If you go back to the slide "The structure of the neural net," look at the box "distributed encoding of person 1." There are six neurons there in that box and the boxes and blobs in the second slide is the incoming weights for each of those six neurons. These six hidden units form the _bottleneck_ connected to the input representation of person 1 learn _nationality_, _generation_, _branch of family tree._
 
-The diagram is a little confusing, because he's repeated the English names twice, but that's only because each English person has an Italian equivalent, and he wanted to represent the information in a horizontally compact form. A more realistic form would be like this: 
+The diagram is a little confusing, because he's repeated the English names twice, but that's only because each English person has an Italian equivalent, and he wanted to represent the information in a horizontally compact form. A more realistic form would be like this:
 
-| _Each column is both the English and the Italian. Each box is a neuron. The top row in the box is the data for the English person, the bottom row for the box is the data for the Italian. _  |
+| _Each column is both the English and the Italian. Each box is a neuron. The top row in the box is the data for the English person, the bottom row for the box is the data for the Italian. _ |
 | :--- |
-|   ![](/assets/courses-hinton-4a-family-tree-part1.png) |
+| ![](/assets/courses-hinton-4a-family-tree-part1.png) |
 | ![](/assets/courses-hinton-4a-family-tree-part2.png) |
 
 If you look at the big grey rectangle on the top right \(4th from top box above\), you'll see that the weights along the top that come from English people are all positive, and the weights along the bottom are all negative. That means this neuron tells you whether the input person is English or Italian. We never gave the network that information explicitly, but it's useful information to have in this simple world, so the net learned it, because in the simple family trees that we've learned, if the input person is English, then the output person is always English. By encoding that information about each person it was able to halve the number of possibilities for that person.
@@ -370,6 +370,36 @@ Multi-scale method **t-sne** displays similar clusters near each other, too
 * adverbs: likely probably possibly perhaps
 * entirely completely fully greatly
 * which that whom what how whether why
+
+## 4f - Quiz
+
+### Question 1 & 2
+
+#### Question 1
+
+\(multiple choice\) The squared error cost function with _n_ linear units is equivalent to:
+
+1. The cross-entropy cost function with an _n_-way softmax unit.
+2. The cross-entropy cost function with _n_ logistic units.
+3. The squared error cost function with _n_ logistic units.
+4. None of the above
+
+#### Question 1 Clarification
+
+Let's say that a network with $$n$$ linear output units has some weights $$w$$. $$w$$ is a matrix with $$n$$ columns, and $$w_i$$ indexes a particular column in this matrix and represents the weights from the inputs to the _i_th output unit.
+
+#### Question 2
+
+\(single choice\) A 2-way softmax unit \(a softmax unit with 2 elements\) with the cross entropy cost function is equivalent to:
+
+1. A logistic unit with the cross-entropy cost function.
+2. A 2-way softmax unit \(a softmax unit with 2 elements\) with the squared error cost function.
+3. Two linear units with the squared error cost function
+4. None of the above.
+
+#### Question 2 Clarification
+
+In a network with a logistic output, we will have a single vector of weights $$w$$. For a particular example with target $$t$$ \(which is 0 or 1\), the cross-entropy error is given by:  
 
 
 
