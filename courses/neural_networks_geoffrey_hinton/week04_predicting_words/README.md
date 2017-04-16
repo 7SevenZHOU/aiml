@@ -510,22 +510,35 @@ At every iteration of training, train the network to predict the current learned
 
 #### Question 3 Work
 
-1. 
+Here is the referenced slide from this week's lecture:
+
+ ![](/assets/4e-serial-arch-for-word-discovery.png)
+
+1. True - the serialized version above is optimizing the lowest error on the logit score for the candidate word. This is different than optimizing for having the most correct feature vector.  
+
+2. True - if we "train the network to predict the current learned feature vector of the target word" then we may find that there are many false positives. This is because the features are always relative to the history of the target word, so if we make the features more like the targets, we might end up with many false positives. I'm not sure this is what Hinton meant by extra derivatives, though.
+
+3. False - there is something wrong with this idea 
+
+4. False - there is something wrong with this idea
+
 ## Week 4 FAQ
 
-* What is the _exp_ function mentioned in equations?
-  * _exp_\(x\) calculates the value of _e_ to the power of _x_. It's often used when it would make a math equation cumbersome to look at, for instance if you had exp\(x\)^2 it might be easier to understand than if you had two layers of powers. - [tex stack exchange](https://tex.stackexchange.com/questions/254785/e-vs-exp-in-display-mode)
-* In neural networks, what is a cost function?
+1. What is the _exp_ function mentioned in equations?
 
-  * "In artificial neural networks, the cost function \[is a function\] to return a number representing how well the neural network performed to map training examples to correct output." - [wikipedia](https://en.wikipedia.org/wiki/Cost_function)
+   * _exp_\(x\) calculates the value of _e_ to the power of _x_. It's often used when it would make a math equation cumbersome to look at, for instance if you had exp\(x\)^2 it might be easier to understand than if you had two layers of powers. - [tex stack exchange](https://tex.stackexchange.com/questions/254785/e-vs-exp-in-display-mode)
 
-  * [A list of cost functions used in neural networks, alongside applications](https://stats.stackexchange.com/questions/154879/a-list-of-cost-functions-used-in-neural-networks-alongside-applications) from SE: Cross Validated
+2. In neural networks, what is a cost function?
 
-* Why does Hinton use "squared error" but also use "cross entropy cost function?" Are "error function" and "cost function" interchangeable?
+   * "In artificial neural networks, the cost function \[is a function\] to return a number representing how well the neural network performed to map training examples to correct output." - [wikipedia](https://en.wikipedia.org/wiki/Cost_function)
 
-  * "A loss function is part of a cost function which is a type of objective function" from [SE: Cross Validated](https://stats.stackexchange.com/a/179027/157422)
+   * [A list of cost functions used in neural networks, alongside applications](https://stats.stackexchange.com/questions/154879/a-list-of-cost-functions-used-in-neural-networks-alongside-applications) from SE: Cross Validated
 
-  * 
+3. Why does Hinton use "squared error" but also use "cross entropy cost function?" Are "error function" and "cost function" interchangeable?
+
+   * "A loss function is part of a cost function which is a type of objective function" from [SE: Cross Validated](https://stats.stackexchange.com/a/179027/157422)
+
+   * 
 
 
 
