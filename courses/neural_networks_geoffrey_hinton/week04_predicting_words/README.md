@@ -488,14 +488,20 @@ b\) For every input, the cost we get using _w_ in the network with a softmax out
 
 #### Question 2 Work
 
-Cross-entropy cost $$C = -\sum_jt_j\log{y_j}$$ for each j in a softmax group.
+Cross-entropy cost $$C = -\sum_jt_j\log{y_j}$$ for each j in a softmax group where there is a single term t and all others are 1-t. For a 2-series, distributing the sum, computing the cost for a 2-way softmax with cross entropy, it's $$-t\log{y_1}-(1-t)\log{y_2}$$. Another way to say this is to realize that the output function is a function of the product of the weight vector and the input, as given above:
+
+$$-t\log(\sigma(w^Tx))-(1-t)\log(1-\sigma(w^Tx))$$
+
+Softmax output is given by $$y_i = \frac{e^{z_i}}{\sum_{j \in group} e^{z_j}}=\frac{\exp(z_i)}{\sum_{j \in group} \exp(z_j)}$$.
+
+Logistic neuron output is given by $$z=b+\sum_i x_iw_i$$ and $$y=\frac{1}{1+\exp(-z)}$$
 
 So is the cost or error of a 2-way softmax with cross-entropy equivalent to ...
 
-1. ... A logistic unit with the cross-entropy cost function? In a way, the logistic curve is like a 2-way softmax. What would it mean to apply the cross-entropy cost function to a single unit? The cost function would always be equal to the negative log of the output. It's hard to picture how this could map to a 2-way softmax with cross-entropy.' I'm going go to guess this is not it.
-2. ... A 2-way softmax unit with the squared error cost function? We've been told that cross-entropy is the right cost function to use with softmax. I'm going to guess that this is not it. 
-3. ... Two linear units with the squared error cost function? This _could_ work.
-4. ... None of the above? I'm going to say 3 is it.
+1. ... A logistic unit with the cross-entropy cost function? True.
+2. ... A 2-way softmax unit with the squared error cost function? False.
+3. ... Two linear units with the squared error cost function? False.
+4. ... None of the above? False.
 
 ### Question 3
 
