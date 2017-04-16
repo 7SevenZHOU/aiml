@@ -440,7 +440,7 @@ b\) For every input the cost we get using _w_ in the linear network with squared
 
 ### Question 2
 
-\(single choice\) A 2-way softmax unit \(a softmax unit with 2 elements\) with the cross entropy cost function is equivalent to:
+\[single choice\] A 2-way softmax unit \(a softmax unit with 2 elements\) with the cross entropy cost function is equivalent to:
 
 1. A logistic unit with the cross-entropy cost function.
 2. A 2-way softmax unit \(a softmax unit with 2 elements\) with the squared error cost function.
@@ -451,10 +451,25 @@ b\) For every input the cost we get using _w_ in the linear network with squared
 
 In a network with a logistic output, we will have a single vector of weights $$w$$. For a particular example with target $$t$$ \(which is 0 or 1\), the cross-entropy error is given by:
 
-## Contextual Questions and Research
 
-* Q: What is the _exp_ function mentioned in equations in this week?
-  * A: exp\(x\) calculates the value of e to the power of x
-* 
+$$
+-t\log(\sigma(w^Tx))-(1-t)\log(1-\sigma(w^Tx))
+$$
+where $$\sigma(w^Tx)=\frac{1}{1+\exp(-w^Tx)}$$. The squared error if we use a single linear unit would be: 
+$$
+\frac{1}{2}(t-w^{T}x)^2
+$$
+. 
+
+## Week 4 FAQ
+
+* What is the _exp_ function mentioned in equations?
+  * _exp_\(x\) calculates the value of _e_ to the power of _x_. It's often used when it would make a math equation cumbersome to look at, for instance if you had exp\(x\)^2 it might be easier to understand than if you had two layers of powers. - [tex stack exchange](https://tex.stackexchange.com/questions/254785/e-vs-exp-in-display-mode)
+* In neural networks, what is a cost function? 
+
+  * "In artificial neural networks, the cost function \[is a function\] to return a number representing how well the neural network performed to map training examples to correct output." - [wikipedia](https://en.wikipedia.org/wiki/Cost_function)
+
+  * [A list of cost functions used in neural networks, alongside applications](https://stats.stackexchange.com/questions/154879/a-list-of-cost-functions-used-in-neural-networks-alongside-applications) from SE: Cross Validated
+
 
 
