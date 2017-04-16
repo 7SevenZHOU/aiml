@@ -1,9 +1,7 @@
 # Courses
 
-[import](courses/courses.yaml)
 
-
-[include](./courses.yaml)
+[include, lang:"yaml"](./courses.yaml)
 
 
 
