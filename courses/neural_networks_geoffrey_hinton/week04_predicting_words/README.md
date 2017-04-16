@@ -399,7 +399,5 @@ Let's say that a network with $$n$$ linear output units has some weights $$w$$. 
 
 #### Question 2 Clarification
 
-In a network with a logistic output, we will have a single vector of weights $$w$$. For a particular example with target $$t$$ \(which is 0 or 1\), the cross-entropy error is given by:  
-
-
+In a network with a logistic output, we will have a single vector of weights $$w$$. For a particular example with target $$t$$ \(which is 0 or 1\), the cross-entropy error is given by:
 
