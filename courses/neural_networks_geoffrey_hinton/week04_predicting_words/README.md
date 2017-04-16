@@ -543,7 +543,11 @@ For this particular tree, what would make it more likely that these two methods 
 
 #### Question 4 Work
 
-The only situation in which this greedy algorithm will not converge quickly is if the first step in the algorithm picks the wrong choice. Therefore, both \#1 and \#2 are correct.
+Using this greedy algorithm will always converge on the right path in this two layer path tree _if you get the first decision correct_. The only way it can fail is if you get the first decision incorrect, in which case you have to test both the left and right subtrees before finding the answer. 
+
+Therefore it is best if the first decision you make has as little uncertainty as possible. The only variable in a two layer network that impacts the efficiency of the convergence is whether or not the first variable is far from 0.5, which is the maximum in terms of uncertainty.
+
+\#1 and \#2 address this, therefore those are the correct answers.
 
 
 
