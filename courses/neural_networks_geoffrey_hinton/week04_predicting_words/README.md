@@ -570,7 +570,7 @@ The question was about whether a suggested middle word looked good or looked ran
 
 Suppose that we have a vocabulary of 3 words, "a", "b", and "c", and we want to predict the next word in a sentence given the previous two words. Also suppose that we don't want to use feature vectors for words: we simply use the local encoding, i.e. a 3-component vector with one entry being 1 and all other two entries being 0.
 
-In the language models that we have seen so far, each of the context words has its own dedicated section of the network, so we would encode this problem with two 3-dimensional inputs. This makes for a total of 6 dimensions; clearly, the more context words we want to include, the more input units our network must have. Here's a method that uses fewer input units: 
+In the language models that we have seen so far, each of the context words has its own dedicated section of the network, so we would encode this problem with two 3-dimensional inputs. This makes for a total of 6 dimensions; clearly, the more context words we want to include, the more input units our network must have. Here's a method that uses fewer input units:
 
 We could instead encode the **counts** of each word in the context. So a context of "a a" would be encoded as input vector \[2 0 0\] instead of \[1 0 0 1 0 0\], and "b c" would be encoded as input vector \[0 1 1\] instead of \[0 1 0 0 0 1\]. Now we only need an input vector of the size of our vocabulary \(3 in our case\), as opposed to the size of our vocabulary times the length of the context \(which makes for a total of 6 in our case\). Are there any significant problems with this idea?
 
