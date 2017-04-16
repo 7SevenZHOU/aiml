@@ -131,7 +131,7 @@ y_i = \frac{e^{z_i}}{\sum_{j \in group} e^{z_j}}
 $$
 
 
-Essentially, the output _yi_ is the _zi_ over the sum over all _zi\_s in the softmax group, except where each is expressed as a power function of \_e_. So _yi_ is always between zero and one.
+Essentially, the output _yi_ is the _zi_ over the sum over all _zi\_s in the softmax group, except where each is expressed as a power function of e_. So _yi_ is always between zero and one.
 
 Softmax has simple output derivatives, though not that trivial to derive:
 
@@ -145,7 +145,7 @@ $$
 
 If $$\mathbf{z} = (z_1, z_2, \ldots z_k)$$ is the input to a k-way softmax unit, the output distribution is $$\mathbf{y}=(y_1, y_2, \ldots y_k)$$, where $$y_i = \dfrac{\exp(z_i)}{\sum_j\exp(z_j)}$$, which of the following statements are true?
 
-1. The output distribution would still be the same if the input vector was _c_**z**_ \_for any positive constant_ c\_. 
+1. The output distribution would still be the same if the input vector was _c_**z**_ for any positive constant_ c. 
 2. The output distribution would still be t he same if the input vector was _c _+ **z** for any positive constant _c_. 
 3. Any probability distribution _P_ over discrete states $$P(x) > 0  \ \ \forall x$$ can be represented as the output of a softmax unit for some inputs.
 4. Each output of a softmax unit always lies in \(0,1\).
@@ -154,7 +154,7 @@ If $$\mathbf{z} = (z_1, z_2, \ldots z_k)$$ is the input to a k-way softmax unit,
 
 1. If you scale z, then you change the denominator much more than the numerator, so that will change the distribution. False. _Correct_
 2. If you add a constant to each term, that should not affect the distribution. True. 
-   1. _Correct. \_Let's say we have two z's: z1=2, z2=-2. Now let's take a softmax over them: _$$\frac{\exp(z_1)}{\exp(z_1) + \exp(z_2)}=\frac{\exp(2)}{\exp(2)+\exp(-2)}$$. If we add some positive constant \_c\_ to each $$z_i$$ then this becomes:
+   1. _Correct. Let's say we have two z's: z1=2, z2=-2. Now let's take a softmax over them: _$$\frac{\exp(z_1)}{\exp(z_1) + \exp(z_2)}=\frac{\exp(2)}{\exp(2)+\exp(-2)}$$. If we add some positive constant _c_ to each $$z_i$$ then this becomes:
       $$\frac{\exp(2+c)}{\exp(2+c) + \exp(-2+c)}=\frac{\exp(2)\exp(c)}{(\exp(2)+\exp(-2))\exp(c)}=\frac{\exp(2)}{\exp(2)+\exp(-2)}$$.
       Multiplying each $$z_i$$ by _c_ gives:
       $$\frac{\exp(2c)}{\exp(2c) + \exp(-2c)}=\frac{\exp(2)^c}{\exp(2)^c + \exp(-2)^c} \neq \frac{\exp(2)}{\exp(2)+\exp(-2)}$$
@@ -438,6 +438,15 @@ a\) $$w^*=f(w)$$ for some function $$f$$
 
 b\) For every input the cost we get using _w_ in the linear network with squared error is the same cost we would get using $$w^*$$ in the new network with the possibly different cost function.
 
+#### Question 1 Work
+
+If we have a squared error cost function with _n_ linear units, 
+
+1. No - for every input, the net cost we get using _w_ in the linear network with squared error _can't_ be equivalent to the net cost of the cross-entropy cost function with _n_-way softmax. For any softmax group, the output profile cannot be equivalent to a linear output profile.   
+2. No - linear units with squared error cost function can't produce the same output profile as logistic units with the cross-entropy cost function
+3. No - linear units with squared error cost function can't produce same output profile as logistic units with squared error cost function.
+4. Yes - None of the above.
+
 ### Question 2
 
 \[single choice\] A 2-way softmax unit \(a softmax unit with 2 elements\) with the cross entropy cost function is equivalent to:
@@ -455,21 +464,56 @@ In a network with a logistic output, we will have a single vector of weights $$w
 $$
 -t\log(\sigma(w^Tx))-(1-t)\log(1-\sigma(w^Tx))
 $$
-where $$\sigma(w^Tx)=\frac{1}{1+\exp(-w^Tx)}$$. The squared error if we use a single linear unit would be: 
+
+
+where $$\sigma(w^Tx)=\frac{1}{1+\exp(-w^Tx)}$$. 
+
+The squared error if we use a single linear unit would be $$\frac{1}{2}(t-w^{T}x)^2$$. 
+
+Now notice that another way we might define _t_ is by using a vector with 2 elements, \[1,0\] to indicate the first class, and \[0,1\] to indicate the second class. Using this definition, we can develop a new type of classification network using a softmax unit over these two classes instead. In this case, we would use a weight matrix _w_ with two columns, where $$w_i$$ is the column of the $$i^{th}$$class and connects the inputs to the $$i^{th}$$ output unit.
+
+Suppose an example belonged to class _j_ \(where _j_ is 1 or 2 to indicate \[1,0\] or \[0,1\]\). Then the cross-entropy cost for this network would be:
+
+
 $$
-\frac{1}{2}(t-w^{T}x)^2
+-\log(\frac{\exp(w_j^Tx)}{\exp(w_1^Tx)+\exp(w_2^Tx))})=-w_j^Tx + \log(\exp(w_1^Tx)+\exp(w_2^Tx))
 $$
-. 
+
+
+For any set of weights _w_, the network with a softmax output unit over 2 classes will have some error due to the cross-entropy cost function. The question is now asking whether we can define a new network with a set of weights $$w^*$$ using some \(possibly different\) cost function such that:
+
+a\) $$w^*=f(w)$$ for some function _f_
+
+b\) For every input, the cost we get using _w_ in the network with a softmax output unit over 2 classes and cross-entropy error is the same cost that we would get using $$w^*$$ in the new network with the possibly different cost function.
+
+#### Question 2 Work
+
+Cross-entropy cost $$C = -\sum_jt_j\log{y_j}$$ for each j in a softmax group.
+
+So is the cost or error of a 2-way softmax with cross-entropy equivalent to ... 
+
+1. ... A logistic unit with the cross-entropy cost function? In a way, the logistic curve is like a 2-way softmax. What would it mean to apply the cross-entropy cost function to a single unit? The cost function would always be equal to the negative log of the output. It's hard to picture how this could map to a 2-way softmax with cross-entropy.' I'm going go to guess this is not it.
+2. ... A 2-way softmax unit with the squared error cost function? We've been told that cross-entropy is the right cost function to use with softmax. I'm going to guess that this is not it. 
+3. ... Two linear units with the squared error cost function? This _could_ work.
+4. ... None of the above? I'm going to say 3 is it.
+
+
 
 ## Week 4 FAQ
 
 * What is the _exp_ function mentioned in equations?
   * _exp_\(x\) calculates the value of _e_ to the power of _x_. It's often used when it would make a math equation cumbersome to look at, for instance if you had exp\(x\)^2 it might be easier to understand than if you had two layers of powers. - [tex stack exchange](https://tex.stackexchange.com/questions/254785/e-vs-exp-in-display-mode)
-* In neural networks, what is a cost function? 
+* In neural networks, what is a cost function?
 
   * "In artificial neural networks, the cost function \[is a function\] to return a number representing how well the neural network performed to map training examples to correct output." - [wikipedia](https://en.wikipedia.org/wiki/Cost_function)
 
   * [A list of cost functions used in neural networks, alongside applications](https://stats.stackexchange.com/questions/154879/a-list-of-cost-functions-used-in-neural-networks-alongside-applications) from SE: Cross Validated
+
+* Why does Hinton use "squared error" but also use "cross entropy cost function?" Are "error function" and "cost function" interchangeable? 
+
+  * "A loss function is part of a cost function which is a type of objective function" from [SE: Cross Validated](https://stats.stackexchange.com/a/179027/157422)
+
+  * 
 
 
 
