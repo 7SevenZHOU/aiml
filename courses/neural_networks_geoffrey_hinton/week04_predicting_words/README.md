@@ -543,7 +543,45 @@ For this particular tree, what would make it more likely that these two methods 
 
 #### Question 4 Work
 
-If you want to minimize the number of times it takes to find the right answer,  decisions higher up the tree matter more than decisions deep in the tree. If earlier branches are farther from 0.5, then you have more assurance that you have made the correct decision. In a two layer path decision network like this one, the first decision is the only one you need to get correct in order to ensure you don't waste your time. Therefore \#1 and \#2 are the correct answers, because they are the only ones that address the need for p1 to be as far from 0.5 as possible. When p1 is close to 0.5, then it means that the remaining probabilities must be decided farther down the tree, and there are more opportunities to get it wrong. 
+If you want to minimize the number of times it takes to find the right answer,  decisions higher up the tree matter more than decisions deep in the tree. If earlier branches are farther from 0.5, then you have more assurance that you have made the correct decision. In a two layer path decision network like this one, the first decision is the only one you need to get correct in order to ensure you don't waste your time. Therefore \#1 and \#2 are the correct answers, because they are the only ones that address the need for p1 to be as far from 0.5 as possible. When p1 is close to 0.5, then it means that the remaining probabilities must be decided farther down the tree, and there are more opportunities to get it wrong.
+
+### Question 5
+
+True or false: the neural network in the lectures that was used to predict relationships in family trees had "bottleneck" layers \(layers with fewer dimensions than the input\). The reason these were used was to prevent the network from memorizing the training data without learning any meaningful features for generalization.
+
+#### Question 5 Work
+
+True. This is exactly why he created a bottleneck there, to force the network to learn things other than the identities of the input people.
+
+### Question 6
+
+In the Collobert and Weston model, the problem of learning a feature vector from a sequence of words is turned into a problem of \[pick one\]:
+
+1. Learning to predict the middle word in the sequence given the words that came before and the words that came after.
+2. Learning to predict the next word in an arbitrary length sequence.
+3. Learning a binary classifier.
+4. Learning to reconstruct the input vector.
+
+#### Question 6 Work
+
+The question was about whether a suggested middle word looked good or looked random. This question is a binary classifier \(\#3\).
+
+### Question 7
+
+Suppose that we have a vocabulary of 3 words, "a", "b", and "c", and we want to predict the next word in a sentence given the previous two words. Also suppose that we don't want to use feature vectors for words: we simply use the local encoding, i.e. a 3-component vector with one entry being 1 and all other two entries being 0.
+
+In the language models that we have seen so far, each of the context words has its own dedicated section of the network, so we would encode this problem with two 3-dimensional inputs. This makes for a total of 6 dimensions; clearly, the more context words we want to include, the more input units our network must have. Here's a method that uses fewer input units: 
+
+We could instead encode the **counts** of each word in the context. So a context of "a a" would be encoded as input vector \[2 0 0\] instead of \[1 0 0 1 0 0\], and "b c" would be encoded as input vector \[0 1 1\] instead of \[0 1 0 0 0 1\]. Now we only need an input vector of the size of our vocabulary \(3 in our case\), as opposed to the size of our vocabulary times the length of the context \(which makes for a total of 6 in our case\). Are there any significant problems with this idea?
+
+1. Yes: the network loses the knowledge of the location at which a context word occurs, and that is valuable knowledge.
+2. Yes: even though the input has a smaller dimensionality, each entry of the input now requires more bits to encode, because it's no longer just 1 or 0. Therefore, there would be no significant advantage. 
+3. Yes: the neural networks shown in the course so far cannot deal with integer inputs \(as opposed to binary inputs\).
+4. Yes: although we could encode the context in this way, we would then need a smaller bottleneck layer than we did before, thereby lowering the learning capacity of the model.
+
+#### Question 7 Work
+
+If we do this, then \[1 1 0\] no longer encodes "a" then "b", so there is information loss. A is the right answer.
 
 ## Week 4 FAQ
 
