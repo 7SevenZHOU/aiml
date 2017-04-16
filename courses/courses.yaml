@@ -1,0 +1,6 @@
+--- !aiml/courses/courses.yaml
+- name: Neural Networks for Machine Learning
+  instructor: Geoffrey Hinton
+  date: 2014-01-01
+  attended: 2017-04-01
+  
