@@ -440,7 +440,7 @@ b\) For every input the cost we get using _w_ in the linear network with squared
 
 #### Question 1 Work
 
-If we have a squared error cost function with _n_ linear units, 
+If we have a squared error cost function with _n_ linear units,
 
 1. No - for every input, the net cost we get using _w_ in the linear network with squared error _can't_ be equivalent to the net cost of the cross-entropy cost function with _n_-way softmax. For any softmax group, the output profile cannot be equivalent to a linear output profile.   
 2. No - linear units with squared error cost function can't produce the same output profile as logistic units with the cross-entropy cost function
@@ -466,9 +466,9 @@ $$
 $$
 
 
-where $$\sigma(w^Tx)=\frac{1}{1+\exp(-w^Tx)}$$. 
+where $$\sigma(w^Tx)=\frac{1}{1+\exp(-w^Tx)}$$.
 
-The squared error if we use a single linear unit would be $$\frac{1}{2}(t-w^{T}x)^2$$. 
+The squared error if we use a single linear unit would be $$\frac{1}{2}(t-w^{T}x)^2$$.
 
 Now notice that another way we might define _t_ is by using a vector with 2 elements, \[1,0\] to indicate the first class, and \[0,1\] to indicate the second class. Using this definition, we can develop a new type of classification network using a softmax unit over these two classes instead. In this case, we would use a weight matrix _w_ with two columns, where $$w_i$$ is the column of the $$i^{th}$$class and connects the inputs to the $$i^{th}$$ output unit.
 
@@ -490,15 +490,27 @@ b\) For every input, the cost we get using _w_ in the network with a softmax out
 
 Cross-entropy cost $$C = -\sum_jt_j\log{y_j}$$ for each j in a softmax group.
 
-So is the cost or error of a 2-way softmax with cross-entropy equivalent to ... 
+So is the cost or error of a 2-way softmax with cross-entropy equivalent to ...
 
 1. ... A logistic unit with the cross-entropy cost function? In a way, the logistic curve is like a 2-way softmax. What would it mean to apply the cross-entropy cost function to a single unit? The cost function would always be equal to the negative log of the output. It's hard to picture how this could map to a 2-way softmax with cross-entropy.' I'm going go to guess this is not it.
 2. ... A 2-way softmax unit with the squared error cost function? We've been told that cross-entropy is the right cost function to use with softmax. I'm going to guess that this is not it. 
 3. ... Two linear units with the squared error cost function? This _could_ work.
 4. ... None of the above? I'm going to say 3 is it.
 
+### Question 3
 
+The output of a neuro-probabilistic language model is a large softmax unit and this creates problems if the vocabulary size is large. Andy claims that the following method solves this problem:
 
+At every iteration of training, train the network to predict the current learned feature vector of the target word instead of using a softmax. Since the embedding dimensionality is typically much smaller than the vocabulary size, we don't have the problem of having many output weights any more. Which of the following are correct? Check all that apply.
+
+1. The serialized version of the model discussed in the slides is using the current word embedding for the output word, but it's optimizing something different than what Andy is suggesting. 
+2. If we add in extra derivatives that change the feature vector for the target word to be more like what is predicted, it may find a trivial solution in which all words have the same feature vector. 
+3. In theory there's nothing wrong with Andy's idea. However, the number of learnable parameters will be so far reduced that the network no longer has sufficient learning capacity to do the task well.
+4. Andy is correct. This is equivalent to the serialized version of the model discussed in the lecture.
+
+#### Question 3 Work
+
+1. 
 ## Week 4 FAQ
 
 * What is the _exp_ function mentioned in equations?
@@ -509,7 +521,7 @@ So is the cost or error of a 2-way softmax with cross-entropy equivalent to ...
 
   * [A list of cost functions used in neural networks, alongside applications](https://stats.stackexchange.com/questions/154879/a-list-of-cost-functions-used-in-neural-networks-alongside-applications) from SE: Cross Validated
 
-* Why does Hinton use "squared error" but also use "cross entropy cost function?" Are "error function" and "cost function" interchangeable? 
+* Why does Hinton use "squared error" but also use "cross entropy cost function?" Are "error function" and "cost function" interchangeable?
 
   * "A loss function is part of a cost function which is a type of objective function" from [SE: Cross Validated](https://stats.stackexchange.com/a/179027/157422)
 
