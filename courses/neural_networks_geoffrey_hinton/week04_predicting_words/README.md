@@ -512,15 +512,40 @@ At every iteration of training, train the network to predict the current learned
 
 Here is the referenced slide from this week's lecture:
 
- ![](/assets/4e-serial-arch-for-word-discovery.png)
+![](/assets/4e-serial-arch-for-word-discovery.png)
 
-1. True - the serialized version above is optimizing the lowest error on the logit score for the candidate word. This is different than optimizing for having the most correct feature vector.  
+1. True - the serialized version above is optimizing the lowest error on the logit score for the candidate word. This is different than optimizing for having the most correct feature vector.
 
 2. True - if we "train the network to predict the current learned feature vector of the target word" then we may find that there are many false positives. This is because the features are always relative to the history of the target word, so if we make the features more like the targets, we might end up with many false positives. I'm not sure this is what Hinton meant by extra derivatives, though.
 
-3. False - there is something wrong with this idea 
+3. False - there is something wrong with this idea
 
 4. False - there is something wrong with this idea
+
+### Question 4
+
+We are given the following tree that we will use to classify a particular example _x_.
+
+![](/assets/class-hinton-w4-q4.png)
+
+In this tree, each value indicates the probability that _x_ will be classified as belonging to a class in the right subtree of the node at which that was computed. For example, the probability that belongs to Class 2 is $$(1-p_1)*p_2$$
+
+. Recall that at training time this is a very e cient representation because we only have to consider a single branch of the tree. However, at test- time we need to look over all branches in order to determine the probabilities of each outcome.
+
+Suppose we are not interested in obtaining the exact probability of every outcome, but instead we just want to find the class with the maximum probability. A simple heuristic is to search the tree greedily by starting at the root and choosing the branch with maximum probability at each node on our way from the root to the leaves. That is, at the root of this tree we would choose to go right if and left otherwise.
+
+For this particular tree, what would make it more likely that these two methods \(exact search and greedy search\) will report the same class? \[multiple choice\]
+
+1. It helps if the value of each _p_ is close to 0 or 1
+2. It helps if $$p_1$$is further from 0.5. It hurts if $$p_2$$ is further from 0.5.
+3. It helps if the value of each _p_ is close to 0.5
+4. It helps if $$p_1$$is further from 0.5 while $$p_2$$ and $$p_3$$ are close to 0 or 1.
+
+#### Question 4 Work
+
+The only situation in which this greedy algorithm will not converge quickly is if the first step in the algorithm picks the wrong choice. Therefore, both \#1 and \#2 are correct.
+
+
 
 ## Week 4 FAQ
 
