@@ -371,13 +371,11 @@ Multi-scale method **t-sne** displays similar clusters near each other, too
 * entirely completely fully greatly
 * which that whom what how whether why
 
-## 4f - Quiz
+## 4g - Quiz
 
-### Question 1 & 2
+### Question 1
 
-#### Question 1
-
-\(multiple choice\) The squared error cost function with _n_ linear units is equivalent to:
+\[multiple choice\] The squared error cost function with _n_ linear units is equivalent to:
 
 1. The cross-entropy cost function with an _n_-way softmax unit.
 2. The cross-entropy cost function with _n_ logistic units.
@@ -440,7 +438,7 @@ a\) $$w^*=f(w)$$ for some function $$f$$
 
 b\) For every input the cost we get using _w_ in the linear network with squared error is the same cost we would get using $$w^*$$ in the new network with the possibly different cost function.
 
-#### Question 2
+### Question 2
 
 \(single choice\) A 2-way softmax unit \(a softmax unit with 2 elements\) with the cross entropy cost function is equivalent to:
 
@@ -452,4 +450,11 @@ b\) For every input the cost we get using _w_ in the linear network with squared
 #### Question 2 Clarification
 
 In a network with a logistic output, we will have a single vector of weights $$w$$. For a particular example with target $$t$$ \(which is 0 or 1\), the cross-entropy error is given by:
+
+## Contextual Questions and Research
+
+* Q: What is the _exp_ function mentioned in equations in this week?
+  * A: exp\(x\) calculates the value of e to the power of x
+* 
+
 
