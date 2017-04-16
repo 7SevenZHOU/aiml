@@ -391,49 +391,29 @@ Let's say that a network with $$n$$ linear output units has some weights $$w$$. 
 Suppose the target for a particular example is _j_ \(so that it belongs to class _j_ in other words\).
 
 The squared error cost function for _n_ linear units is given by:
-
-
 $$
 \frac{1}{2}\sum_{i=1}^{n} (t_e-w_i^{T} x)^{2}
 $$
-
-
 Where _t_ is a vector of zeros except for 1 in index _j_.
 
 The cross-entropy cost function for an _n_-way softmax unit is given by
-
-
 $$
 -\log{(\frac{\exp(w_j^{T} x)}{\sum_{i=1}^{n} \exp(w_i^{T} x)})}
 $$
-
-
 which is equivalent to
-
-
 $$
 -w_j^{T}x+\log{(\sum_{i=1}^{n} \exp(w_i^{T}x))}
 $$
-
-
 . Finally, _n_ logistic units would compute an output of $$\sigma(w_i^{T}x)=\frac{1}{1+\exp(-w_i^{T}x)}$$ _independently_ for each class _i_. Combined with the squared error the cost would be:
-
-
 $$
 \frac{1}{2}\sum_{i=1}^{n} (t_i-\sigma(w_i^{T}x))^{2}
 $$
-
-
 where again, _t_ is a vector of zeros with a 1 at index _j_ \(assuming the true class of the example is _j_\).
 
 Using this same definition for _t_, the cross-entropy error for _n_ logistic units would be the sum of the individual cross-entropy errors:
-
-
 $$
 -\sum_{i=1}^{n} t_i\log(\sigma(w_i^{T}x))+(1-t_i)\log(1-\sigma(w_i^{T}x))
 $$
-
-
 For any set of weights _w_, the network with _n_ linear output units will have some cost due to the squared error cost function. The question is now asking whether we can define a new network with a set of weights $$w^*$$using some \(possibly different\) cost function such that:
 
 a\) $$w^*=f(w)$$ for some function $$f$$
