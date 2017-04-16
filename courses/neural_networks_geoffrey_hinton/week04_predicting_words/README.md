@@ -543,9 +543,7 @@ For this particular tree, what would make it more likely that these two methods 
 
 #### Question 4 Work
 
-The only situation in which this greedy algorithm will not converge quickly is if the first step in the algorithm picks the wrong choice. Therefore, both \#1 and \#2 are correct.
-
-
+If you want to minimize the number of times it takes to find the right answer,  decisions higher up the tree matter more than decisions deep in the tree. If earlier branches are farther from 0.5, then you have more assurance that you have made the correct decision. In a two layer path decision network like this one, the first decision is the only one you need to get correct in order to ensure you don't waste your time. Therefore \#1 and \#2 are the correct answers, because they are the only ones that address the need for p1 to be as far from 0.5 as possible. When p1 is close to 0.5, then it means that the remaining probabilities must be decided farther down the tree, and there are more opportunities to get it wrong. 
 
 ## Week 4 FAQ
 
