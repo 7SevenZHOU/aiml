@@ -49,23 +49,73 @@ We recognize the letter before doing mental rotation to decide if it's a mirror 
 
 ## 5c - Convolutional Neural Networks For Hand-Written Digit Recognition
 
-### The replicated feature approach
+CNNs originated in 1980s. It was possible on computers then, and they worked really well.
+
+### 5c - The replicated feature approach
 
 \(currently the dominant approach for neural networks\)
 
-### Backpropagation with weight constraints
+Use many different copies of the same feature detector with different positions.
 
-tbd
+* We could replicate across scale and orientation, but that's tricky and expensive.
+* Replication greatly reduces the number of free parameters to be learned.
 
-### What does replicating the feature detectors achieve?
+Al
 
-tbd
+### 5c - Backpropagation with weight constraints
 
-### Pooling the outputs of replicated feature detectors
+* it's easy to modify the backpropagation algorithm
 
-tbd
+### 5c - What does replicating the feature detectors achieve?
+
+* many people claim replicating translation invariance
+  * that's not true
+* they achieve equivariance, not invariance
+* **equivariant activities**: replicated features do not make the neural activities invariant to translation. the activities are equivariant.
+* \[images here\]
+* **Invariant knowledge**: 
+
+"We are achieving equivariance in the activities and invariance in the weights." 
+
+### 5c - Pooling the outputs of replicated feature detectors
+
+Get a small amount of translational invariance at each level of the net by averaging _four neighboring replicated detectors_ to give a single output to the next level.
+
+* reduces the number of inputs to the next layer of feature extraction, which allows us to have many more _different_ feature maps
+* taking the max of four works slightly better \(_than averaging? works better for what?_\)
+
+**Problem**: after several levels of pooling, we lose info about positions of things
+
+* consequence: makes it impossible to use precise spatial relationships
+
+### 5c - Question
+
+5:53
+
+Consider the following convolutional neural network. The input is a 3 x 3 image and each hidden unit has a 2 x 2 _weight filter_ that connects to a localized region of this image. This is shown in the following diagram \(note that this represents **one** _filter map_ and some lines are dashed just to avoid clutter\):
+
+![](/assets/hinton-lec5c-question-pool.png)
+
+In the image shown to the network, black pixels have a value of 1 while white pixels have a value of 0, so only two pixels in this image have a value of 1. Suppose we wanted to pool the output of each hidden unit using _max pooling_. If $$y_1=2,y_2=0,y_3=1,y_4=0$$ and max-pooling is defined as $$y_{pool}=\max_iy_i$$, then what will be the value of $$y_{pool}$$ in this example?
+
+1. 2
+2. 0
+3. 1
+4. 3
+
+#### 5c - Question Work
+
+I was not expecting that pooling would reuse pixels. If $$y_{pool}$$ is the maximum of any output $$y_i$$, then it should be \#1: 2.
+
+#### 5c - Question Answer
+
+_Correct_. Max pooling takes the output of each hidden unit in the map and picks the maximum value among these. In this case, the maximum value is 2 and it comes from hidden unit $$h_1$$. The neurons on the layer above therefore only see that some hidden unit produced an output of 2. They do not know which hidden unit among the 4 caused this, and therefore they lose the ability to distinguish where interesting things happen in the image. They only know that something interesting happened somewhere.
+
+In general, we don't pool over the entire image, but instead we pool over regions. For example, we might pool over $$h1, h2 \text{ and } h3, h4$$ to create two outputs. This lets the network build up progressively more invariant features with each successive layer.
 
 ### Le Net
+
+5:55
 
 Yann LeCun
 
@@ -93,9 +143,19 @@ TBD
 
 TBD
 
+# Week 5 Vocab
+
+_weight filter \[matrix, applied to CNN, used in 5c question\]_: asdf
+
+_filter map \[used in 5c question\]_: asdf
+
+_convolutional neural network_: asdf
+
 # Week 5 FAQ
 
 * TBD
+
+
 
 
 
