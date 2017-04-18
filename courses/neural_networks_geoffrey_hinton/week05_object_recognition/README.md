@@ -117,19 +117,71 @@ In general, we don't pool over the entire image, but instead we pool over region
 
 5:55
 
-Yann LeCun
+Yann LeCun et al developed a good recognizer for handwritten digits
 
-### ![](/assets/hinton-lec5c-lecun-minst-architecture.png)5c06 - The 82 errors made by LeNet5
+* Many hidden layers
+* Many maps of replicated units in each later
+* Pooling of the outputs to nearby replicated units \(?\)
+* A wide net that can 
+* It was a clever way of training a complete system, not just a recognizer for individual characters. 
+* You put in pixels at one end and get out zip codes at the other. 
+* They used a method called _maximum margin_ today for training. 
+* Used for reading ~10% of the checks in North America \(there's a great practical value\)
+* Look at impressive demos of LENET at http://yann.lecun.com
+  * look at all of these
+* * shows how well it copes with overlaps of digits, variations in size
 
-### ![](/assets/hinton-lec5c-leNet-errors.png)5c07 - Priors and Prejudice
+### 5c06 - The architecture of LeNet5
 
-tbd
+### ![](/assets/hinton-lec5c-lecun-minst-architecture.png)
 
-### 5c08 - The brute force approach
+* Input is pixels
 
-tbd
+* Seq of feature maps followed by subsampling
 
-### 5c09 - The errors made by the Ciresan et. al. net
+* In C1 feature map, there are 6 different maps, each of which are 28x28. They contain small features that look at 3x3 pixels. The weights are constrained together. So per map there is only 9 features.
+
+* What they call subsampling is now called pooling. You pool the outputs of neighbored feature replicators, which gives you a smaller map, which gives you a smaller map to input to the next layer which is discovering more complicated features.
+
+* As you go up hierarchy, you get features which are more complicated, but are more invariant to position.
+
+### 5c07 - The 82 errors made by LeNet5
+
+![](/assets/hinton-lec5c-leNet-errors.png)
+
+* It's better than 99% correct.
+* There might be digits that LeNet got right and most people would get wrong. 
+
+### 5c08 - Priors and Prejudice
+
+9:43
+
+We can put in prior knowledge by design of the network
+
+* connectivity
+* weight constraints
+* neuron activation functions
+
+Less intrusive than hand-designed features
+
+* still prejudices network towards particular solution
+
+Alternative to putting in prior knowledge that gives network "a freer hand"
+
+* give a whole lot more training data
+* steel mill fortran simulator - Hofman&Tresp, 1993. They had real data and simulated data
+  * They ran simulated data and added it to real data
+* if you generate a lot of synthetic data, it may take much longer.
+
+This approach allows discovering clever ways of using multilayer network we did not think of \(?\)
+
+### 5c09 - The brute force approach
+
+16:01
+
+
+
+### 5c10 - The errors made by the Ciresan et. al. net
 
 tbd ![](/assets/hinton-lec5c-Ciresan-errors.png)How to detect a significant drop in the error rate
 
