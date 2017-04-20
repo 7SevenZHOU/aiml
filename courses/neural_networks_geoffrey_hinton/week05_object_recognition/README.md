@@ -223,6 +223,28 @@ TBD
 
 # Week 5 Quiz
 
+## Week 5 Quiz Prob 1 - Dimension Hopping
+
+Hinton appears to be making a specific point about dimension hopping. He doesn't just mean that information might have been transcribed incorrectly by humans using forms. I believe that he means that when trying to detect a specific signal in data set examples, the signature may or may not be there. 
+
+Positive examples:
+
+* Determining whether a wave has high frequency or low frequency. The input is a set of time values along with their corresponding vertical displacements.
+* Determining whether a given image shows a bike or a car. The bike or car might appear anywhere in the image. The input is the whole set of pixels for the image.
+
+Negative examples: 
+
+* Estimating the risk that a patient will develop heart disease given their age, weight, blood pressure, and cholesterol level.
+  * "Does it make sense for any of these inputs to have their values switched with each other? Would several hundred thousand schools in one neighbourhood make sense?"
+* Estimating the market price of a house given the number of rooms in the house, the number of schools and the average income of the surrounding neighbourhood, and the average sale price of the surrounding houses.
+  * "Does it make sense for any of these inputs to have their values switched with each other? Would several hundred thousand schools in one neighbourhood make sense?"
+
+## Week 5 Quiz Prob 2 - CNN for 3
+
+
+
+# Week 5 Assignment
+
 TBD
 
 # Week 5 Vocab
@@ -237,6 +259,28 @@ _convolutional neural network_: TBD
 
 * Question 5c talks about a technique of pooling called _max pooling_, where one takes the maximum number of activated pixels from any of the hidden units in a given region. Lecture 5 Quiz question 3 also mentioned _sum pooling_. What are some other techniques for max pooling, along with their common uses?
 * Week 5 Quiz Question 4 said, "More inputs means more parameters, and thus increases the risk of overfitting." What is the difference between an input and a parameter, and what is the relationship between parameters and the risk of overfitting? 
+
+# Week 5 Other
+
+## Papers
+
+* ["Handwritten Digit Recognition with a Back-Propagation Network" \(Le Cun et al. 1989\)](http://yann.lecun.com/exdb/publis/pdf/lecun-90c.pdf)
+
+## Links
+
+* [Another Artificial Intelligence Gitbook With CNNs](https://leonardoaraujosantos.gitbooks.io/artificial-inteligence/content/deep_learning.html)
+
+## People
+
+Some people in the deep learning field:
+
+![](/assets/SomeGuysMachineLearning.png)
+
+* Geoff Hinton, Google - backpropagation, boltzmann machines
+* Yann Lecun, Facebook - convolution
+* Yoshua Bengio, U. Montreal - stacked auto-encoders
+* Andrew Ng, Baidu - GPU utilization
+* Alex Krizhevsky - dropout
 
 
 
