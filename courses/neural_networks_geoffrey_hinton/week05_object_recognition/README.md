@@ -127,7 +127,7 @@ Yann LeCun et al developed a good recognizer for handwritten digits
 * You put in pixels at one end and get out zip codes at the other. 
 * They used a method called _maximum margin_ today for training. 
 * Used for reading ~10% of the checks in North America \(there's a great practical value\)
-* Look at impressive demos of LENET at http://yann.lecun.com
+* Look at impressive demos of LENET at [http://yann.lecun.com](http://yann.lecun.com)
   * look at all of these
 * * shows how well it copes with overlaps of digits, variations in size
 
@@ -179,8 +179,6 @@ This approach allows discovering clever ways of using multilayer network we did 
 
 16:01
 
-
-
 ### 5c10 - The errors made by the Ciresan et. al. net
 
 tbd ![](/assets/hinton-lec5c-Ciresan-errors.png)How to detect a significant drop in the error rate
@@ -229,15 +227,16 @@ TBD
 
 # Week 5 Vocab
 
-_weight filter \[matrix, applied to CNN, used in 5c question\]_: asdf
+_weight filter \[matrix, applied to CNN, used in 5c question\]_: TBD
 
-_filter map \[used in 5c question\]_: asdf
+_filter map \[used in 5c question\]_: TBD
 
-_convolutional neural network_: asdf
+_convolutional neural network_: TBD
 
 # Week 5 FAQ
 
-* TBD
+* Question 5c talks about a technique of pooling called _max pooling_, where one takes the maximum number of activated pixels from any of the hidden units in a given region. Lecture 5 Quiz question 3 also mentioned _sum pooling_. What are some other techniques for max pooling, along with their common uses?
+* Week 5 Quiz Question 4 said, "More inputs means more parameters, and thus increases the risk of overfitting." What is the difference between an input and a parameter, and what is the relationship between parameters and the risk of overfitting? 
 
 
 
