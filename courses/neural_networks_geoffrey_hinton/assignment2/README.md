@@ -8,6 +8,7 @@
   * [pycharm instructions](https://confluence.jetbrains.com/display/PYH/TextMate+Bundles+in+PyCharm)
   * [matlab.tmbundle](https://github.com/textmate/matlab.tmbundle)
 * added `./assignment_2_instructions.pdf`
+* added commit template
 
 ## Instructions
 
