@@ -1,10 +1,55 @@
 # Assignment 2 - Learning word representations.
 
+## overview
+* general process is to feed each mini batch through forward propagation, 
+  then use backpropagation to update weights at each layer, updating the weights
+  each time.
+* the cross-entropy error should decrease as time goes on. at beginning of assignment
+  it remains constant because the optimization is left out.
+* network topology: 
+  ![network topology](../../../assets/courses-hinton-assign2-network.png)
+
+## todo
+- [ ] read through code
+- [ ] review backpropagation algorithm
+- [ ] implement `fprop.m` 
+- [ ] implement `train.m`
+- [ ] experiment, summarize results here
+- [ ] take assignment 2 quiz
+
+
 ## Notes
 
 ### 2017-04-22
 * configured 2nd computer for octave/matlab textmate syntax highlighting
 * read through source code and commented below
+  
+#### `train.m` training
+For each epoch, and each mini-batch:
+```octave
+input_batch = train_input(:, :, m);
+target_batch = train_target(:, :, m);
+
+% FORWARD PROPAGATE.
+% Compute the state of each layer in the network given the input batch
+% and all weights and biases
+[embedding_layer_state, hidden_layer_state, output_layer_state] = ...
+  fprop(input_batch, ...
+        word_embedding_weights, embed_to_hid_weights, ...
+        hid_to_output_weights, hid_bias, output_bias);
+```
+* here `train_input` contains stack of training cases of words x cases_in_batch. `m`
+  contains the number of the mini-batch we're focusing on, so `input_batch` contains
+  just the words x cases_in_batch for this mini-batch we're focusing on.
+* same for target_batch, except it's the target outputs.
+* we call `fprop.m`, which takes:
+  * `input_batch` described just now
+  * `word_embedding_weights`, a cumulative struct for all runs that is updated after 
+    forward propagation in frop.
+    * ``
+
+
+
 
 ### 2017-04-21 
 * configured pycharm for using the octave/matlab textmate syntax highlighting bundle
