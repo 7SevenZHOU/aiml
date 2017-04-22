@@ -2,6 +2,10 @@
 
 ## Notes
 
+### 2017-04-22
+* configured 2nd computer for octave/matlab textmate syntax highlighting
+* configured colors "VibrantInk" for matlab by default
+
 ### 2017-04-21 
 * configured pycharm for using the octave/matlab textmate syntax highlighting bundle
   * considered [this plugin from 2013](https://github.com/tomconder/octaveplugin/issues/1) but decided against it
