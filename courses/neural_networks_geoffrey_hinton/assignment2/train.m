@@ -57,6 +57,7 @@ for epoch = 1:epochs
   trainset_CE = 0;
   % LOOP OVER MINI-BATCHES.
   for m = 1:numbatches
+    % pmn: input and target already segmented by batch; here we select batch
     input_batch = train_input(:, :, m);
     target_batch = train_target(:, :, m);
 
