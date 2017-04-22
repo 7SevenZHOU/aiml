@@ -35,7 +35,6 @@ dealing with here. They are fairly simple ones.
 To load the data set, go to an octave terminal and cd to the directory where the
 downloaded data is located. Type
 
-
 `> load data.mat`
 
 This will load a struct called 'data' with 4 fields in it.
@@ -49,15 +48,44 @@ To see the list of words in the vocabulary, type -
 
 `> data.vocab`
 
-'data.trainData' is a matrix of 372550 X 4. This means there are 372550
+'data.trainData' is a matrix of 372550 X 4 columns vs rows. This means there are 372550
 training cases and 4 words per training case. Each entry is an integer that is
-the index of a word in the vocabulary. So each row represents a sequence of 4
+the index of a word in the vocabulary. So each column represents a sequence of 4
 words. 'data.validData' and 'data.testData' are also similar. They contain
 46,568 4-grams each. All three need to be separated into inputs and targets
 and the training set needs to be split into mini-batches. The file load_data.m
 provides code for doing that. To run it type:
 
 `>[train_x, train_t, valid_x, valid_t, test_x, test_t, vocab] = load_data(100);`
+
+> Apparently Octave has destructuring. We get load_data by being in
+> the same directory as `load_data.m`, whose sole contents is the 
+> function that is ran.
+> 
+> Reading through `load_data.m`, the function is terminated with the `end`
+> keyword. In octave, instead of a `return` statement, when declaring the function, 
+> the signature declares the names of the variables that should be returned.
+> These are the variables destructured in the call listed here.
+>
+> There are several octave system functions called in this function. They are 
+> not imported via any syntax that I can see; instead, they are assumed to be
+> in scope: 
+> 
+> `size(data.trainData, 2)`: [size](https://www.gnu.org/software/octave/doc/interpreter/Object-Sizes.html#Object-Sizes)
+> returns "a row vector with the size (number of elements) of each dimension for 
+> the object a in `size(a)`. When given a second argument, dim, return the size 
+> of the corresponding dimension." So here, given a 4x372550 matrix, 
+> `size(data.trainData, 1) -> 4` and `size(data.TrainData, 2) -> 372550`.
+>
+> `train_input = reshape(data.trainData(1:D, 1:N * M), D, N, M);`: [reshape](https://www.gnu.org/software/octave/doc/v4.0.3/Rearranging-Matrices.html)
+> `Built-in Function: reshape (A, m, n, …)` - "Return a matrix with the specified 
+> dimensions (m, n, …) whose elements are taken from the matrix A."
+> `D` here is `size(data.trainData, 1)-1`, which is `3`. `N` was passed as
+> the batch size, and `M` is the number of batches in the columns, which is 3725. 
+> So `N*M` is 372500. 
+> `data.trainData(1:D, 1:N * M)` selects rows 1-3 and columns 1-372500.
+> Then we "reshape" that into `DxNxM = 3x100x3725`. I assume that it goes in columns then 
+> rows when reshaping.
 
 This will load the data, separate it into inputs and target, and make
 mini-batches of size 100 for the training set.
