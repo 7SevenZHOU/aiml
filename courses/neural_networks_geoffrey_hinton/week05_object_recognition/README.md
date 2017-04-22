@@ -268,6 +268,7 @@ _convolutional neural network_: TBD
 
 * [Another Artificial Intelligence Gitbook With CNNs](https://leonardoaraujosantos.gitbooks.io/artificial-inteligence/content/deep_learning.html)
 * [Octave CheatSheet by obstschale](https://gist.github.com/obstschale/7320846)
+* [A Programmer's Guide to Octave](http://www.i-programmer.info/programming/other-languages/4779-a-programmers-guide-to-octave.html)
 
 ## People
 
