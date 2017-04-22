@@ -225,14 +225,14 @@ TBD
 
 ## Week 5 Quiz Prob 1 - Dimension Hopping
 
-Hinton appears to be making a specific point about dimension hopping. He doesn't just mean that information might have been transcribed incorrectly by humans using forms. I believe that he means that when trying to detect a specific signal in data set examples, the signature may or may not be there. 
+Hinton appears to be making a specific point about dimension hopping. He doesn't just mean that information might have been transcribed incorrectly by humans using forms. I believe that he means that when trying to detect a specific signal in data set examples, the signature may or may not be there.
 
 Positive examples:
 
 * Determining whether a wave has high frequency or low frequency. The input is a set of time values along with their corresponding vertical displacements.
 * Determining whether a given image shows a bike or a car. The bike or car might appear anywhere in the image. The input is the whole set of pixels for the image.
 
-Negative examples: 
+Negative examples:
 
 * Estimating the risk that a patient will develop heart disease given their age, weight, blood pressure, and cholesterol level.
   * "Does it make sense for any of these inputs to have their values switched with each other? Would several hundred thousand schools in one neighbourhood make sense?"
@@ -240,8 +240,6 @@ Negative examples:
   * "Does it make sense for any of these inputs to have their values switched with each other? Would several hundred thousand schools in one neighbourhood make sense?"
 
 ## Week 5 Quiz Prob 2 - CNN for 3
-
-
 
 # Week 5 Assignment
 
@@ -269,6 +267,7 @@ _convolutional neural network_: TBD
 ## Links
 
 * [Another Artificial Intelligence Gitbook With CNNs](https://leonardoaraujosantos.gitbooks.io/artificial-inteligence/content/deep_learning.html)
+* [Octave CheatSheet by obstschale](https://gist.github.com/obstschale/7320846)
 
 ## People
 
