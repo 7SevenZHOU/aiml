@@ -243,7 +243,7 @@ Negative examples:
 
 # Week 5 Assignment
 
-See [assignment2](/../assignment2/README.md).
+See [assignment2](https://github.com/codekiln/aiml/tree/master/courses/neural_networks_geoffrey_hinton/assignment2).
 
 # Week 5 Vocab
 
