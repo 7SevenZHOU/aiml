@@ -56,5 +56,14 @@ A vector of indexes just picks out the combined set of elements that each index 
 A([1,2],1)
 picks out A(1,1) and A(2,1) and the result is a column vector because you have specified part of a column of the original matrix.
 ```
+* *Vector Index* to a matrix:
+  > A vector of indexes just picks out the combined set of elements 
+  > that each index would pick out. For example, `A([1,2],1)`
+  > picks out `A(1,1)` and `A(2,1)` and the result is a column vector 
+  > because you have specified part of a column of the original matrix.
+* *Range Index* to a matrix: 
+  > In general a range is specified as `start:increment:end`
+  > and if you leave out the increment it is assumed to be 1 and the range is
+  > `start:end`. The increment can be negative.
 
 

@@ -133,7 +133,7 @@ Yann LeCun et al developed a good recognizer for handwritten digits
 
 ### 5c06 - The architecture of LeNet5
 
-### ![](/assets/hinton-lec5c-lecun-minst-architecture.png)
+![](/assets/hinton-lec5c-lecun-minst-architecture.png)
 
 * Input is pixels
 
