@@ -1,4 +1,4 @@
-# Assignment 2 - Learning word representations.
+# Assignment 2 - Learning word representations
 
 ## Overview
 * general process is to feed each mini batch through forward propagation, 
@@ -7,7 +7,7 @@
 * the cross-entropy error should decrease as time goes on. at beginning of assignment
   it remains constant because the optimization is left out.
 * network topology: 
-  ![network topology](../../../assets/courses-hinton-assign2-network.png)
+  ![network topology](/assets/courses-hinton-assign2-network.png)
 
 
 ## Todos
@@ -90,7 +90,80 @@ target_batch = train_target(:, :, m);
      `vocab_size X batchsize`"
      * one row for each word
      * one column for each training case in mini-batch
-  
+
+##### Compute Derivative
+```octave
+% COMPUTE DERIVATIVE.
+%% Expand the target to a sparse 1-of-K vector.
+expanded_target_batch = expansion_matrix(:, target_batch);
+%% Compute derivative of cross-entropy loss function.
+error_deriv = output_layer_state - expanded_target_batch;
+```
+* this all comes from lecture 4, where we talked about the derivative of 
+  the Cost C w.r.t. the logit z, which is y_i - t_i for each i.
+* [sparse matrix](https://en.wikipedia.org/wiki/Sparse_matrix)
+* `expansion_matrix` is initialized to `eye(vocab_size)`, which is a 
+  `vocab_size` by `vocab_size` square identity matrix.
+  * the first matrix index returns all of the rows
+  * the second matrix index, `target_batch` is (`words`, `cases_in_batch`) as in 
+    `train_input`, but there's only one word per batch, so that means its dimensions
+    are `1xNumCasesInBatch`.
+  * I have not yet mastered Octave's indexing notation enough to interpret
+    the `expansion_matrix`.
+  * reviewing [*A Programmer's Guide to Octave*](http://www.i-programmer.info/programming/other-languages/4779-a-programmers-guide-to-octave.html?start=1),
+    * *Vector Index* to a matrix:
+      > A vector of indexes just picks out the combined set of elements 
+      > that each index would pick out. For example, `A([1,2],1)`
+      > picks out `A(1,1)` and `A(2,1)` and the result is a column vector 
+      > because you have specified part of a column of the original matrix.
+    * *Range Index* to a matrix: 
+      > In general a range is specified as `start:increment:end`
+      > and if you leave out the increment it is assumed to be 1 and the range is
+      > `start:end`. The increment can be negative.
+  * by typing in variables into the REPL, I can see that `train_batch` is a `1x100` matrix
+    of word indexes in the vocab. 
+  * `expansion_matrix(:, target_batch)` will return a matrix with all rows of the 
+    `vocab_size x vocab_size` matrix, and only those columns selected in the target_batch.
+  * ```octave
+    octave:62> size(expanded_target_batch)
+    ans =
+    
+       250   100
+    ```  
+* `output_layer_state` is also 250x100, so we can subtract `expanded_target_batch` from it
+* what does it mean to do so, though?
+* `output_layer_state` has the outputs, which are supposed to be softmax, so each 
+  should be between zero and one. 
+* `expanded_target_batch` is pretty subtle; this isn't a technique I've seen before. 
+  It is all zeroes except for one 1 where the row equals the column,
+  but we pass in a vector of indexes into the vocab in order of the training batches, 
+  with the result that we end up with a list of rows where at the index of the correct
+  word, we get a 1 for the correct word.
+  * the thing that's weird about it is how we can construct a matrix by passing in a vector of 
+    indexes, and there may be repeats in the indexes, so as a result, certain words
+    may appear more than once.
+  * example: if I have a vocabulary set of ["a", "b", "c"], and then 
+    I make a `expansion_matrix` identity:
+    ```
+    1 0 0
+    0 1 0
+    0 0 1
+    ```
+    then if I have a batch of 5 training answers corresponding to indexes in the vocabulary:
+    `target_batch = [1, 3, 2, 2, 1]`, then if I do `expansion_matrix(:, target_batch)`,
+    I will get `expanded_target_batch`:
+    ``` 
+    1 0 0 0 1
+    0 0 1 1 0
+    0 1 0 0 0
+    ```
+    and this `expanded_target_batch` can then be used as a kind of mask 
+  * I believe what it's doing is making it so that for each training case column, there is 
+    exactly one 1 in the row equal to the word that is selected for that row.
+* `error_deriv = output_layer_state - expanded_target_batch;`
+  * here, we're using the fact that $$\frac{\delta C}{\delta z_i}=y_i-t_i$$.
+  * this is from lecture 4 slide, "Cross-entropy: the right cost function to use with softmax"
+
 
 ## Progress Notes
 

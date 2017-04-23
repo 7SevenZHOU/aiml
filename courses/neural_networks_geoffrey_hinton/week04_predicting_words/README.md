@@ -26,7 +26,10 @@ After the network has been trained, one feeds a person and a relationship type i
 
 ### 4a Question
 
-For the 24 people involved, the local encoding is created using a sparse 24-dimensional vector with all components zero, except one. E.g. Colin $$\equiv(1,0,0,0,0,\ldots,0)$$, Charlotte $$\equiv(0,0,1,0,0,\ldots,0)$$, Victoria $$\equiv (0,0,0,0,1,\ldots,0)$$ and so on.
+For the 24 people involved, the local encoding is created using a sparse 24-dimensional 
+vector with all components zero, except one. E.g. Colin 
+$$\equiv(1,0,0,0,0,\ldots,0)$$, Charlotte $$\equiv(0,0,1,0,0,\ldots,0)$$, Victoria $$\equiv (0,0,0,0,1,\ldots,0)$$ 
+and so on.
 
 Why don't we use a more succinct encoding like the ones computers use for representing numbers in binary? Colin $$\equiv (0, 0, 0,  0,  1)$$, Charlotte $$\equiv (0, 0, 0,  1, 1)$$, Victoria $$\equiv (0, 0, 1,  0, 1)$$ etc, even though this encoding will use 5-dimensional vectors as opposed to 24-dimensional ones. Check all that apply.
 
