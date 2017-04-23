@@ -23,9 +23,11 @@ A*B
 C=10
 C*A
 
-% element by element multiplication-
-% Aij*Bij
+% element by element multiplication-put a dot before the operator.
+% For example
 A.*B
+% performs an element-by-element multiplication of the two matrices 
+% and not a matrix multiplication i.e. a_{ij}*b_{ij}.
 
 % single quote to "complex transpose" a matrix
 % following is a column matrix:

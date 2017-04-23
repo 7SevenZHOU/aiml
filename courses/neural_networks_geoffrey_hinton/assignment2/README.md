@@ -100,7 +100,7 @@ expanded_target_batch = expansion_matrix(:, target_batch);
 error_deriv = output_layer_state - expanded_target_batch;
 ```
 * this all comes from lecture 4, where we talked about the derivative of 
-  the Cost C w.r.t. the logit z, which is y_i - t_i for each i.
+  the Cost C w.r.t. the logit z, which is $$ y_i - t_i $$ for each $$ i $$.
 * [sparse matrix](https://en.wikipedia.org/wiki/Sparse_matrix)
 * `expansion_matrix` is initialized to `eye(vocab_size)`, which is a 
   `vocab_size` by `vocab_size` square identity matrix.
@@ -163,6 +163,81 @@ error_deriv = output_layer_state - expanded_target_batch;
 * `error_deriv = output_layer_state - expanded_target_batch;`
   * here, we're using the fact that $$\frac{\delta C}{\delta z_i}=y_i-t_i$$.
   * this is from lecture 4 slide, "Cross-entropy: the right cost function to use with softmax"
+
+##### Measure Loss Function
+```octave
+% MEASURE LOSS FUNCTION.
+CE = -sum(sum(...
+  expanded_target_batch .* log(output_layer_state + tiny))) / batchsize;
+trainset_CE = trainset_CE + (CE - trainset_CE) / m;
+count =  count + 1;
+this_chunk_CE = this_chunk_CE + (CE - this_chunk_CE) / count;
+fprintf(1, '\rBatch %d Train CE %.3f', m, this_chunk_CE);
+if mod(m, show_training_CE_after) == 0
+  fprintf(1, '\n');
+  count = 0;
+  this_chunk_CE = 0;
+end
+```
+* `CE = -sum(sum(expanded_target_batch .* log(output_layer_state + tiny))) / batchsize;`
+  * `tiny` is initialized to `exp(-30)`
+  * [`log(x)`](https://www.gnu.org/software/octave/doc/interpreter/Exponents-and-Logarithms.html#XREFlog) computes
+   the log of x *for all x*
+  * `log(output_layer_state + tiny)` gives a `vocab_size x batch_size = 250x100` matrix 
+    where each element is `log(state_for_unit + tiny)`.
+  * we're talking about the output layer softmax here
+  * in octave `.*` means element by element multiplication, so 
+    `expanded_target_batch .* ↑↑↑` then gives a matrix produced by 
+    multiplying `expanded_target_batch__{ij} x ↑↑↑__{ij}`. 
+    * What does this mean? Zeroes in the expanded targets eliminate
+      the effect of the output layer state, and exactly one output layer
+      state effect from each column survives.
+    * We get a 250x100 matrix, where in each of 100 columns, at most one row's value 
+      is non-zero.
+  * `-sum(sum(...`: see [`sum(x)`](https://www.gnu.org/software/octave/doc/interpreter/Sums-and-Products.html#XREFsum)
+    "Sum of elements along dimension dim. If dim is omitted, it defaults 
+    to the first non-singleton dimension." 
+    * I have no idea what a non-singleton dimension is in this context. I could assume
+      that it means that in a `n-tensor`, the first dimension of the tensor is the "rightmost"
+      in the vector statement.
+    * I've read [elsewhere](http://www.obihiro.ac.jp/~suzukim/masuda/octave/html3/octave_102.html)
+      that it defaults to "1 (column-wise sum)", which meshes with this since Octave madly 
+      uses (rows, columns) for 2d matrices.
+    * This appears to be validated by the following experiment:
+      ``` 
+      octave:75> A = [1,2,3; 4,5,6; 7,8,9]
+      octave:76> sum(A)
+      ans =
+      
+         12   15   18
+      octave:77> -sum(sum(A))
+      ans = -45
+      ```
+  * For `m=1` I get `CE = 5.5215`.
+  * The loss function is cross entropy:
+    $$ C = -\sum_j t_j log{y_j} $$
+    * lecture 4 slide, "Cross-entropy: the right cost function to use with softmax"
+  * Here we've computed it for a batch, so that's why it's divided by the batch size;
+    we essentially have one portion of the cost function computed at each batch
+* `trainset_CE = trainset_CE + (CE - trainset_CE) / m;`
+  * `trainset_CE`: the cross entropy for the whole training set across all batches. Reset
+    to zero at the beginning of an epoch. 
+  * I think you can see this as the cumulative effect of adding the change in cross entropy. 
+  * We take the difference between this batch's cross entropy and the training set's 
+    cross entropy, (the rise) over the number of batches (the run) to get the delta 
+    in CE relative to what it was. Then we accumulate that delta in the current value.
+* ```octave
+  count =  count + 1;
+  this_chunk_CE = this_chunk_CE + (CE - this_chunk_CE) / count;
+  fprintf(1, '\rBatch %d Train CE %.3f', m, this_chunk_CE);
+  if mod(m, show_training_CE_after) == 0
+    fprintf(1, '\n');
+    count = 0;
+    this_chunk_CE = 0;
+  end
+  ```
+  * this chunk can be ignored. It's just used for printing the 
+    intermediate effects every 100 batches.
 
 
 ## Progress Notes

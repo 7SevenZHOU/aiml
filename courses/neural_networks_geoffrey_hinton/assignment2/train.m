@@ -78,9 +78,11 @@ for epoch = 1:epochs
     % MEASURE LOSS FUNCTION.
     CE = -sum(sum(...
       expanded_target_batch .* log(output_layer_state + tiny))) / batchsize;
+    trainset_CE = trainset_CE + (CE - trainset_CE) / m;
+
+    % pmn: print intermediate cross entropy results every 100 mini-batches
     count =  count + 1;
     this_chunk_CE = this_chunk_CE + (CE - this_chunk_CE) / count;
-    trainset_CE = trainset_CE + (CE - trainset_CE) / m;
     fprintf(1, '\rBatch %d Train CE %.3f', m, this_chunk_CE);
     if mod(m, show_training_CE_after) == 0
       fprintf(1, '\n');
