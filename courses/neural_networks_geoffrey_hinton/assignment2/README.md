@@ -1,6 +1,6 @@
 # Assignment 2 - Learning word representations.
 
-## overview
+## Overview
 * general process is to feed each mini batch through forward propagation, 
   then use backpropagation to update weights at each layer, updating the weights
   each time.
@@ -9,8 +9,9 @@
 * network topology: 
   ![network topology](../../../assets/courses-hinton-assign2-network.png)
 
-## todo
-- [ ] read through code
+
+## Todos
+- [in progress] explain code
 - [ ] review backpropagation algorithm
 - [ ] implement `fprop.m` 
 - [ ] implement `train.m`
@@ -18,18 +19,27 @@
 - [ ] take assignment 2 quiz
 
 
-## Notes
+## File Notes
 
-### 2017-04-22
-* configured 2nd computer for octave/matlab textmate syntax highlighting
-* read through source code and commented below
-  
-#### `train.m` training
-For each epoch, and each mini-batch:
+### `train.m`
+
+#### For each epoch and each mini-batch
+
+##### Setup `input_batch`, `target_batch`
 ```octave
 input_batch = train_input(:, :, m);
 target_batch = train_target(:, :, m);
+```
+* `train_input` contains stack of training cases of (`words`, `cases_in_batch`)
+  * `m` is the mini-batch number we're focusing on
+* `input_batch` contains (`words`, `cases_in_batch`) for the selected mini-batch 
+* `target_batch` also contains (`words`, `cases_in_batch`), except it's the target output
+  for the input batch, so it's if there are `D` elements in `cases_in_batch`, it's of dimension
+  `1xD`.
+* `words` here refers to the index of the word in the vocabulary
 
+##### Call forward network propagation
+```octave
 % FORWARD PROPAGATE.
 % Compute the state of each layer in the network given the input batch
 % and all weights and biases
@@ -38,17 +48,59 @@ target_batch = train_target(:, :, m);
         word_embedding_weights, embed_to_hid_weights, ...
         hid_to_output_weights, hid_bias, output_bias);
 ```
-* here `train_input` contains stack of training cases of words x cases_in_batch. `m`
-  contains the number of the mini-batch we're focusing on, so `input_batch` contains
-  just the words x cases_in_batch for this mini-batch we're focusing on.
-* same for target_batch, except it's the target outputs.
-* we call `fprop.m`, which takes:
-  * `input_batch` described just now
-  * `word_embedding_weights`, a cumulative struct for all runs that is updated after 
-    forward propagation in frop.
-    * ``
+* `fprop.m` is called, which takes as parameters:
+  * `input_batch` described above; 3 rows for each word in training; columns are batch cases
+  * `word_embedding_weights`, a vector updated after each run through net
+    * initialized to `init_wt * randn(vocab_size, numhid1);`
+    * [`randn(vocab_size, numhid1)`](https://www.gnu.org/software/octave/doc/interpreter/Special-Utility-Matrices.html#XREFrandn):
+      "Return a matrix with normally distributed random elements having zero mean and variance one. 
+      The arguments are handled the same as the arguments for `rand`."
+    * returns a matrix of random values from (-1, 1) scaled to `init_wt`, which is `0.01` by default; 
+      that way the standard deviation is 1%.
+    * `numhid1 = 50;  % Dimensionality of embedding space; default = 50.`
+    * each of the 50 embedded layer units store one weight for each word in the vocab
+    * `init_wt` is a scalar and `randn` is a matrix that is (`vocab_size`, `50`).
+    * `word_embedding_weights` is a matrix where rows correspond to a single word in the vocab 
+      and columns are the weights for that word for each of the 50 embedding layer units.
+      They are initialized to random values in a normal distribution with standard deviation of
+      +/- 0.01 of 0.
+  * `embed_to_hid_weights` is initialized `init_wt * randn(numwords * numhid1, numhid2);`
+    * one row for each weight stored in `word_embedding_weights`
+      * *Q: this surprises me a little bit. does this imply that we have skip layer connections?*
+      * *Q: why isn't it one output weight for each neuron in the embedding layer?*
+    * one column for each unit in the hidden layer; by default there are 200 columns
+    * weights are initialized to random values +/- 0.01 of 0 like `word_embedding_weights`
+  * `hid_bias` is initialized to `zeros(numhid2, 1);`
+    * it's a vector storing a bias for each of the 200 hidden units, by default 0
+  * `output_bias` is initialized to `zeros(vocab_size, 1);`
+    * it's a vector storing a bias for each of the words in the vocab, by default 0
+* `fprop` returns values `embedding_layer_state`, `hidden_layer_state`, `output_layer_state`
+  * `embedding_layer_state`: "State of units in the embedding layer as a matrix of
+    size `numhid1*numwords X batchsize`"
+    * *Q: rows are the weights for each word in the embedding layer?*
+      * or is it one row for each output of the embedding layer, and there are 
+        `50xnumhid1` units? Maybe I don't understand something about how embedding is 
+        supposed to work
+    * columns are the values after each training case in mini-batch
+  * `hidden_layer_state`: "State of units in the hidden layer as a matrix of size
+    `numhid2 X batchsize`"
+    * *Q: one row for each hidden layer unit output?*
+    * one column for each training case in the mini-batch
+  * `output_layer_state`: "State of units in the output layer as a matrix of size
+     `vocab_size X batchsize`"
+     * one row for each word
+     * one column for each training case in mini-batch
+  
+
+## Progress Notes
+
+### 2017-04-23
+* add notes for *Call forward network propagation* 
 
 
+### 2017-04-22
+* configured 2nd computer for octave/matlab textmate syntax highlighting
+* read through source code and began notes on `train.m`
 
 
 ### 2017-04-21 
@@ -58,6 +110,7 @@ target_batch = train_target(:, :, m);
   * [matlab.tmbundle](https://github.com/textmate/matlab.tmbundle)
 * added `./assignment_2_instructions.pdf`
 * added commit template
+
 
 ## Instructions
 
