@@ -66,9 +66,13 @@ target_batch = train_target(:, :, m);
   * `embed_to_hid_weights` is initialized `init_wt * randn(numwords * numhid1, numhid2);`
     * one row for each weight stored in `word_embedding_weights`
       * *Q: this surprises me a little bit. does this imply that we have skip layer connections?*
+        * we shouldn't, according to the network topology picture
       * *Q: why isn't it one output weight for each neuron in the embedding layer?*
     * one column for each unit in the hidden layer; by default there are 200 columns
     * weights are initialized to random values +/- 0.01 of 0 like `word_embedding_weights`
+  * `hid_to_output_weights` is a 200x250 matrix that was initialized with 
+    `init_wt * randn(numhid2, vocab_size)`, so it has random values +/- 0.01 of 0
+    in the dimensions of 200x250, since by default there are 200 hidden units.
   * `hid_bias` is initialized to `zeros(numhid2, 1);`
     * it's a vector storing a bias for each of the 200 hidden units, by default 0
   * `output_bias` is initialized to `zeros(vocab_size, 1);`
@@ -99,7 +103,7 @@ expanded_target_batch = expansion_matrix(:, target_batch);
 error_deriv = output_layer_state - expanded_target_batch;
 ```
 * this all comes from lecture 4, where we talked about the derivative of 
-  the Cost C w.r.t. the logit z, which is $$ y_i - t_i $$ for each $$ i $$.
+  the Cost $$ C $$ w.r.t. the logit $$ z $$, which is $$ y_i - t_i $$ for each $$ i $$.
 * [sparse matrix](https://en.wikipedia.org/wiki/Sparse_matrix)
 * `expansion_matrix` is initialized to `eye(vocab_size)`, which is a 
   `vocab_size` by `vocab_size` square identity matrix.
@@ -200,8 +204,7 @@ end
       that it means that in a `n-tensor`, the first dimension of the tensor is the "rightmost"
       in the vector statement.
     * I've read [elsewhere](http://www.obihiro.ac.jp/~suzukim/masuda/octave/html3/octave_102.html)
-      that it defaults to "1 (column-wise sum)", which meshes with this since Octave madly 
-      uses (rows, columns) for 2d matrices.
+      that it defaults to "1 (column-wise sum)", 
     * This appears to be validated by the following experiment:
       ``` 
       octave:75> A = [1,2,3; 4,5,6; 7,8,9]
@@ -238,6 +241,39 @@ end
   * this chunk can be ignored. It's just used for printing the 
     intermediate effects every 100 batches.
 
+##### Back Propagate - Output Layer
+```octave
+hid_to_output_weights_gradient =  hidden_layer_state * error_deriv';
+output_bias_gradient = sum(error_deriv, 2);
+back_propagated_deriv_1 = (hid_to_output_weights * error_deriv) .* hidden_layer_state .* (1 - hidden_layer_state);
+```
+1. `hid_to_output_weights_gradient =  hidden_layer_state * error_deriv';`
+   * `error_deriv` holds `output_layer_state - expanded_target_batch`, a matrix of 250x100
+     * `error_deriv'` is the transpose, so a matrix of 100x250
+   * `hidden_layer_state` holds 250x100, where rows are words and cols are training 
+     cases in batch
+   * so `hid_to_output_weights_gradient` is regular matrix mult of the two. 
+2. `output_bias_gradient = sum(error_deriv, 2);`
+   * `error_deriv` is 250x100, which is the rate of change of the loss func for 
+     250 words x 100 training cases
+   * `A = [1, 2; 3, 4]; sum(A, 2)` gives 
+     ``` 
+     3
+     7
+     ```
+     so this means that `sum(error_deriv, 2)` should give a row matrix where each row
+     contains the sum of the error derivatives for that word in the mini batch.
+     This is what is in `output_bias_gradient`
+3. `back_propagated_deriv_1 = (hid_to_output_weights * error_deriv) .* hidden_layer_state .* (1 - hidden_layer_state);`
+   * `(hid_to_output_weights * error_deriv)`
+     * `hid_to_output_weights` is a 200x250 rand 0 +/- 0.01 matrix initially
+     * mult by error_deriv, we get 200x250 * 250x100 = 200x100 matrix
+   * we can understand this line if we go to lec3 slide "Backpropagating dE/dy"
+     $$ \frac{\delta E}{\delta z_j}=y_j(1-y_j)\frac{\delta E}{\delta y_j} $$
+   * `(hid_to_output_weights * error_deriv)` is $$ \frac{\delta E}{\delta y_j} $$
+   * `hidden_layer_state .* (1 - hidden_layer_state);` is $$ y_j(1-y_j) $$
+
+   
 
 ## Progress Notes
 
