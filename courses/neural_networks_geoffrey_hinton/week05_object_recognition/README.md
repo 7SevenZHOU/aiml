@@ -243,7 +243,7 @@ Negative examples:
 
 # Week 5 Assignment
 
-TBD
+See [assignment2](/../assignment2/README.md).
 
 # Week 5 Vocab
 
