@@ -11,11 +11,10 @@
 
 
 ## Todos
-- [in progress] explain code
-- [ ] review backpropagation algorithm
+- [ ] explain code
 - [ ] implement `fprop.m` 
 - [ ] implement `train.m`
-- [ ] experiment, summarize results here
+- [ ] experiment, summarize results
 - [ ] take assignment 2 quiz
 
 
