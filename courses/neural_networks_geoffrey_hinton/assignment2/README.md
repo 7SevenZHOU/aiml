@@ -14,8 +14,8 @@
 - [x] explain code
 - [x] implement `fprop.m` 
 - [x] implement `train.m`
-- [ ] experiment, summarize results
-- [ ] take assignment 2 quiz
+- [x] experiment, summarize results
+- [x] take assignment 2 quiz
 
 
 ## File Notes
