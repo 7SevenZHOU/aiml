@@ -23,9 +23,11 @@ A*B
 C=10
 C*A
 
-% element by element multiplication-
-% Aij*Bij
+% element by element multiplication-put a dot before the operator.
+% For example
 A.*B
+% performs an element-by-element multiplication of the two matrices 
+% and not a matrix multiplication i.e. a_{ij}*b_{ij}.
 
 % single quote to "complex transpose" a matrix
 % following is a column matrix:
@@ -46,15 +48,17 @@ x*inverse(y)
 Again the inverse matrix is never computed and generalized inverses are used if necessary
 
 A(1,2)
-is the value in row 1 column 2. You can remember this because, like GNU, it brutishly defies common sense.
-It's the opposite of coordinate systems, excel, pixels, and virtually everything else.
+is the value in row 1 column 2. You can remember this because that's 
+how they are addressed in math: 2x3 matrix means two rows of three columns.
 
 You can assign a new value to a single element e.g.
 A(1,2)=3
 
-A vector of indexes just picks out the combined set of elements that each index would pick out. For example:
+A vector of indexes just picks out the combined set of elements that 
+each index would pick out. For example:
 A([1,2],1)
-picks out A(1,1) and A(2,1) and the result is a column vector because you have specified part of a column of the original matrix.
+picks out A(1,1) and A(2,1) and the result is a column vector because 
+you have specified part of a column of the original matrix.
 ```
 * *Vector Index* to a matrix:
   > A vector of indexes just picks out the combined set of elements 
