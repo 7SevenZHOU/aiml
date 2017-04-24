@@ -11,9 +11,9 @@
 
 
 ## Todos
-- [ ] explain code
-- [ ] implement `fprop.m` 
-- [ ] implement `train.m`
+- [x] explain code
+- [x] implement `fprop.m` 
+- [x] implement `train.m`
 - [ ] experiment, summarize results
 - [ ] take assignment 2 quiz
 

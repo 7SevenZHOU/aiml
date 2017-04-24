@@ -1,0 +1,59 @@
+octave:1> load data.mat
+octave:2> fieldnames(data)
+ans =
+{
+  [1,1] = testData
+  [2,1] = trainData
+  [3,1] = validData
+  [4,1] = vocab
+}
+octave:3> [train_x, train_t, valid_x, valid_t, test_x, test_t, vocab] = load_data(100);
+octave:4> model = train(1);
+Epoch 1
+Batch 100 Train CE 4.603
+Batch 200 Train CE 4.498
+Batch 300 Train CE 4.467
+Batch 400 Train CE 4.476
+Batch 500 Train CE 4.448
+Batch 600 Train CE 4.492
+Batch 700 Train CE 4.458
+Batch 800 Train CE 4.420
+Batch 900 Train CE 4.463
+Batch 1000 Train CE 4.425
+Running validation ... Validation CE 4.409
+Batch 1100 Train CE 4.332
+Batch 1200 Train CE 4.274
+Batch 1300 Train CE 4.209
+Batch 1400 Train CE 4.157
+Batch 1500 Train CE 4.104
+Batch 1600 Train CE 4.071
+Batch 1700 Train CE 4.041
+Batch 1800 Train CE 4.021
+Batch 1900 Train CE 3.984
+Batch 2000 Train CE 3.922
+Running validation ... Validation CE 3.952
+Batch 2100 Train CE 3.925
+Batch 2200 Train CE 3.873
+Batch 2300 Train CE 3.823
+Batch 2400 Train CE 3.757
+Batch 2500 Train CE 3.709
+Batch 2600 Train CE 3.698
+Batch 2700 Train CE 3.652
+Batch 2800 Train CE 3.592
+Batch 2900 Train CE 3.558
+Batch 3000 Train CE 3.487
+Running validation ... Validation CE 3.492
+Batch 3100 Train CE 3.456
+Batch 3200 Train CE 3.454
+Batch 3300 Train CE 3.390
+Batch 3400 Train CE 3.408
+Batch 3500 Train CE 3.361
+Batch 3600 Train CE 3.373
+Batch 3700 Train CE 3.285
+Average Training CE 3.959
+Finished Training.
+Final Training CE 3.959
+Final Validation CE 3.309
+Final Test CE 3.310
+Training took 41.65 seconds
+octave:5>
