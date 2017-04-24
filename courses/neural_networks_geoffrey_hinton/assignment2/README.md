@@ -273,7 +273,6 @@ back_propagated_deriv_1 = (hid_to_output_weights * error_deriv) .* hidden_layer_
    * `(hid_to_output_weights * error_deriv)` is $$ \frac{\delta E}{\delta y_j} $$
    * `hidden_layer_state .* (1 - hidden_layer_state);` is $$ y_j(1-y_j) $$
 
-   
 
 ## Progress Notes
 
