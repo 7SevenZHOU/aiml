@@ -60,10 +60,14 @@ TBD
 TBD
 
 ## Week 6 Links
-
-TBD
+* [Stats SE: What's the difference between momentum based gradient descent, and Nesterov's accelerated gradient descent? (2015-11-03)](https://stats.stackexchange.com/questions/179915/whats-the-difference-between-momentum-based-gradient-descent-and-nesterovs-ac)
 
 ## Week 6 People
 
-TBD
+### Yurii Nesterov
+![Yuri Nesterov](/assets/hinton_people_yurii_nesterov.png)
+* [wikipedia: Yurii Nesterov](https://en.wikipedia.org/wiki/Yurii_Nesterov)
+* [Sébastien Bubeck: Revisiting Nesterov's Acceleration (2015-06-30)](https://blogs.princeton.edu/imabandit/2015/06/30/revisiting-nesterovs-acceleration/)
 
+### Ilya Sutskever
+![Ilya Sutskever](/assets/ilya_sutskever.jpg)
