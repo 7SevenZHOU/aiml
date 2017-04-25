@@ -9,6 +9,27 @@
 * network topology: 
   ![network topology](/assets/courses-hinton-assign2-network.png)
 
+### Overview - Training Story
+* `load_data(batchsize)`
+  * comes from `./raw_sentences.txt`
+  * returns `train_input, train_target, valid_input, valid_target,
+    test_input, test_target, vocab`
+  * `vocab` is a column matrix of one word per row
+  * all other vars are matrices whose contents refer to an index within `vocab`
+  * these all come from lines of `data.mat`
+  * The training set consists of 372,550 4-grams
+    * `train_input` and `train_target` are both `[4 x 372,550]` matrices
+  * The validation and test sets have 46,568 4-grams each.
+    * `valid_input`, `valid_target`, `train_input`, `train_target` are each `[4 x 46,568]`
+* For each *epoch* or training iteration:
+  * Pull off a mini-batch of 100 cases from `train_input` and `train_target`
+  * Train network on mini-batch
+  * Every 100 mini-batches, compute average per-case Cross Entropy (CE)
+    obtained on the training set during the 100 mini-batches
+  * Every 1000 mini-batches, run on validation set and state that Cross Entropy
+* At the end of training, run both on validation set and on test set and
+  state cross entropy for each
+  
 
 ## Todos
 - [x] explain code
@@ -273,8 +294,21 @@ back_propagated_deriv_1 = (hid_to_output_weights * error_deriv) .* hidden_layer_
    * `(hid_to_output_weights * error_deriv)` is $$ \frac{\delta E}{\delta y_j} $$
    * `hidden_layer_state .* (1 - hidden_layer_state);` is $$ y_j(1-y_j) $$
 
+##### Back Propagate - Hidden Layer
+```octave
+%% HIDDEN LAYER.
+embed_to_hid_weights_gradient = embedding_layer_state * back_propagated_deriv_1';
+hid_bias_gradient = sum(back_propagated_deriv_1, 2);
+back_propagated_deriv_2 = embed_to_hid_weights * back_propagated_deriv_1;
+```
+* `embed_to_hid_weights_gradient = embedding_layer_state * back_propagated_deriv_1';`
+  * 
+
 
 ## Progress Notes
+
+### 2017-04-25 
+* add beginning of notes for *Back Propagate - Hidden Layer*
 
 ### 2017-04-23
 * add notes for *Call forward network propagation* 
@@ -328,7 +362,7 @@ To see the list of words in the vocabulary, type -
 
 `> data.vocab`
 
-'data.trainData' is a matrix of 372550 X 4 columns vs rows. This means there are 372550
+'data.trainData' is a matrix of 4x372550 rows vs columns. This means there are 372550
 training cases and 4 words per training case. Each entry is an integer that is
 the index of a word in the vocabulary. So each column represents a sequence of 4
 words. 'data.validData' and 'data.testData' are also similar. They contain
@@ -379,7 +413,6 @@ To run the training, execute the following -
 `> model = train(1);`
 
 > `train` makes a call to `load_data`. 
-> It uses:
 > [`randn`](https://www.gnu.org/software/octave/doc/interpreter/Special-Utility-Matrices.html#XREFrandn)
 > "Return a matrix with normally distributed random elements having zero mean and variance one.
 > The arguments are handled the same as the arguments for rand."
@@ -453,11 +486,11 @@ Training took 32.49 seconds
    on the training set. The average CE is computed every 100 mini-batches. The
    average CE over the entire training set is reported at the end of every epoch.
 2. After every 1000 mini-batches of training, the model is run on the
-   validation set. Recall, that the *validation set consists of data that is not
-   used for training*. It is used to see *how well the model does on unseen data*. 
+   validation set. Recall, that the **validation set consists of data that is not
+   used for training**. It is used to see **how well the model does on unseen data**. 
    The cross entropy on validation set is reported.
-3. At the end of training, the model is run *both on the validation set and on
-   the test set and the cross entropy on both is reported*.
+3. At the end of training, the model is run **both on the validation set and on
+   the test set and the cross entropy on both is reported**.
 
 You are welcome to change these numbers (100 and 1000) to see the CE's more
 frequently if you want to.
