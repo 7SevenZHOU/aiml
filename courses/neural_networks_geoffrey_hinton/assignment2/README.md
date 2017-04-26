@@ -1,15 +1,58 @@
 # Assignment 2 - Learning word representations
 
 ## Overview
-* general process is to feed each mini batch through forward propagation, 
-  then use backpropagation to update weights at each layer, updating the weights
-  each time.
-* the cross-entropy error should decrease as time goes on. at beginning of assignment
-  it remains constant because the optimization is left out.
-* network topology: 
+* feed each mini batch of 100 training cases through forward propagation, 
+  then use backpropagation to update weights at each layer, 
+  updating the weights each time.
+* the output layer is a softmax group over the vocabulary, representing
+  discrete probabilities of a fourth word.
+* the average cross-entropy 
+* print out the average cross-entropy error of softmax group over vocabulary units
+  at the end of each mini batch and each 100 mini batches. 
+  This should decrease as time goes on. 
+* network topology
   ![network topology](/assets/courses-hinton-assign2-network.png)
-
-### Overview - Training Story
+  * **input layer**
+    * consists of three word indices; it's a 3d vector of int word indices
+    * trained in batches of 100
+      * each input batch is a matrix of 3 rows and 100 columns by default
+      * constitutes 100 training cases of 3 ints corresponding to word indices
+    * *bias of units* - unmentioned. presumably zero.
+    * each of the 3 units have:
+      * 1 input 
+      * 1 output
+  * **embedding layer**
+    * `numhid1` configures the number of units in the embedding 
+      layer; default is 50
+    * *incoming weights from input layer* are in `word_embedding_weights`
+      * initialized with `init_wt * randn(vocab_size, numhid1)`, a matrix 
+        of 0 +/- 0.01 with `vocab_size` rows and `numhid1` columns
+    * *bias of units* - unmentioned. presumably zero.
+    * each of the `numhid1` (50) units have: 
+      * 3 inputs from input layer
+      * 1 output
+  * **hidden layer**
+    * `numhid2` configures the number of units in the hidden layer; 
+      default is 200
+    * *incoming weights from embedding layer* are in `hid_to_output_weights`
+      * initialized with `zeros(numhid2, vocab_size);`, a matrix of zeroes
+        with `numhid2` rows and `vocab_size` rows. 
+      * Note that `word_embedding_weights` has `vocab_size` columns, and 
+        `hid_to_output_weights` has `vocab_size` rows.
+    * *bias of units* captured in `hid_bias`
+      * initialized with `zeros(numhid2, 1);`, a matrix with `numhid2` rows
+        and 1 column.
+    * each of the `numhid2` (200) units has: 
+      * `numhid1` (50) inputs from embedding layer
+      * 1 output
+  * **output layer**
+    * A softmax over the 250 words
+    * there are `vocab_size` units; one unit for every word in `vocab`
+    * *bias of units* captured in `output_bias`
+      * initialized with `zeros(numhid2, 1);`, a matrix with `numhid2` rows
+        and 1 column
+    * each of the 250 units have:
+      `numhid2` (200) inputs from hidden layer
 * `load_data(batchsize)`
   * comes from `./raw_sentences.txt`
   * returns `train_input, train_target, valid_input, valid_target,
@@ -21,8 +64,10 @@
     * `train_input` and `train_target` are both `[4 x 372,550]` matrices
   * The validation and test sets have 46,568 4-grams each.
     * `valid_input`, `valid_target`, `train_input`, `train_target` are each `[4 x 46,568]`
-* For each *epoch* or training iteration:
-  * Pull off a mini-batch of 100 cases from `train_input` and `train_target`
+    * these variables are set up in `load_data.m`
+    * validation and test data are each from prepared data in `data.mat`
+* For each *epoch* / training iteration:
+  * Define a mini-batch of 100 cases from `train_input` and `train_target`
   * Train network on mini-batch
   * Every 100 mini-batches, compute average per-case Cross Entropy (CE)
     obtained on the training set during the 100 mini-batches
@@ -98,6 +143,41 @@ target_batch = train_target(:, :, m);
     * it's a vector storing a bias for each of the 200 hidden units, by default 0
   * `output_bias` is initialized to `zeros(vocab_size, 1);`
     * it's a vector storing a bias for each of the words in the vocab, by default 0
+* `frpop` calculation
+  * Compute State of Word Embedding Layer
+    1. `reshape(input_batch, 1, [])`
+       * reshape the 3x100 input batch into a 1x300 column matrix so all the words
+         are in a row
+    2. `word_embedding_weights(reshape(input_batch, 1, []),:)`
+       * `word_embedding_weights` is a matrix where rows correspond to one word in vocab
+         and columns are the weights for that word for each of 50 embedded feature 
+         representation units
+       * construct a new matrix by repeatedly selecting and stacking rows from 
+         `word_embedding_weights`
+       * for each of 300 word indexes in test batch, output the row of 
+         50 weights from `word_embedding_weights` corresponding to that word
+       * we end up with a 300x50 matrix of all the words in the input batch
+         matched with all the weights for each of 50 units
+    3. `word_embedding_weights(reshape(input_batch, 1, []),:)'`
+       * transpose the matrix we got in #2, so now it's 50 rows of weights 
+         for 300 columns of input words
+    4. ```octave 
+       embedding_layer_state = reshape(...
+         word_embedding_weights(reshape(input_batch, 1, []),:)',...
+         numhid1 * numwords, []);
+       ```
+       * take the output from #3, and reshape it into a 300*50 row matrix
+         where we stack the first column from #3 above the 2nd column from #3, and
+         so on. 
+       * resulting row matrix is 50 rows of weights for first input batch word, 
+         followed by 50 rows of weights for the second input batch word, 
+         all the way to 50 rows of weights for the 300th input batch word
+       * `embedding_layer_state` is a 300*50 row matrix containing the `numhid1` (50) weight
+         sets for each word. The size of this can adjust according to the number
+         of weights in the embedding layer, `numhid1` (50).
+    * COMPUTE STATE OF HIDDEN LAYER
+      * Compute inputs to hidden units
+        * TBD
 * `fprop` returns values `embedding_layer_state`, `hidden_layer_state`, `output_layer_state`
   * `embedding_layer_state`: "State of units in the embedding layer as a matrix of
     size `numhid1*numwords X batchsize`"
@@ -307,6 +387,9 @@ back_propagated_deriv_2 = embed_to_hid_weights * back_propagated_deriv_1;
 
 ## Progress Notes
 
+### 2017-04-26 
+* elaborate notes in *Overview*
+
 ### 2017-04-25 
 * add beginning of notes for *Back Propagate - Hidden Layer*
 
@@ -407,7 +490,7 @@ provides code for doing that. To run it type:
 This will load the data, separate it into inputs and target, and make
 mini-batches of size 100 for the training set.
 
-train.m implements the function that trains a neural net language model.
+`train.m` implements the function that trains a neural net language model.
 To run the training, execute the following -
 
 `> model = train(1);`
