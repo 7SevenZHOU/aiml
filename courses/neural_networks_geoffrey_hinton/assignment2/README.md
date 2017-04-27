@@ -138,6 +138,11 @@ target_batch = train_target(:, :, m);
 
 ### `fprop.m` forward propagation
 * Compute State of Word Embedding Layer
+  ```octave 
+  embedding_layer_state = reshape(...
+  word_embedding_weights(reshape(input_batch, 1, []),:)',...
+  numhid1 * numwords, []);
+  ```
   1. `reshape(input_batch, 1, [])`
      * reshape the 3x100 input batch into a 1x300 column matrix so all the words
        are in a row
@@ -152,40 +157,44 @@ target_batch = train_target(:, :, m);
      * we end up with a 300x50 matrix of all the words in the input batch
        matched with all the weights for each of 50 units
   3. `word_embedding_weights(reshape(input_batch, 1, []),:)'`
+     * note the `'` at the end
      * transpose the matrix we got in #2, so now it's 50 rows of weights 
-       for 300 columns of input words
+       for 300 columns of input words in this batch
   4. ```octave 
      embedding_layer_state = reshape(...
        word_embedding_weights(reshape(input_batch, 1, []),:)',...
        numhid1 * numwords, []);
      ```
-     * take the output from #3, and reshape it into a 300*50 row matrix
-       where we stack the first column from #3 above the 2nd column from #3, and
-       so on. 
-     * resulting row matrix is 50 rows of weights for first input batch word, 
-       followed by 50 rows of weights for the second input batch word, 
-       all the way to 50 rows of weights for the 300th input batch word
-     * `embedding_layer_state` is a 300*50 row matrix containing the `numhid1` (50) weight
-       sets for each word. The size of this can adjust according to the number
-       of weights in the embedding layer, `numhid1` (50).
-  * COMPUTE STATE OF HIDDEN LAYER
-    * Compute inputs to hidden units
+     * **`numwords` (3) is num words in training batch, not to be confused with 
+       `vocab_size` (250)**:
+        ```octave
+        [numwords, batchsize] = size(input_batch);
+        [vocab_size, numhid1] = size(word_embedding_weights);
+        ```
+        * `numwords` is the number of input words in a single training case: 3
+     * take the output from #3, which is 50 rows of weights for 300 columns of words, 
+       and reshape it into a row matrix 
+     * the reshaped matrix has `numhid1 (50) * numwords (3) = 150` rows
+     * it's reshaped by stacking three columns from #3 into one row over and over
+       * why? because there are three training cases. 
+       * **`embedding_layer_state` is a 150x100 matrix where rows are 150 weights
+         and columns are training cases consisting of three words at fifty weights per word = 150.**
+     * `size(embedding_layer_state)` is 150x100 (using default batch size of 100)
+  * `COMPUTE STATE OF HIDDEN LAYER`
+    * `Compute inputs to hidden units`
       * ```octave
         inputs_to_hidden_units = embed_to_hid_weights' * embedding_layer_state + ...
           repmat(hid_bias, 1, batchsize);
         ```
       * `embed_to_hid_weights` is supplied to `fprop`
-        * it's initialized to `zeros(numwords * numhid1, numhid2)`, so it's a matrix
-          where there is one row for each embedding layer's representation of each word,
-          and where each column contains the hidden layer's interpretation of that.
-      * we take the transposition `embed_to_hid_weights'`, which is a matrix
-        where the rows are `numhid2` (200) hidden units and the columns are 
-        `numwords` (250) * `numhid1` (50) = (12,500) "word embeddings". So 
-        by default, this matrix is 200x12500
-      * we matrix multiply that transpotition by `embedding_layer_state`, a 150x100 row
-        matrix containing the `numhid1` (50) weight sets for each word.
-        * for eatch batch `embedding_layer_state` is determined by `word_embedding_weights`,
-          which is initialized by --TBD--
+        * initialized to: `zeros(numwords * numhid1, numhid2)` =
+          `zeros(3 * 50, 200)` = matrix of zeros that's 150 rows by 200 columns.
+          * there's a data point mapping each weight in the embedding layer to a hiddn node
+      * transposition `embed_to_hid_weights'` is 200 rows by 150 columns, so rows are 
+        hidden layer nodes and columns are embedding layer nodes, and values are the weights
+        on the connections coming into the hidden layer from the embedding layer
+      * `embed_to_hid_weights'` (200x150) by `embedding_layer_state` (150x100) 
+        * --TBD--
 * `fprop` returns values `embedding_layer_state`, `hidden_layer_state`, `output_layer_state`
 * `embedding_layer_state`: "State of units in the embedding layer as a matrix of
   size `numhid1*numwords X batchsize`"
@@ -202,6 +211,7 @@ target_batch = train_target(:, :, m);
    `vocab_size X batchsize`"
    * one row for each word
    * one column for each training case in mini-batch
+   
    
 ### `train.m` after forward propagation
 
