@@ -177,7 +177,22 @@ target_batch = train_target(:, :, m);
          of weights in the embedding layer, `numhid1` (50).
     * COMPUTE STATE OF HIDDEN LAYER
       * Compute inputs to hidden units
-        * TBD
+        * ```octave
+          inputs_to_hidden_units = embed_to_hid_weights' * embedding_layer_state + ...
+            repmat(hid_bias, 1, batchsize);
+          ```
+        * `embed_to_hid_weights` is supplied to `fprop`
+          * it's initialized to `zeros(numwords * numhid1, numhid2)`, so it's a matrix
+            where there is one row for each embedding layer's representation of each word,
+            and where each column contains the hidden layer's interpretation of that.
+        * we take the transposition `embed_to_hid_weights'`, which is a matrix
+          where the rows are `numhid2` (200) hidden units and the columns are 
+          `numwords` (250) * `numhid1` (50) = (12,500) "word embeddings". So 
+          by default, this matrix is 200x12500
+        * we matrix multiply that transpotition by `embedding_layer_state`, a 150x100 row
+          matrix containing the `numhid1` (50) weight sets for each word.
+          * for eatch batch `embedding_layer_state` is determined by `word_embedding_weights`,
+            which is initialized by --TBD--
 * `fprop` returns values `embedding_layer_state`, `hidden_layer_state`, `output_layer_state`
   * `embedding_layer_state`: "State of units in the embedding layer as a matrix of
     size `numhid1*numwords X batchsize`"
