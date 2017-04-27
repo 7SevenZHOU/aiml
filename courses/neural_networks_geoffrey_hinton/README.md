@@ -3,6 +3,11 @@
 ## Octave Notes
 
 * [Octave Language Reference](https://www.gnu.org/software/octave/doc/interpreter/)
+* configured pycharm for using the octave/matlab textmate syntax highlighting bundle
+  * considered [this plugin from 2013](https://github.com/tomconder/octaveplugin/issues/1) but decided against it
+  * [pycharm instructions](https://confluence.jetbrains.com/display/PYH/TextMate+Bundles+in+PyCharm)
+  * [matlab.tmbundle](https://github.com/textmate/matlab.tmbundle)
+
 
 ### Matrices - Basic
 

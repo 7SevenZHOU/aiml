@@ -76,21 +76,13 @@
   state cross entropy for each
   
 
-## Todos
-- [x] explain code
-- [x] implement `fprop.m` 
-- [x] implement `train.m`
-- [x] experiment, summarize results
-- [x] take assignment 2 quiz
-
-
 ## File Notes
 
-### `train.m`
+### `train.m` before forward propagation
 
-#### For each epoch and each mini-batch
+For each epoch and each mini-batch: 
 
-##### Setup `input_batch`, `target_batch`
+#### Setup `input_batch`, `target_batch`
 ```octave
 input_batch = train_input(:, :, m);
 target_batch = train_target(:, :, m);
@@ -103,7 +95,7 @@ target_batch = train_target(:, :, m);
   `1xD`.
 * `words` here refers to the index of the word in the vocabulary
 
-##### Call forward network propagation
+#### Call forward network propagation
 ```octave
 % FORWARD PROPAGATE.
 % Compute the state of each layer in the network given the input batch
@@ -143,74 +135,77 @@ target_batch = train_target(:, :, m);
     * it's a vector storing a bias for each of the 200 hidden units, by default 0
   * `output_bias` is initialized to `zeros(vocab_size, 1);`
     * it's a vector storing a bias for each of the words in the vocab, by default 0
-* `frpop` calculation
-  * Compute State of Word Embedding Layer
-    1. `reshape(input_batch, 1, [])`
-       * reshape the 3x100 input batch into a 1x300 column matrix so all the words
-         are in a row
-    2. `word_embedding_weights(reshape(input_batch, 1, []),:)`
-       * `word_embedding_weights` is a matrix where rows correspond to one word in vocab
-         and columns are the weights for that word for each of 50 embedded feature 
-         representation units
-       * construct a new matrix by repeatedly selecting and stacking rows from 
-         `word_embedding_weights`
-       * for each of 300 word indexes in test batch, output the row of 
-         50 weights from `word_embedding_weights` corresponding to that word
-       * we end up with a 300x50 matrix of all the words in the input batch
-         matched with all the weights for each of 50 units
-    3. `word_embedding_weights(reshape(input_batch, 1, []),:)'`
-       * transpose the matrix we got in #2, so now it's 50 rows of weights 
-         for 300 columns of input words
-    4. ```octave 
-       embedding_layer_state = reshape(...
-         word_embedding_weights(reshape(input_batch, 1, []),:)',...
-         numhid1 * numwords, []);
-       ```
-       * take the output from #3, and reshape it into a 300*50 row matrix
-         where we stack the first column from #3 above the 2nd column from #3, and
-         so on. 
-       * resulting row matrix is 50 rows of weights for first input batch word, 
-         followed by 50 rows of weights for the second input batch word, 
-         all the way to 50 rows of weights for the 300th input batch word
-       * `embedding_layer_state` is a 300*50 row matrix containing the `numhid1` (50) weight
-         sets for each word. The size of this can adjust according to the number
-         of weights in the embedding layer, `numhid1` (50).
-    * COMPUTE STATE OF HIDDEN LAYER
-      * Compute inputs to hidden units
-        * ```octave
-          inputs_to_hidden_units = embed_to_hid_weights' * embedding_layer_state + ...
-            repmat(hid_bias, 1, batchsize);
-          ```
-        * `embed_to_hid_weights` is supplied to `fprop`
-          * it's initialized to `zeros(numwords * numhid1, numhid2)`, so it's a matrix
-            where there is one row for each embedding layer's representation of each word,
-            and where each column contains the hidden layer's interpretation of that.
-        * we take the transposition `embed_to_hid_weights'`, which is a matrix
-          where the rows are `numhid2` (200) hidden units and the columns are 
-          `numwords` (250) * `numhid1` (50) = (12,500) "word embeddings". So 
-          by default, this matrix is 200x12500
-        * we matrix multiply that transpotition by `embedding_layer_state`, a 150x100 row
-          matrix containing the `numhid1` (50) weight sets for each word.
-          * for eatch batch `embedding_layer_state` is determined by `word_embedding_weights`,
-            which is initialized by --TBD--
-* `fprop` returns values `embedding_layer_state`, `hidden_layer_state`, `output_layer_state`
-  * `embedding_layer_state`: "State of units in the embedding layer as a matrix of
-    size `numhid1*numwords X batchsize`"
-    * *Q: rows are the weights for each word in the embedding layer?*
-      * or is it one row for each output of the embedding layer, and there are 
-        `50xnumhid1` units? Maybe I don't understand something about how embedding is 
-        supposed to work
-    * columns are the values after each training case in mini-batch
-  * `hidden_layer_state`: "State of units in the hidden layer as a matrix of size
-    `numhid2 X batchsize`"
-    * *Q: one row for each hidden layer unit output?*
-    * one column for each training case in the mini-batch
-  * `output_layer_state`: "State of units in the output layer as a matrix of size
-     `vocab_size X batchsize`"
-     * one row for each word
-     * one column for each training case in mini-batch
 
-##### Compute Derivative
+### `fprop.m` forward propagation
+* Compute State of Word Embedding Layer
+  1. `reshape(input_batch, 1, [])`
+     * reshape the 3x100 input batch into a 1x300 column matrix so all the words
+       are in a row
+  2. `word_embedding_weights(reshape(input_batch, 1, []),:)`
+     * `word_embedding_weights` is a matrix where rows correspond to one word in vocab
+       and columns are the weights for that word for each of 50 embedded feature 
+       representation units
+     * construct a new matrix by repeatedly selecting and stacking rows from 
+       `word_embedding_weights`
+     * for each of 300 word indexes in test batch, output the row of 
+       50 weights from `word_embedding_weights` corresponding to that word
+     * we end up with a 300x50 matrix of all the words in the input batch
+       matched with all the weights for each of 50 units
+  3. `word_embedding_weights(reshape(input_batch, 1, []),:)'`
+     * transpose the matrix we got in #2, so now it's 50 rows of weights 
+       for 300 columns of input words
+  4. ```octave 
+     embedding_layer_state = reshape(...
+       word_embedding_weights(reshape(input_batch, 1, []),:)',...
+       numhid1 * numwords, []);
+     ```
+     * take the output from #3, and reshape it into a 300*50 row matrix
+       where we stack the first column from #3 above the 2nd column from #3, and
+       so on. 
+     * resulting row matrix is 50 rows of weights for first input batch word, 
+       followed by 50 rows of weights for the second input batch word, 
+       all the way to 50 rows of weights for the 300th input batch word
+     * `embedding_layer_state` is a 300*50 row matrix containing the `numhid1` (50) weight
+       sets for each word. The size of this can adjust according to the number
+       of weights in the embedding layer, `numhid1` (50).
+  * COMPUTE STATE OF HIDDEN LAYER
+    * Compute inputs to hidden units
+      * ```octave
+        inputs_to_hidden_units = embed_to_hid_weights' * embedding_layer_state + ...
+          repmat(hid_bias, 1, batchsize);
+        ```
+      * `embed_to_hid_weights` is supplied to `fprop`
+        * it's initialized to `zeros(numwords * numhid1, numhid2)`, so it's a matrix
+          where there is one row for each embedding layer's representation of each word,
+          and where each column contains the hidden layer's interpretation of that.
+      * we take the transposition `embed_to_hid_weights'`, which is a matrix
+        where the rows are `numhid2` (200) hidden units and the columns are 
+        `numwords` (250) * `numhid1` (50) = (12,500) "word embeddings". So 
+        by default, this matrix is 200x12500
+      * we matrix multiply that transpotition by `embedding_layer_state`, a 150x100 row
+        matrix containing the `numhid1` (50) weight sets for each word.
+        * for eatch batch `embedding_layer_state` is determined by `word_embedding_weights`,
+          which is initialized by --TBD--
+* `fprop` returns values `embedding_layer_state`, `hidden_layer_state`, `output_layer_state`
+* `embedding_layer_state`: "State of units in the embedding layer as a matrix of
+  size `numhid1*numwords X batchsize`"
+  * *Q: rows are the weights for each word in the embedding layer?*
+    * or is it one row for each output of the embedding layer, and there are 
+      `50xnumhid1` units? Maybe I don't understand something about how embedding is 
+      supposed to work
+  * columns are the values after each training case in mini-batch
+* `hidden_layer_state`: "State of units in the hidden layer as a matrix of size
+  `numhid2 X batchsize`"
+  * *Q: one row for each hidden layer unit output?*
+  * one column for each training case in the mini-batch
+* `output_layer_state`: "State of units in the output layer as a matrix of size
+   `vocab_size X batchsize`"
+   * one row for each word
+   * one column for each training case in mini-batch
+   
+### `train.m` after forward propagation
+
+#### Compute Derivative
 ```octave
 % COMPUTE DERIVATIVE.
 %% Expand the target to a sparse 1-of-K vector.
@@ -283,7 +278,7 @@ error_deriv = output_layer_state - expanded_target_batch;
   * here, we're using the fact that $$\frac{\delta C}{\delta z_i}=y_i-t_i$$.
   * this is from lecture 4 slide, "Cross-entropy: the right cost function to use with softmax"
 
-##### Measure Loss Function
+#### Measure Loss Function
 ```octave
 % MEASURE LOSS FUNCTION.
 CE = -sum(sum(...
@@ -357,7 +352,7 @@ end
   * this chunk can be ignored. It's just used for printing the 
     intermediate effects every 100 batches.
 
-##### Back Propagate - Output Layer
+#### Back Propagate - Output Layer
 ```octave
 hid_to_output_weights_gradient =  hidden_layer_state * error_deriv';
 output_bias_gradient = sum(error_deriv, 2);
@@ -398,32 +393,6 @@ back_propagated_deriv_2 = embed_to_hid_weights * back_propagated_deriv_1;
 ```
 * `embed_to_hid_weights_gradient = embedding_layer_state * back_propagated_deriv_1';`
   * 
-
-
-## Progress Notes
-
-### 2017-04-26 
-* elaborate notes in *Overview*
-
-### 2017-04-25 
-* add beginning of notes for *Back Propagate - Hidden Layer*
-
-### 2017-04-23
-* add notes for *Call forward network propagation* 
-
-
-### 2017-04-22
-* configured 2nd computer for octave/matlab textmate syntax highlighting
-* read through source code and began notes on `train.m`
-
-
-### 2017-04-21 
-* configured pycharm for using the octave/matlab textmate syntax highlighting bundle
-  * considered [this plugin from 2013](https://github.com/tomconder/octaveplugin/issues/1) but decided against it
-  * [pycharm instructions](https://confluence.jetbrains.com/display/PYH/TextMate+Bundles+in+PyCharm)
-  * [matlab.tmbundle](https://github.com/textmate/matlab.tmbundle)
-* added `./assignment_2_instructions.pdf`
-* added commit template
 
 
 ## Instructions
