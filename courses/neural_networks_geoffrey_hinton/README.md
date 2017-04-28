@@ -75,4 +75,16 @@ you have specified part of a column of the original matrix.
   > and if you leave out the increment it is assumed to be 1 and the range is
   > `start:end`. The increment can be negative.
 
+Arithmetic Ops
+https://www.gnu.org/software/octave/doc/v4.0.1/Arithmetic-Ops.html
 
+* ** `x ./ y`**: "Element-by-element right division"
+  * ``` 
+    You cannot use / to divide two matrices element-wise, since /
+    and \ are reserved for left and right matrix "division". Instead, you
+    must use the ./ function:
+    octave:6> x = [1, 2, 3]; y = [5, 6, 2]; y./x
+       5.00000   3.00000   0.66667
+    octave:7> 1 ./ x
+       1.00000   0.50000   0.33333
+    ```

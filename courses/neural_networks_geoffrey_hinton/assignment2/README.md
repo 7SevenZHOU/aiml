@@ -240,7 +240,17 @@ target_batch = train_target(:, :, m);
         biases; the embedding layer is just simple linear neurons.
     * `% Apply logistic activation function.`
     * `hidden_layer_state = 1 ./ (1 + exp(-inputs_to_hidden_units));`
-      * --TBD--
+      * `x ./ y`**: "Element-by-element right division"
+        * ``` 
+          You cannot use / to divide two matrices element-wise, since /
+          and \ are reserved for left and right matrix "division". Instead, you
+          must use the ./ function:
+          octave:6> x = [1, 2, 3]; y = [5, 6, 2]; y./x
+             5.00000   3.00000   0.66667
+          octave:7> 1 ./ x
+             1.00000   0.50000   0.33333
+          ```
+      * What does it mean to have element by element 
 * `fprop` returns values `embedding_layer_state`, `hidden_layer_state`, `output_layer_state`
 * `embedding_layer_state`: "State of units in the embedding layer as a matrix of
   size `numhid1*numwords X batchsize`"
