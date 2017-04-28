@@ -182,19 +182,65 @@ target_batch = train_target(:, :, m);
      * `size(embedding_layer_state)` is 150x100 (using default batch size of 100)
   * `COMPUTE STATE OF HIDDEN LAYER`
     * `Compute inputs to hidden units`
-      * ```octave
-        inputs_to_hidden_units = embed_to_hid_weights' * embedding_layer_state + ...
-          repmat(hid_bias, 1, batchsize);
-        ```
+    * ```octave
+      inputs_to_hidden_units = embed_to_hid_weights' * embedding_layer_state + ...
+        repmat(hid_bias, 1, batchsize);
+      ```
       * `embed_to_hid_weights` is supplied to `fprop`
         * initialized to: `zeros(numwords * numhid1, numhid2)` =
           `zeros(3 * 50, 200)` = matrix of zeros that's 150 rows by 200 columns.
-          * there's a data point mapping each weight in the embedding layer to a hiddn node
+          * there's a data point mapping each weight in the embedding layer to a hidden node
       * transposition `embed_to_hid_weights'` is 200 rows by 150 columns, so rows are 
         hidden layer nodes and columns are embedding layer nodes, and values are the weights
         on the connections coming into the hidden layer from the embedding layer
       * `embed_to_hid_weights'` (200x150) by `embedding_layer_state` (150x100) 
-        * --TBD--
+      * `size(embed_to_hid_weights' * embedding_layer_state)` is 200x100
+      * [`repmat (A, m, n)`](https://www.gnu.org/software/octave/doc/v4.0.1/Special-Utility-Matrices.html#XREFrepmat):
+        * "Form a block matrix of size m by n, with a copy of matrix A as each element."
+        * "If n is not specified, form an m by m block matrix. For copying along more 
+          than two dimensions, specify the number of times to copy across each dimension 
+          m, n, p, …, in a vector in the second argument."
+        * it sounds like `repmat` creates a tensor by repeating a matrix inside its cells?
+          ![tensor visualization 1d-6d](../../../assets/tensor_visualization_1-6.png)
+        * ``` 
+          octave:67> A=2;
+          octave:68> repmat(A,2,3)
+          ans =
+          
+             2   2   2
+             2   2   2
+          octave:69> A = [1, 2];
+          octave:70> repmat(A, 2, 3)
+          ans =
+          
+             1   2   1   2   1   2
+             1   2   1   2   1   2
+          octave:71> A = [1; 2];
+          octave:72> repmat(A, 2, 3)
+          ans =
+          
+             1   1   1
+             2   2   2
+             1   1   1
+             2   2   2
+          ```
+        * From the gnu docs description, I thought it was embedding a dimension inside
+          each cell, but that's incorrect. It's just using the first parameter
+          as the template for the 2d matrix and repeating it a number of rows and columns
+          according to the 2nd and 3rd parameters
+      * `repmat(hid_bias, 1, batchsize)`
+        * The hidden layer bias is initialized to `zeros(numhid2, 1)`, which is 
+          `numhid2` (200) rows by 1 column of zeroes
+        * We're taking a 200x1 matrix of zeroes and repeating it only one time vertically
+          but repeating it `batchsize` (100) times horizontally, so we have a matrix
+          that is 200x100. The rows are hidden units and the columns are test cases, and the
+          values are the biases of each hidden layer unit.
+      * `inputs_to_hidden_units` could just as easily have been `embedded_layer_outputs`. 
+      * it's a computation of multiplying embedded weights by embedded inputs and adding the 
+        biases; the embedding layer is just simple linear neurons.
+    * `% Apply logistic activation function.`
+    * `hidden_layer_state = 1 ./ (1 + exp(-inputs_to_hidden_units));`
+      * --TBD--
 * `fprop` returns values `embedding_layer_state`, `hidden_layer_state`, `output_layer_state`
 * `embedding_layer_state`: "State of units in the embedding layer as a matrix of
   size `numhid1*numwords X batchsize`"
