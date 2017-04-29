@@ -180,7 +180,7 @@ target_batch = train_target(:, :, m);
        * **`embedding_layer_state` is a 150x100 matrix where rows are 150 weights
          and columns are training cases consisting of three words at fifty weights per word = 150.**
      * `size(embedding_layer_state)` is 150x100 (using default batch size of 100)
-  * `COMPUTE STATE OF HIDDEN LAYER`
+  5. `COMPUTE STATE OF HIDDEN LAYER`
     * `Compute inputs to hidden units`
     * ```octave
       inputs_to_hidden_units = embed_to_hid_weights' * embedding_layer_state + ...
@@ -242,7 +242,7 @@ target_batch = train_target(:, :, m);
         where each value is the logit of the activation function
     * `% Apply logistic activation function.`
     * `hidden_layer_state = 1 ./ (1 + exp(-inputs_to_hidden_units));`
-      * `x ./ y`**: "Element-by-element right division"
+      * `x ./ y`: "Element-by-element right division"
         * ``` 
           You cannot use / to divide two matrices element-wise, since /
           and \ are reserved for left and right matrix "division". Instead, you
@@ -256,16 +256,15 @@ target_batch = train_target(:, :, m);
       * Here we're implementing the logistic activation function: 
         * $$ z=b+\sum_i x_i w_i $$
           * this is already computed in `inputs_to_hidden_units`
-          * each element of 
         * $$ y=\frac{1}{1+e^{-z}} $$
           * this is `1 ./ (1 + exp(-inputs_to_hidden_units))`
-      * In Octave, we can "magically" do this on a matrix and end up with a matrix,
+      * In Octave, we can do this on a matrix variable end up with a matrix,
         and the equation looks just like we did it on one unit
       * `hidden_layer_state` then contains the outputs of the hidden layer units;
         it's output is also 200x100 hidden layer units by 100 training cases in batch
-  * `%% COMPUTE STATE OF OUTPUT LAYER.`
-  * `% Compute inputs to softmax.`
-  * `inputs_to_softmax = hid_to_output_weights' * hidden_layer_state + repmat(output_bias, 1, batchsize);
+  6. `%% COMPUTE STATE OF OUTPUT LAYER.`
+    * `% Compute inputs to softmax.`
+    * `inputs_to_softmax = hid_to_output_weights' * hidden_layer_state + repmat(output_bias, 1, batchsize);
 `
     * `hid_to_output_weights` was passed as an argument to `fprop`. It's a 
       `numhid2 X vocab_size` (200, 250) matrix where where the datapoints are the weights of
@@ -276,7 +275,7 @@ target_batch = train_target(:, :, m);
       the weighted sum of the inputs from the hidden layer for the output layer unit logits. 
     * `repmat(output_bias, 1, batchsize)` is the bias for output layer unit logits.
     * `inputs_to_softmax` is `vocab size (250) X batch size (200)` and contains output layer logits
-  * `% Subtract maximum.` 
+  7. `% Subtract maximum.` 
     * *"Remember that adding or subtracting the same constant from each input to a
       softmax unit does not affect the outputs. Here we are subtracting maximum to
       make all inputs <= 0. This prevents overflows when computing their exponents."*
@@ -287,10 +286,10 @@ target_batch = train_target(:, :, m);
     * since the inputs are connected to the exponent, Hinton makes it sound like there is a 
       risk of buffer overflow if the inputs are big. This might be just a performance optimization 
       or something he is used to from working with production data.
-  * `% Compute exp.`
+  8. `% Compute exp.`
     * `output_layer_state = exp(inputs_to_softmax);`
     * first, we get the numerator
-  * `% Normalize to get probability distribution.`
+  9. `% Normalize to get probability distribution.`
     * now that we have the softmax numerator, we can get the denominator
     * ```octave 
       output_layer_state = output_layer_state ./ repmat(...
