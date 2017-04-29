@@ -180,92 +180,92 @@ target_batch = train_target(:, :, m);
        * **`embedding_layer_state` is a 150x100 matrix where rows are 150 weights
          and columns are training cases consisting of three words at fifty weights per word = 150.**
      * `size(embedding_layer_state)` is 150x100 (using default batch size of 100)
-  5. `COMPUTE STATE OF HIDDEN LAYER`
-    * `Compute inputs to hidden units`
-    * ```octave
-      inputs_to_hidden_units = embed_to_hid_weights' * embedding_layer_state + ...
-        repmat(hid_bias, 1, batchsize);
-      ```
-      * `embed_to_hid_weights` is supplied to `fprop`
-        * initialized to: `zeros(numwords * numhid1, numhid2)` =
-          `zeros(3 * 50, 200)` = matrix of zeros that's 150 rows by 200 columns.
-          * there's a data point mapping each weight in the embedding layer to a hidden node
-      * transposition `embed_to_hid_weights'` is 200 rows by 150 columns, so rows are 
-        hidden layer nodes and columns are embedding layer nodes, and values are the weights
-        on the connections coming into the hidden layer from the embedding layer
-      * `embed_to_hid_weights'` (200x150) by `embedding_layer_state` (150x100) 
-      * `size(embed_to_hid_weights' * embedding_layer_state)` is 200x100
-      * [`repmat (A, m, n)`](https://www.gnu.org/software/octave/doc/v4.0.1/Special-Utility-Matrices.html#XREFrepmat):
-        * "Form a block matrix of size m by n, with a copy of matrix A as each element."
-        * "If n is not specified, form an m by m block matrix. For copying along more 
-          than two dimensions, specify the number of times to copy across each dimension 
-          m, n, p, …, in a vector in the second argument."
-        * it sounds like `repmat` creates a tensor by repeating a matrix inside its cells?
-          ![tensor visualization 1d-6d](../../../assets/tensor_visualization_1-6.png)
-        * ``` 
-          octave:67> A=2;
-          octave:68> repmat(A,2,3)
-          ans =
-          
-             2   2   2
-             2   2   2
-          octave:69> A = [1, 2];
-          octave:70> repmat(A, 2, 3)
-          ans =
-          
-             1   2   1   2   1   2
-             1   2   1   2   1   2
-          octave:71> A = [1; 2];
-          octave:72> repmat(A, 2, 3)
-          ans =
-          
-             1   1   1
-             2   2   2
-             1   1   1
-             2   2   2
-          ```
-        * From the gnu docs description, I thought it was embedding a dimension inside
-          each cell, but that's incorrect. It's just using the first parameter
-          as the template for the 2d matrix and repeating it a number of rows and columns
-          according to the 2nd and 3rd parameters
-      * `repmat(hid_bias, 1, batchsize)`
-        * The hidden layer bias is initialized to `zeros(numhid2, 1)`, which is 
-          `numhid2` (200) rows by 1 column of zeroes
-        * We're taking a 200x1 matrix of zeroes and repeating it only one time vertically
-          but repeating it `batchsize` (100) times horizontally, so we have a matrix
-          that is 200x100. The rows are hidden units and the columns are test cases, and the
-          values are the biases of each hidden layer unit.
-      * `inputs_to_hidden_units` could just as easily have been `embedded_layer_outputs`. 
-      * it's a computation of multiplying embedded weights by embedded inputs and adding the 
-        biases; the embedding layer is just simple linear neurons.
-      * `inputs_to_hidden_units` dimensions are `200x100` hidden units by training cases, 
-        where each value is the logit of the activation function
-    * `% Apply logistic activation function.`
+* `COMPUTE STATE OF HIDDEN LAYER`
+  * `Compute inputs to hidden units`
+  * ```octave
+    inputs_to_hidden_units = embed_to_hid_weights' * embedding_layer_state + ...
+      repmat(hid_bias, 1, batchsize);
+    ```
+    * `embed_to_hid_weights` is supplied to `fprop`
+      * initialized to: `zeros(numwords * numhid1, numhid2)` =
+        `zeros(3 * 50, 200)` = matrix of zeros that's 150 rows by 200 columns.
+        * there's a data point mapping each weight in the embedding layer to a hidden node
+    * transposition `embed_to_hid_weights'` is 200 rows by 150 columns, so rows are 
+      hidden layer nodes and columns are embedding layer nodes, and values are the weights
+      on the connections coming into the hidden layer from the embedding layer
+    * `embed_to_hid_weights'` (200x150) by `embedding_layer_state` (150x100) 
+    * `size(embed_to_hid_weights' * embedding_layer_state)` is 200x100
+    * [`repmat (A, m, n)`](https://www.gnu.org/software/octave/doc/v4.0.1/Special-Utility-Matrices.html#XREFrepmat):
+      * "Form a block matrix of size m by n, with a copy of matrix A as each element."
+      * "If n is not specified, form an m by m block matrix. For copying along more 
+        than two dimensions, specify the number of times to copy across each dimension 
+        m, n, p, …, in a vector in the second argument."
+      * it sounds like `repmat` creates a tensor by repeating a matrix inside its cells?
+        ![tensor visualization 1d-6d](../../../assets/tensor_visualization_1-6.png)
+      * ``` 
+        octave:67> A=2;
+        octave:68> repmat(A,2,3)
+        ans =
+        
+           2   2   2
+           2   2   2
+        octave:69> A = [1, 2];
+        octave:70> repmat(A, 2, 3)
+        ans =
+        
+           1   2   1   2   1   2
+           1   2   1   2   1   2
+        octave:71> A = [1; 2];
+        octave:72> repmat(A, 2, 3)
+        ans =
+        
+           1   1   1
+           2   2   2
+           1   1   1
+           2   2   2
+        ```
+      * From the gnu docs description, I thought it was embedding a dimension inside
+        each cell, but that's incorrect. It's just using the first parameter
+        as the template for the 2d matrix and repeating it a number of rows and columns
+        according to the 2nd and 3rd parameters
+    * `repmat(hid_bias, 1, batchsize)`
+      * The hidden layer bias is initialized to `zeros(numhid2, 1)`, which is 
+        `numhid2` (200) rows by 1 column of zeroes
+      * We're taking a 200x1 matrix of zeroes and repeating it only one time vertically
+        but repeating it `batchsize` (100) times horizontally, so we have a matrix
+        that is 200x100. The rows are hidden units and the columns are test cases, and the
+        values are the biases of each hidden layer unit.
+    * `inputs_to_hidden_units` could just as easily have been `embedded_layer_outputs`. 
+    * it's a computation of multiplying embedded weights by embedded inputs and adding the 
+      biases; the embedding layer is just simple linear neurons.
+    * `inputs_to_hidden_units` dimensions are `200x100` hidden units by training cases, 
+      where each value is the logit of the activation function
+  * `% Apply logistic activation function.`
     * `hidden_layer_state = 1 ./ (1 + exp(-inputs_to_hidden_units));`
-      * `x ./ y`: "Element-by-element right division"
-        * ``` 
-          You cannot use / to divide two matrices element-wise, since /
-          and \ are reserved for left and right matrix "division". Instead, you
-          must use the ./ function:
-          octave:6> x = [1, 2, 3]; y = [5, 6, 2]; y./x
-             5.00000   3.00000   0.66667
-          octave:7> 1 ./ x
-             1.00000   0.50000   0.33333
-          ```
-        * *Q: why is the operation `./` called "right division?"*
-      * Here we're implementing the logistic activation function: 
-        * $$ z=b+\sum_i x_i w_i $$
-          * this is already computed in `inputs_to_hidden_units`
-        * $$ y=\frac{1}{1+e^{-z}} $$
-          * this is `1 ./ (1 + exp(-inputs_to_hidden_units))`
-      * In Octave, we can do this on a matrix variable end up with a matrix,
-        and the equation looks just like we did it on one unit
-      * `hidden_layer_state` then contains the outputs of the hidden layer units;
-        it's output is also 200x100 hidden layer units by 100 training cases in batch
-  6. `%% COMPUTE STATE OF OUTPUT LAYER.`
-    * `% Compute inputs to softmax.`
+    * `x ./ y`: "Element-by-element right division"
+      * ``` 
+        You cannot use / to divide two matrices element-wise, since /
+        and \ are reserved for left and right matrix "division". Instead, you
+        must use the ./ function:
+        octave:6> x = [1, 2, 3]; y = [5, 6, 2]; y./x
+           5.00000   3.00000   0.66667
+        octave:7> 1 ./ x
+           1.00000   0.50000   0.33333
+        ```
+      * *Q: why is the operation `./` called "right division?"*
+    * Here we're implementing the logistic activation function: 
+      * $$ z=b+\sum_i x_i w_i $$
+        * this is already computed in `inputs_to_hidden_units`
+      * $$ y=\frac{1}{1+e^{-z}} $$
+        * this is `1 ./ (1 + exp(-inputs_to_hidden_units))`
+    * In Octave, we can do this on a matrix variable end up with a matrix,
+      and the equation looks just like we did it on one unit
+    * `hidden_layer_state` then contains the outputs of the hidden layer units;
+      it's output is also 200x100 hidden layer units by 100 training cases in batch
+* `%% COMPUTE STATE OF OUTPUT LAYER.`
+  * `% Compute inputs to softmax.`
     * `inputs_to_softmax = hid_to_output_weights' * hidden_layer_state + repmat(output_bias, 1, batchsize);
-`
+  `
     * `hid_to_output_weights` was passed as an argument to `fprop`. It's a 
       `numhid2 X vocab_size` (200, 250) matrix where where the datapoints are the weights of
       the connections between the `numhid2` (200) hidden layer units and the `vocab_size` (250)
@@ -275,7 +275,7 @@ target_batch = train_target(:, :, m);
       the weighted sum of the inputs from the hidden layer for the output layer unit logits. 
     * `repmat(output_bias, 1, batchsize)` is the bias for output layer unit logits.
     * `inputs_to_softmax` is `vocab size (250) X batch size (200)` and contains output layer logits
-  7. `% Subtract maximum.` 
+  * `% Subtract maximum.` 
     * *"Remember that adding or subtracting the same constant from each input to a
       softmax unit does not affect the outputs. Here we are subtracting maximum to
       make all inputs <= 0. This prevents overflows when computing their exponents."*
@@ -286,10 +286,10 @@ target_batch = train_target(:, :, m);
     * since the inputs are connected to the exponent, Hinton makes it sound like there is a 
       risk of buffer overflow if the inputs are big. This might be just a performance optimization 
       or something he is used to from working with production data.
-  8. `% Compute exp.`
+  * `% Compute exp.`
     * `output_layer_state = exp(inputs_to_softmax);`
     * first, we get the numerator
-  9. `% Normalize to get probability distribution.`
+  * `% Normalize to get probability distribution.`
     * now that we have the softmax numerator, we can get the denominator
     * ```octave 
       output_layer_state = output_layer_state ./ repmat(...
@@ -307,22 +307,22 @@ target_batch = train_target(:, :, m);
         are the same, equal to the sum of the logits for that training case.
     * `output_layer_state` ends up containing the outputs of the 250 words, 
       each with a probability of that word
-* `fprop` returns values `embedding_layer_state`, `hidden_layer_state`, `output_layer_state`
-* `embedding_layer_state`: "State of units in the embedding layer as a matrix of
-  size `numhid1*numwords X batchsize`"
-  * *Q: rows are the weights for each word in the embedding layer?*
-    * or is it one row for each output of the embedding layer, and there are 
-      `50xnumhid1` units? Maybe I don't understand something about how embedding is 
-      supposed to work
-  * columns are the values after each training case in mini-batch
-* `hidden_layer_state`: "State of units in the hidden layer as a matrix of size
-  `numhid2 X batchsize`"
-  * *Q: one row for each hidden layer unit output?*
-  * one column for each training case in the mini-batch
-* `output_layer_state`: "State of units in the output layer as a matrix of size
-   `vocab_size X batchsize`"
-   * one row for each word
-   * one column for each training case in mini-batch
+* `fprop` returns `embedding_layer_state`, `hidden_layer_state`, `output_layer_state`
+  * `embedding_layer_state`: "State of units in the embedding layer as a matrix of
+    size `numhid1*numwords X batchsize`"
+    * each of the `numhid1` units (50) in the embedding layer has `numwords` (3) weights
+      for each of the `batchsize` (100) training cases
+  * `hidden_layer_state`: "State of units in the hidden layer as a matrix of size
+    `numhid2 X batchsize`"
+    * one row for each hidden layer unit 
+    * one column for each training case in the mini-batch
+    * values are the output of the hidden layer units
+  * `output_layer_state`: "State of units in the output layer as a matrix of size
+     `vocab_size X batchsize`"
+     * one row for each word in the vocabulary
+     * one column for each training case in mini-batch
+     * values are the discrete proabilities of each word in the vocab; the output
+       of the activation function
    
    
 ### `train.m` after forward propagation
