@@ -325,7 +325,7 @@ target_batch = train_target(:, :, m);
        of the activation function
    
    
-### `train.m` after forward propagation
+### `train.m` *after forward propagation*
 
 #### Compute Derivative
 ```octave
@@ -337,51 +337,19 @@ error_deriv = output_layer_state - expanded_target_batch;
 ```
 * this all comes from lecture 4, where we talked about the derivative of 
   the Cost $$ C $$ w.r.t. the logit $$ z $$, which is $$ y_i - t_i $$ for each $$ i $$.
-* [sparse matrix](https://en.wikipedia.org/wiki/Sparse_matrix)
-* `expanded_target_batch = expansion_matrix(:, target_batch);`
-  * `target_batch` is `[1x100]`; one word for the target of each training case in the
-    batch
+1. `expanded_target_batch = expansion_matrix(:, target_batch);`
+  * `target_batch` is `[1x100]`; an index of a word for the target of each training case 
+    in the batch
   * `expansion_matrix` is initialized to `eye(vocab_size)`, which is a 
-    `vocab_size` by `vocab_size` square identity matrix.
-    * the first matrix index `:` returns all of the rows
-    * the second matrix index `target_batch` is `[1x100]` where values
-      are indexes of 
-    are `1xNumCasesInBatch`.
-  * I have not yet mastered Octave's indexing notation enough to interpret
-    the `expansion_matrix`.
-  * reviewing [*A Programmer's Guide to Octave*](http://www.i-programmer.info/programming/other-languages/4779-a-programmers-guide-to-octave.html?start=1),
-    * *Vector Index* to a matrix:
-      > A vector of indexes just picks out the combined set of elements 
-      > that each index would pick out. For example, `A([1,2],1)`
-      > picks out `A(1,1)` and `A(2,1)` and the result is a column vector 
-      > because you have specified part of a column of the original matrix.
-    * *Range Index* to a matrix: 
-      > In general a range is specified as `start:increment:end`
-      > and if you leave out the increment it is assumed to be 1 and the range is
-      > `start:end`. The increment can be negative.
-  * by typing in variables into the REPL, I can see that `train_batch` is a `1x100` matrix
-    of word indexes in the vocab. 
-  * `expansion_matrix(:, target_batch)` will return a matrix with all rows of the 
-    `vocab_size x vocab_size` matrix, and only those columns selected in the target_batch.
-  * ```octave
-    octave:62> size(expanded_target_batch)
-    ans =
-    
-       250   100
-    ```  
-* `output_layer_state` is also 250x100, so we can subtract `expanded_target_batch` from it
-* what does it mean to do so, though?
-* `output_layer_state` has the outputs, which are supposed to be softmax, so each 
-  should be between zero and one. 
-* `expanded_target_batch` is pretty subtle; this isn't a technique I've seen before. 
-  It is all zeroes except for one 1 where the row equals the column,
-  but we pass in a vector of indexes into the vocab in order of the training batches, 
-  with the result that we end up with a list of rows where at the index of the correct
-  word, we get a 1 for the correct word.
-  * the thing that's weird about it is how we can construct a matrix by passing in a vector of 
-    indexes, and there may be repeats in the indexes, so as a result, certain words
-    may appear more than once.
-  * example: if I have a vocabulary set of ["a", "b", "c"], and then 
+    `vocab_size` square identity matrix.
+  * `expansion_matrix(:, target_batch)` will return a matrix composed by going through
+    the word indexes in `target_batch` and for each column, outputting the *column from 
+    `expansion_matrix` at that word index*
+    * this ends up producing a column for each column in `target_batch`
+    * each column has a 1 in the row whose index was formerly stored in `target_branch`
+      at that index
+  * `size(expanded_target_batch) is 250 x 100`
+  * example: if I have a set of words ["a", "b", "c"], and then 
     I make a `expansion_matrix` identity:
     ```
     1 0 0
@@ -396,12 +364,15 @@ error_deriv = output_layer_state - expanded_target_batch;
     0 0 1 1 0
     0 1 0 0 0
     ```
-    and this `expanded_target_batch` can then be used as a kind of mask 
-  * I believe what it's doing is making it so that for each training case column, there is 
-    exactly one 1 in the row equal to the word that is selected for that row.
-* `error_deriv = output_layer_state - expanded_target_batch;`
-  * here, we're using the fact that $$\frac{\delta C}{\delta z_i}=y_i-t_i$$.
-  * this is from lecture 4 slide, "Cross-entropy: the right cost function to use with softmax"
+    then this `expanded_target_batch` is what we need to subtract from the real output
+    to find out how "off" the output was during this batch for each case
+2. `error_deriv = output_layer_state - expanded_target_batch;`
+  * `output_layer_state` is `[vocab_size (250), batchsize (100)]`
+  * for each unit in the output layer, find the difference with the target output
+  * `error_deriv = output_layer_state - expanded_target_batch;`
+    * here, we're using the fact that $$\frac{\delta C}{\delta z_i}=y_i-t_i$$.
+      * it's the change of cost/error respect to the logit of an output unit
+      * from lecture 4 slide, "Cross-entropy: the right cost function to use with softmax"
 
 #### Measure Loss Function
 ```octave
@@ -418,7 +389,7 @@ if mod(m, show_training_CE_after) == 0
   this_chunk_CE = 0;
 end
 ```
-* `CE = -sum(sum(expanded_target_batch .* log(output_layer_state + tiny))) / batchsize;`
+1. `CE = -sum(sum(expanded_target_batch .* log(output_layer_state + tiny))) / batchsize;`
   * `tiny` is initialized to `exp(-30)`
   * [`log(x)`](https://www.gnu.org/software/octave/doc/interpreter/Exponents-and-Logarithms.html#XREFlog) computes
    the log of x *for all x*
@@ -426,22 +397,18 @@ end
     where each element is `log(state_for_unit + tiny)`.
   * we're talking about the output layer softmax here
   * in octave `.*` means element by element multiplication, so 
-    `expanded_target_batch .* ↑↑↑` then gives a matrix produced by 
-    multiplying `expanded_target_batch__{ij} x ↑↑↑__{ij}`. 
-    * What does this mean? Zeroes in the expanded targets eliminate
-      the effect of the output layer state, and exactly one output layer
-      state effect from each column survives.
+    `expanded_target_batch .* log(output_layer_state + tiny)` then gives a matrix produced by 
+    multiplying `expanded_target_batch__{ij} * log(output_layer_state + tiny)__{ij}`. 
+    * Zeroes in the expanded targets eliminate the effect of the output layer state, 
+      and the one output layer unit that is supposed to be successful is the one lets 
+      output layer state "speak" at that training case
     * We get a 250x100 matrix, where in each of 100 columns, at most one row's value 
       is non-zero.
   * `-sum(sum(...`: see [`sum(x)`](https://www.gnu.org/software/octave/doc/interpreter/Sums-and-Products.html#XREFsum)
     "Sum of elements along dimension dim. If dim is omitted, it defaults 
     to the first non-singleton dimension." 
-    * I have no idea what a non-singleton dimension is in this context. I could assume
-      that it means that in a `n-tensor`, the first dimension of the tensor is the "rightmost"
-      in the vector statement.
-    * I've read [elsewhere](http://www.obihiro.ac.jp/~suzukim/masuda/octave/html3/octave_102.html)
-      that it defaults to "1 (column-wise sum)", 
-    * This appears to be validated by the following experiment:
+    * sum defaults to ["column-wise sum"](http://www.obihiro.ac.jp/~suzukim/masuda/octave/html3/octave_102.html)
+    * example:
       ``` 
       octave:75> A = [1,2,3; 4,5,6; 7,8,9]
       octave:76> sum(A)
@@ -455,15 +422,15 @@ end
   * The loss function is cross entropy:
     $$ C = -\sum_j t_j log{y_j} $$
     * lecture 4 slide, "Cross-entropy: the right cost function to use with softmax"
+    * in this case, the error is the negative log of the output at the target unit,
+      since the output units form a softmax group
   * Here we've computed it for a batch, so that's why it's divided by the batch size;
     we essentially have one portion of the cost function computed at each batch
-* `trainset_CE = trainset_CE + (CE - trainset_CE) / m;`
+2. `trainset_CE = trainset_CE + (CE - trainset_CE) / m;`
   * `trainset_CE`: the cross entropy for the whole training set across all batches. Reset
     to zero at the beginning of an epoch. 
-  * I think you can see this as the cumulative effect of adding the change in cross entropy. 
-  * We take the difference between this batch's cross entropy and the training set's 
-    cross entropy, (the rise) over the number of batches (the run) to get the delta 
-    in CE relative to what it was. Then we accumulate that delta in the current value.
+  * we're computing the [cumulative moving average](https://en.wikipedia.org/wiki/Moving_average#Cumulative_moving_average)
+    of the cross entropy
 * ```octave
   count =  count + 1;
   this_chunk_CE = this_chunk_CE + (CE - this_chunk_CE) / count;
