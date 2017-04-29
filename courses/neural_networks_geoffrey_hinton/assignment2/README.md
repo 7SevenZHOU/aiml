@@ -338,11 +338,14 @@ error_deriv = output_layer_state - expanded_target_batch;
 * this all comes from lecture 4, where we talked about the derivative of 
   the Cost $$ C $$ w.r.t. the logit $$ z $$, which is $$ y_i - t_i $$ for each $$ i $$.
 * [sparse matrix](https://en.wikipedia.org/wiki/Sparse_matrix)
-* `expansion_matrix` is initialized to `eye(vocab_size)`, which is a 
-  `vocab_size` by `vocab_size` square identity matrix.
-  * the first matrix index returns all of the rows
-  * the second matrix index, `target_batch` is (`words`, `cases_in_batch`) as in 
-    `train_input`, but there's only one word per batch, so that means its dimensions
+* `expanded_target_batch = expansion_matrix(:, target_batch);`
+  * `target_batch` is `[1x100]`; one word for the target of each training case in the
+    batch
+  * `expansion_matrix` is initialized to `eye(vocab_size)`, which is a 
+    `vocab_size` by `vocab_size` square identity matrix.
+    * the first matrix index `:` returns all of the rows
+    * the second matrix index `target_batch` is `[1x100]` where values
+      are indexes of 
     are `1xNumCasesInBatch`.
   * I have not yet mastered Octave's indexing notation enough to interpret
     the `expansion_matrix`.
