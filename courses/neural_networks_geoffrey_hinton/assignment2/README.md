@@ -238,6 +238,8 @@ target_batch = train_target(:, :, m);
       * `inputs_to_hidden_units` could just as easily have been `embedded_layer_outputs`. 
       * it's a computation of multiplying embedded weights by embedded inputs and adding the 
         biases; the embedding layer is just simple linear neurons.
+      * `inputs_to_hidden_units` dimensions are `200x100` hidden units by training cases, 
+        where each value is the logit of the activation function
     * `% Apply logistic activation function.`
     * `hidden_layer_state = 1 ./ (1 + exp(-inputs_to_hidden_units));`
       * `x ./ y`**: "Element-by-element right division"
@@ -250,7 +252,62 @@ target_batch = train_target(:, :, m);
           octave:7> 1 ./ x
              1.00000   0.50000   0.33333
           ```
-      * What does it mean to have element by element 
+        * *Q: why is the operation `./` called "right division?"*
+      * Here we're implementing the logistic activation function: 
+        * $$ z=b+\sum_i x_i w_i $$
+          * this is already computed in `inputs_to_hidden_units`
+          * each element of 
+        * $$ y=\frac{1}{1+e^{-z}} $$
+          * this is `1 ./ (1 + exp(-inputs_to_hidden_units))`
+      * In Octave, we can "magically" do this on a matrix and end up with a matrix,
+        and the equation looks just like we did it on one unit
+      * `hidden_layer_state` then contains the outputs of the hidden layer units;
+        it's output is also 200x100 hidden layer units by 100 training cases in batch
+  * `%% COMPUTE STATE OF OUTPUT LAYER.`
+  * `% Compute inputs to softmax.`
+  * `inputs_to_softmax = hid_to_output_weights' * hidden_layer_state + repmat(output_bias, 1, batchsize);
+`
+    * `hid_to_output_weights` was passed as an argument to `fprop`. It's a 
+      `numhid2 X vocab_size` (200, 250) matrix where where the datapoints are the weights of
+      the connections between the `numhid2` (200) hidden layer units and the `vocab_size` (250)
+      output units. It was initialized to `init_wt * randn(numhid2, vocab_size)`, so at the start
+      its weights are 0 +/- 0.01 random values. 
+    * `hid_to_output_weights' * hidden_layer_state` is 250x200 * 200x100 = 250x100 matrix representing
+      the weighted sum of the inputs from the hidden layer for the output layer unit logits. 
+    * `repmat(output_bias, 1, batchsize)` is the bias for output layer unit logits.
+    * `inputs_to_softmax` is `vocab size (250) X batch size (200)` and contains output layer logits
+  * `% Subtract maximum.` 
+    * *"Remember that adding or subtracting the same constant from each input to a
+      softmax unit does not affect the outputs. Here we are subtracting maximum to
+      make all inputs <= 0. This prevents overflows when computing their exponents."*
+    * `inputs_to_softmax = inputs_to_softmax - repmat(max(inputs_to_softmax), vocab_size, 1);`
+    * Here we are subtracting the same constant from all logits to make all of them <= 0
+    * the claim is that this prevents overflows when computing their exponents
+    * Softmax output: $$ y_i = \frac{e^{z_i}}{\sum_{j \in group} e^{z_j}} $$
+    * since the inputs are connected to the exponent, Hinton makes it sound like there is a 
+      risk of buffer overflow if the inputs are big. This might be just a performance optimization 
+      or something he is used to from working with production data.
+  * `% Compute exp.`
+    * `output_layer_state = exp(inputs_to_softmax);`
+    * first, we get the numerator
+  * `% Normalize to get probability distribution.`
+    * now that we have the softmax numerator, we can get the denominator
+    * ```octave 
+      output_layer_state = output_layer_state ./ repmat(...
+        sum(output_layer_state, 1), vocab_size, 1);
+      ```
+    * `sum(output_layer_state, 1)`
+      * in the softmax equation, the denominator is the sum of all the logits
+      * `output_layer_state` has dimensions `vocab_size (250) X batch_size (100)`
+      * sum with 1 as the second parameter sums along columns / training batches
+      * we get a 1 x 100 matrix out, where each column is the sum across the vocab 
+      * of all the output logits
+    * `repmat(sum(output_layer_state, 1), vocab_size, 1)`
+      * Here, we repeat the 1x100 matrix `vocab_size (250)` times so we end up
+        with a `250x100` matrix where in each column / training case all of the values 
+        are the same, equal to the sum of the logits for that training case.
+    * `output_layer_state` ends up containing the outputs of the 250 words, 
+      each with a probability of that word
 * `fprop` returns values `embedding_layer_state`, `hidden_layer_state`, `output_layer_state`
 * `embedding_layer_state`: "State of units in the embedding layer as a matrix of
   size `numhid1*numwords X batchsize`"
