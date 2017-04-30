@@ -1,58 +1,82 @@
 # Assignment 2 - Learning word representations
 
 ## Overview
-* feed each mini batch of 100 training cases through forward propagation, 
-  then use backpropagation to update weights at each layer, 
-  updating the weights each time.
+* feed mini batches of 100 training cases through forward propagation, 
+* use backpropagation to update weights at each layer
 * the output layer is a softmax group over the vocabulary, representing
-  discrete probabilities of a fourth word.
-* the average cross-entropy 
+  discrete probabilities of a fourth word given three input words
+* error function is cross-entropy
 * print out the average cross-entropy error of softmax group over vocabulary units
   at the end of each mini batch and each 100 mini batches. 
   This should decrease as time goes on. 
-* network topology
-  ![network topology](/assets/courses-hinton-assign2-network.png)
-  * **input layer**
-    * consists of three word indices; it's a 3d vector of int word indices
-    * trained in batches of 100
-      * each input batch is a matrix of 3 rows and 100 columns by default
-      * constitutes 100 training cases of 3 ints corresponding to word indices
-    * *bias of units* - unmentioned. presumably zero.
-    * each of the 3 units have:
-      * 1 input 
-      * 1 output
-  * **embedding layer**
-    * `numhid1` configures the number of units in the embedding 
-      layer; default is 50
-    * *incoming weights from input layer* are in `word_embedding_weights`
-      * initialized with `init_wt * randn(vocab_size, numhid1)`, a matrix 
-        of 0 +/- 0.01 with `vocab_size` rows and `numhid1` columns
-    * *bias of units* - unmentioned. presumably zero.
-    * each of the `numhid1` (50) units have: 
-      * 3 inputs from input layer
-      * 1 output
-  * **hidden layer**
-    * `numhid2` configures the number of units in the hidden layer; 
-      default is 200
-    * *incoming weights from embedding layer* are in `hid_to_output_weights`
-      * initialized with `zeros(numhid2, vocab_size);`, a matrix of zeroes
-        with `numhid2` rows and `vocab_size` rows. 
-      * Note that `word_embedding_weights` has `vocab_size` columns, and 
-        `hid_to_output_weights` has `vocab_size` rows.
-    * *bias of units* captured in `hid_bias`
-      * initialized with `zeros(numhid2, 1);`, a matrix with `numhid2` rows
-        and 1 column.
-    * each of the `numhid2` (200) units has: 
-      * `numhid1` (50) inputs from embedding layer
-      * 1 output
-  * **output layer**
-    * A softmax over the 250 words
-    * there are `vocab_size` units; one unit for every word in `vocab`
-    * *bias of units* captured in `output_bias`
-      * initialized with `zeros(numhid2, 1);`, a matrix with `numhid2` rows
-        and 1 column
-    * each of the 250 units have:
-      `numhid2` (200) inputs from hidden layer
+
+### Overview - Network Structure
+![network topology](/assets/courses-hinton-assign2-network.png)
+* **layer 4: output layer**
+  * **description**: a softmax over `vocab_size (250)` units each 
+    representing a possible 4th word
+  * **input**:
+    * **data**: `numhid2 (200)` from hidden layer
+    * **weights**: `hid_to_output_weights []` 
+    * **bias**: `output_bias [numhid2 (200), 1]`, matrix of zeros
+    * **logit**:
+      * $$z_j$$: `input data * input weights + input bias`
+  * **output: softmax**
+    * **w.r.t logit**: 
+      $$
+      y_i = \frac{e^{z_i}}{\sum_{j \in group} e^{z_j}}
+      $$
+    * **derivative w.r.t. logit**:
+      $$
+      \frac{\delta y_i}{\delta z_i}=y_i(1-y_i)
+      $$
+  * **error: cross entropy**
+    * $$ t_j $$: zero at non-target output, 1 at target output
+    * $$ y_j $$: output at *j*th unit
+    * **w.r.t. output given target ouput**: 
+      $$
+      C=-\sum_{j} t_j \log{y_j}
+      $$
+    * **derivative w.r.t. output given target outputs**:
+      $$
+      \frac{\delta C}{\delta z_i}=\sum_j \frac{\delta C}{\delta y_j}\frac{\delta y_j}{\delta z_i}=y_i-t_i
+      $$
+* **hidden layer**
+  * **description**: `numhid2 (200)` hidden layer units connect the 
+    embedding layer to the output layer
+  * **input**
+    * **input data**
+  * *incoming weights from embedding layer* are in `hid_to_output_weights`
+    * initialized with `zeros(numhid2, vocab_size);`, a matrix of zeroes
+      with `numhid2` rows and `vocab_size` rows. 
+    * Note that `word_embedding_weights` has `vocab_size` columns, and 
+      `hid_to_output_weights` has `vocab_size` rows.
+  * *bias of units* captured in `hid_bias`
+    * initialized with `zeros(numhid2, 1);`, a matrix with `numhid2` rows
+      and 1 column.
+  * each of the `numhid2` (200) units has: 
+    * `numhid1` (50) inputs from embedding layer
+    * 1 output
+* **embedding layer**
+  * `numhid1 (50)` configures the number of units in the embedding layer
+  * *incoming weights from input layer* are in `word_embedding_weights`
+    * initialized with `init_wt * randn(vocab_size, numhid1)`, a matrix 
+      of 0 +/- 0.01 with dimensions `[vocab_size (250), numhid1 (50)]` 
+  * *bias of units* - unmentioned. presumably zero.
+  * each of the `numhid1` (50) units have: 
+    * 3 inputs from input layer
+    * 1 output
+* **input layer**
+  * consists of three word indices; it's a 3d vector of int word indices
+  * trained in batches of 100
+    * each input batch is a matrix of 3 rows and 100 columns by default
+    * constitutes 100 training cases of 3 ints corresponding to word indices
+  * *bias of units* - unmentioned. presumably zero.
+  * each of the 3 units have:
+    * 1 input 
+    * 1 output
+
+#### Overview - Procedure
 * `load_data(batchsize)`
   * comes from `./raw_sentences.txt`
   * returns `train_input, train_target, valid_input, valid_target,
@@ -441,11 +465,12 @@ end
     this_chunk_CE = 0;
   end
   ```
-  * this chunk can be ignored. It's just used for printing the 
-    intermediate effects every 100 batches.
+  * this code prints the Cross Entropy "in progress" every 100 batches
 
 #### Back Propagate - Output Layer
 ```octave
+    % BACK PROPAGATE.
+    %% OUTPUT LAYER.
 hid_to_output_weights_gradient =  hidden_layer_state * error_deriv';
 output_bias_gradient = sum(error_deriv, 2);
 back_propagated_deriv_1 = (hid_to_output_weights * error_deriv) .* hidden_layer_state .* (1 - hidden_layer_state);
@@ -453,13 +478,13 @@ back_propagated_deriv_1 = (hid_to_output_weights * error_deriv) .* hidden_layer_
 1. `hid_to_output_weights_gradient =  hidden_layer_state * error_deriv';`
    * `error_deriv` holds `output_layer_state - expanded_target_batch`, a matrix of 250x100
      * `error_deriv'` is the transpose, so a matrix of 100x250
-   * `hidden_layer_state` holds 250x100, where rows are words and cols are training 
+   * `hidden_layer_state` holds `[250x100]`, where rows are words and cols are training 
      cases in batch
-   * so `hid_to_output_weights_gradient` is regular matrix mult of the two. 
+   * so `hid_to_output_weights_gradient` is regular matrix multiplication of the two. 
 2. `output_bias_gradient = sum(error_deriv, 2);`
    * `error_deriv` is 250x100, which is the rate of change of the loss func for 
      250 words x 100 training cases
-   * `A = [1, 2; 3, 4]; sum(A, 2)` gives 
+   * `A = [1, 2; 3, 4]; sum(A, 2)` gives:
      ``` 
      3
      7
