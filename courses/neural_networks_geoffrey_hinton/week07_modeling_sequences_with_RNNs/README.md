@@ -1,12 +1,16 @@
 # Week 7 - Modeling Sequences with RNNs
 
-## 7a 
-### 7a-02 - 
-### 7a-03 - 
-### 7a-04 - 
-### 7a-05 - 
-### 7a-06 - 
-### 7a-07 - 
+## 7a - Modeling sequences: A brief overview
+### 7a-02 - Getting targets when modeling sequences
+### 7a-03 - Memoryless models for sequences
+### 7a-04 - Beyond memoryless models
+### 7a-05 - Linear Dynamical Systems (engineers love them!)
+### 7a-06 - Hidden Markov Models (computer scientists love them!)
+### 7a-07 - A fundamental limitation of HMMs
+### 7a-08 - Recurrent neural networks
+### 7a-09 - Do generative models need to be stochastic?
+### 7a-10 - Recurrent neural networks
+
 
 ## 7b - 
 ### 7b-02 -
@@ -36,9 +40,8 @@
 ### 7e-02 - Long Short Term Memory (LSTM)
 ### 7e-03 - Implementing a memory cell in a neural network
 ### 7e-04 - Backpropagation through a memory cell
-* At initial time, let's asume that keep gate is 0 and write gate is 1
+* At initial time, let's assume that keep gate is 0 and write gate is 1
 * value of 1.7 from rest of NN is set to 1.7. 
-* rest of NN has to set the 
 
 ### 7e-05 - Reading cursive handwriting
 * natural task for RNN
