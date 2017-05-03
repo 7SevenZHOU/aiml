@@ -12,28 +12,28 @@
 ### 7a-10 - Recurrent neural networks
 
 
-## 7b - 
-### 7b-02 -
-### 7b-03 - 
-### 7b-04 - 
-### 7b-05 - 
-### 7b-06 - 
-### 7b-07 - 
-### 7b-08 - 
+## 7b - Training RNNs with backpropagation
+### 7b-02 - The equivalence between feedforward nets and recurrent nets
+### 7b-03 - Reminder: Backpropagation with weight constraints
+### 7b-04 - Backpropagation through time
+### 7b-05 - An irritating extra issue
+### 7b-06 - Providing input to recurrent networks
+### 7b-07 - Teaching signals for recurrent networks
 
 
-## 7c - 
-### 7c-02 -
-### 7c-03 - 
-### 7c-04 - 
-### 7c-05 - 
-### 7c-06 - 
+## 7c - A toy example of training an RNN
+### 7c-02 - A good toy problem for a recurrent network
+### 7c-03 - The algorithm for binary addition
+### 7c-04 - A recurrent net for binary addition
+### 7c-05 - The connectivity of the network
+### 7c-06 - What the network learns
 
 
-## 7d - 
-### 7d-02 -
-### 7d-03 - 
-### 7d-04 - 
+## 7d - Why it is difficult to train an RNN
+### 7d-02 - The backward pass is linear
+### 7d-03 - The problem of exploding or vanishing gradients
+### 7d-04 - Why the back-propagated gradient blows up
+### 7d-05 - Four effective ways to learn an RNN
 
 
 ## 7e - Long term short term memory
@@ -70,6 +70,7 @@ TBD
 # Week 7 Vocab
 
 * *Attenuation*:
+* *Attractors*: 
 
 # Week 7 FAQ
 
