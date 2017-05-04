@@ -153,6 +153,8 @@ least two digits after the decimal point.
 * I need to get in the habit of making one-off functions in octave, rather
   than using the repl line by line
 
+## Week 7 Quiz - Q4
+
 # Week 7 Vocab
 
 * *Attenuation*:
