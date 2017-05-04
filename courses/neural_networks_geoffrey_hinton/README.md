@@ -7,7 +7,7 @@
   * considered [this plugin from 2013](https://github.com/tomconder/octaveplugin/issues/1) but decided against it
   * [pycharm instructions](https://confluence.jetbrains.com/display/PYH/TextMate+Bundles+in+PyCharm)
   * [matlab.tmbundle](https://github.com/textmate/matlab.tmbundle)
-
+* [wikibooks: printf](https://en.wikibooks.org/wiki/Octave_Programming_Tutorial/Text_and_file_output)
 
 ### Matrices - Basic
 
