@@ -1,12 +1,14 @@
 {
-
-    "plugins": [
-        "mathjax",
-        "include-codeblock"
-    ],
-    "pluginsConfig": {
-        "include-codeblock": {
-            "template": "ace"
-        }
+  "plugins": [
+    "mathjax",
+    "include-codeblock",
+    "ace"
+  ],
+  "pluginsConfig": {
+    "include-codeblock": {
+      "template": "ace",
+      "unindent": true,
+      "theme": "monokai"
     }
+  }
 }
