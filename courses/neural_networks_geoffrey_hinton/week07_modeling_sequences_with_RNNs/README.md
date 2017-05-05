@@ -112,11 +112,6 @@ what is the value of the hidden state $$ h $$ at $$ T=2 $$? Give your naswer wit
 least two digits after the decimal point.
 
 *Q2 Notes*
-* *x* is input, *h* is logistic hidden, *y* is linear output
-* It's clear to me how to get from *x* to *y* thorugh *h*, but not how to go from 
-  *h* at T=0 to *h* at T=1
-* Perhaps the output from $$ h_{t-1} $$  is used as an incoming input at unit 
-  $$ h_{t} $$. That is what is implied by $$ W_{hh}=-1.0 $$.
 
 [include](./prob3.m)
 
