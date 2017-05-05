@@ -11,55 +11,57 @@ x_inputs = [9, 4, -2]
 
 function [logistic_unit_output] = get_logit_activation(k)
 
-  logistic_unit_output = 1 / ( 1 + exp( -1 * k ) )
+  logistic_unit_output = 1 / ( 1 + exp( -1 * k ) );
 
 endfunction
 
 
 function [unit_logit] = get_logit(x_input, w_xh, h_input, w_hh, h_bias)
 
-  unit_logit = x_input * w_xh + h_input * w_hh + h_bias
+  unit_logit = x_input * w_xh + h_input * w_hh + h_bias;
 
 endfunction
 
 
-function [y_outputs, h_outputs] = doProb3(x_inputs, w_xh, w_hh, w_hy, h_bias, y_bias)
+function [h_outputs, y_outputs] = doProb3(x_inputs, w_xh, w_hh, w_hy, h_bias, y_bias)
   % Given a [1xN] column matrix of inputs, produce the
   % Recurrent Neural Network computation
 
-  num_time_steps = size(x_inputs, 2)
-  h_inputs = zeros(1, num_time_steps)
-  h_logits = zeros(1, num_time_steps)
-  h_outputs = zeros(1, num_time_steps)
-  y_outputs = zeros(1, num_time_steps)
+  num_time_steps = size(x_inputs, 2);
+  h_inputs = zeros(1, num_time_steps);
+  h_logits = zeros(1, num_time_steps);
+  h_outputs = zeros(1, num_time_steps);
+  y_outputs = zeros(1, num_time_steps);
 
+  % unlike the diagram, T here is 1:3, not 0:2
   for T = 1:num_time_steps
 
-    printf('\n\nT = %d:\n', T);
+    printf('\nT %d:\n----------------\n', T);
     x_input = x_inputs(:, T)
     h_input = h_inputs(:, T)
-    printf('x_input: %d\n', x_input);
-    printf('h_input: %d\n', h_input);
 
     [unit_logit] = get_logit(x_input, w_xh, h_input, w_hh, h_bias)
-    h_outputs(1, T) = unit_logit
-    printf('h_logit: %d\n', unit_logit);
+    h_logits(1, T) = unit_logit;
 
     [logistic_unit_output] = get_logit_activation(unit_logit)
-    h_logits(1, T) = logistic_unit_output
-    printf('h_output: %d\n', logistic_unit_output);
+    h_outputs(1, T) = logistic_unit_output;
+
+    if T+1 <= num_time_steps
+      % in all iterations except for the last,
+      % make the hidden input at T+1 equal to the hidden output at T
+      h_inputs(1, T+1) = h_outputs(1, T);
+    endif
 
     y_output = logistic_unit_output * w_hy + y_bias
-    y_outputs(1, T) = y_output
-    printf('y_output: %d\n', y_output);
+    y_outputs(1, T) = y_output;
 
   endfor
 
 endfunction
 
 
-[y_outputs, h_outputs] = doProb3(x_inputs, w_xh, w_hh, w_hy, h_bias, y_bias)
+[h_outputs, y_outputs] = doProb3(x_inputs, w_xh, w_hh, w_hy, h_bias, y_bias);
 
-y_at_t_equals_1 = y_outputs(:, 2)
-% gives -0.51174, incorrect
+printf("\nWhat is the value of the output y at T = 1? \n%f\n", y_outputs(1, 2))
+printf("\nWhat is the value of the hidden state h at T = 2? \n%f\n", h_outputs(1,3))
 

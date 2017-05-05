@@ -117,43 +117,9 @@ least two digits after the decimal point.
   *h* at T=0 to *h* at T=1
 * Perhaps the output from $$ h_{t-1} $$  is used as an incoming input at unit 
   $$ h_{t} $$. That is what is implied by $$ W_{hh}=-1.0 $$.
-* Calculating:
-  ```octave
-  octave:12> wxh=0.5
-  wxh =  0.50000
-  octave:13> whh=-1.0
-  whh = -1
-  octave:14> why=-0.7
-  why = -0.70000
-  octave:15> hbias=-1.0
-  hbias = -1
-  octave:16> ybias=0.0
-  ybias = 0
-  octave:17> x0=9
-  x0 =  9
-  octave:18> x1=4
-  x1 =  4
-  octave:19> x2=-2
-  x2 = -2
-  octave:20> h_pre=0
-  h_pre = 0
-  octave:22> k0 = whh*h_pre + wxh*x0 + hbias
-  k0 =  3.5000
-  octave:23> h0 = 1 / (1 + exp(-1*k0))
-  h0 =  0.97069
-  octave:24> k1 = whh*h0 + wxh*x1 + hbias
-  k1 =  0.029312
-  octave:25> h1 = 1 / (1 + exp(-1*k1))
-  h1 =  0.50733
-  octave:26> k2 = whh*h1 + wxh*x2 + hbias
-  k2 = -2.5073
-  octave:27> h2 = 1 / (1 + exp(-1*k2))
-  h2 =  0.075346
-  ```
-* I need to get in the habit of making one-off functions in octave, rather
-  than using the repl line by line
 
-## Week 7 Quiz - Q4
+[include](./prob3.m)
+
 
 # Week 7 Vocab
 

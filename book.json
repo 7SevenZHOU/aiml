@@ -3,5 +3,10 @@
     "plugins": [
         "mathjax",
         "include-codeblock"
-    ]
+    ],
+    "pluginsConfig": {
+        "include-codeblock": {
+            "template": "ace"
+        }
+    }
 }
