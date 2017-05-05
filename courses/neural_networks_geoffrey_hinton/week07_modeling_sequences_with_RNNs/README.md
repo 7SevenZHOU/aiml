@@ -111,7 +111,7 @@ If the input $$ x $$ takes the values 9, 4, -2 at the time steps 0, 1, 2 respect
 what is the value of the hidden state $$ h $$ at $$ T=2 $$? Give your naswer with at 
 least two digits after the decimal point.
 
-*Q2 Notes*
+### Week 7 Quiz - Q3 Solution
 
 [include](./prob3.m)
 

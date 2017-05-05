@@ -12,6 +12,7 @@
 ### Matrices - Basic
 
 * from [A Programmer's Guide to Octave](http://www.i-programmer.info/programming/other-languages/4779-a-programmers-guide-to-octave.html?start=1)
+
 ```octave
 % row vector
 A=[1,2,3]
@@ -65,6 +66,7 @@ A([1,2],1)
 picks out A(1,1) and A(2,1) and the result is a column vector because 
 you have specified part of a column of the original matrix.
 ```
+
 * *Vector Index* to a matrix:
   > A vector of indexes just picks out the combined set of elements 
   > that each index would pick out. For example, `A([1,2],1)`
