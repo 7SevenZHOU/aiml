@@ -145,9 +145,24 @@ I've adapted `prob3.m` to prob4's parameters:
 The next step is to backpropagate. Following the lec 3 slide, 
 "Backpropagating dE/dy," 
 
-$$
+![backpropagation_diagram](/assets/hinton_lec3_backpropagation.png)
 
-$$ 
+1. 
+  $$
+  \frac{ \delta E }{ \delta z_j } 
+  = \frac{ dy_j }{ dz_j } \frac{ \delta E }{ \delta y_j } 
+  = y_j ( 1 - y_j ) \frac{ \delta E }{ \delta y_j }
+  $$
+2. 
+  $$
+  \frac{ \delta E }{ \delta y_j }
+  = \sum_j \frac{ dz_j }{ dy_i } \frac{ \delta E }{ \delta z_j } 
+  = \sum_{ij} \frac{ \delta E }{ \delta z_j }
+  $$
+3. 
+  \frac{ \delta E }{ \delta w_{ij} }
+  = \frac{ \delta z_j }{ \delta w_{ij} } \frac{ \delta E }{ \delta z_j } 
+  = y_i \frac{ \delta E }{ \delta z_j }
 
 # Week 7 Vocab
 
@@ -166,7 +181,10 @@ TBD
 TBD
 
 ## Week 7 Links
-TBD
+
+* [PDP Handbook Backpropagation Guide](https://web.stanford.edu/group/pdplab/pdphandbook/handbookch6.html)
+* [Wikipedia: Proportionality ($$ a \propto b $$)](https://www.cs.swarthmore.edu/~meeden/cs81/s10/BackPropDeriv.pdf)
+* [Swarthmore CS: Derivation of Backpropagation](https://www.cs.swarthmore.edu/~meeden/cs81/s10/BackPropDeriv.pdf)
 
 ## Week 7 People
 
