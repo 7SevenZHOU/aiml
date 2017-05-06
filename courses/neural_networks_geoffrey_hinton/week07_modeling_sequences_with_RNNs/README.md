@@ -111,10 +111,43 @@ If the input $$ x $$ takes the values 9, 4, -2 at the time steps 0, 1, 2 respect
 what is the value of the hidden state $$ h $$ at $$ T=2 $$? Give your naswer with at 
 least two digits after the decimal point.
 
-### Week 7 Quiz - Q3 Solution
+### Week 7 Quiz - Q3 Work
 
 [include](./prob3.m)
 
+## Week 7 Quiz - Q4
+The figure below shows a Recurrent Neural Network (RNN) with one input unit x, one 
+logistic hidden unit h, and one linear output unit.  The RNN is unrolled in time for 
+T=0, 1, and 2.
+
+![week 7 quiz q3 rnn](/./assets/hinton_lec7_quiz_q3_RNN.png)
+
+The network parameters are: Wxh=−0.1 , Whh=0.5 , Why=0.25 , hbias=0.4, and ybias=0.0.
+
+If the input x takes the values 18, 9, −8 at time steps 0, 1, 2 respectively, the 
+hidden unit values will be 0.2, 0.4, 0.8 and the output unit values will be 
+0.05, 0.1, 0.2 (you can check these values as an exercise).
+
+A variable z is defined as the total input to the hidden unit before the logistic 
+nonlinearity.
+
+If we are using squared error loss with targets t0 = 0.1, t1 = -0.1, t2 = -0.2, 
+what is the value of the error derivative just before the hidden unit nonlinearity 
+at T=2 (i.e. $$ \frac{\delta E}{\delta z_2} $$)? Write your answer up to at least 
+the fourth decimal place.
+
+### Week 7 Quiz - Q4 Work
+
+I've adapted `prob3.m` to prob4's parameters: 
+
+[include](./prob4.m)
+
+The next step is to backpropagate. Following the lec 3 slide, 
+"Backpropagating dE/dy," 
+
+$$
+
+$$ 
 
 # Week 7 Vocab
 

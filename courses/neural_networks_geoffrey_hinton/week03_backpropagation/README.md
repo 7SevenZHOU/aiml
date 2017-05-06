@@ -202,7 +202,28 @@ because $$\frac{e^{-z}}{1+e^{-z}}=\frac{(1+e^{-z})-1}{1+e^{-z}}=\frac{(1+e^{-z})
 * use error derivatives w.r.t "activities" to get error derivatives w.r.t. incoming weights
   * Hinton uses the word "activities" without defining it, and I'm not sure what he means
   * It uses it only after referencing an inefficient darwinian algorithm that has to do with random perturbations of weights, so one could infer that by "activities" he means varying weights in hidden layers, but it's not clear
-  * 
+  * > Update: activites means unit outputs after an activation function
+
+### 3d7 - Backpropagating dE/dy
+
+![backpropagation_diagram](/assets/hinton_lec3_backpropagation.png)
+
+1. 
+  $$
+  \frac{ \delta E }{ \delta z_j } 
+  = \frac{ dy_j }{ dz_j } \frac{ \delta E }{ \delta y_j } 
+  = y_j ( 1 - y_j ) \frac{ \delta E }{ \delta y_j }
+  $$
+2. 
+  $$
+  \frac{ \delta E }{ \delta y_j }
+  = \sum_j \frac{ dz_j }{ dy_i } \frac{ \delta E }{ \delta z_j } 
+  = \sum_{ij} \frac{ \delta E }{ \delta z_j }
+  $$
+3. 
+  \frac{ \delta E }{ \delta w_{ij} }
+  = \frac{ \delta z_j }{ \delta w_{ij} } \frac{ \delta E }{ \delta z_j } 
+  = y_i \frac{ \delta E }{ \delta z_j }
 
 ## 3e - Using Backpropagation Algorithm Derivatives
 
