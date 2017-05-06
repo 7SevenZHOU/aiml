@@ -122,7 +122,8 @@ T=0, 1, and 2.
 
 ![week 7 quiz q3 rnn](/./assets/hinton_lec7_quiz_q3_RNN.png)
 
-The network parameters are: Wxh=−0.1 , Whh=0.5 , Why=0.25 , hbias=0.4, and ybias=0.0.
+The network parameters are: $$ W_{xh} =−0.1 $$, $$ W_{hh}=0.5 $$, $$ W_{hy}=0.25 $$, 
+$$ h_{bias}=0.4 $$, and $$ y_{bias}=0.0 $$.
 
 If the input x takes the values 18, 9, −8 at time steps 0, 1, 2 respectively, the 
 hidden unit values will be 0.2, 0.4, 0.8 and the output unit values will be 
@@ -145,7 +146,7 @@ I've adapted `prob3.m` to prob4's parameters:
 The next step is to backpropagate. Following the lec 3 slide, 
 "Backpropagating dE/dy," 
 
-![backpropagation_diagram](/assets/hinton_lec3_backpropagation.png)
+![backpropagation_diagram](../../../assets/hinton_lec3_backpropagation.png)
 
 1. 
   $$
@@ -160,9 +161,13 @@ The next step is to backpropagate. Following the lec 3 slide,
   = \sum_{ij} \frac{ \delta E }{ \delta z_j }
   $$
 3. 
+  $$
   \frac{ \delta E }{ \delta w_{ij} }
   = \frac{ \delta z_j }{ \delta w_{ij} } \frac{ \delta E }{ \delta z_j } 
   = y_i \frac{ \delta E }{ \delta z_j }
+  $$
+
+
 
 # Week 7 Vocab
 
