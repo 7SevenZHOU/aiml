@@ -101,7 +101,7 @@ The figure below shows a Recurrent Neural Network (RNN) with one input unit x, o
 logistic hidden unit $$ h $$, and one linear output unit $$ y $$. The RNN is unrolled 
 in time for T=0, 1, and 2.
 
-![week 7 quiz q3 rnn](/./assets/hinton_lec7_quiz_q3_RNN.png)
+![week 7 quiz q3 rnn](../../../assets/hinton_lec7_quiz_q3_RNN.png)
 
 The network parameters are: $$ W_{xh}=0.5 $$, $$ W_{hh}=-1.0 $$, $$ W_{hy}=-0.7 $$, 
 $$ h_{bias}=-1.0 $$, and $$ y_{bias}=0.0 $$. Remember, 
@@ -120,7 +120,7 @@ The figure below shows a Recurrent Neural Network (RNN) with one input unit x, o
 logistic hidden unit h, and one linear output unit.  The RNN is unrolled in time for 
 T=0, 1, and 2.
 
-![week 7 quiz q3 rnn](/./assets/hinton_lec7_quiz_q3_RNN.png)
+![week 7 quiz q3 rnn](../../../assets/hinton_lec7_quiz_q3_RNN.png)
 
 The network parameters are: $$ W_{xh} =−0.1 $$, $$ W_{hh}=0.5 $$, $$ W_{hy}=0.25 $$, 
 $$ h_{bias}=0.4 $$, and $$ y_{bias}=0.0 $$.
@@ -143,7 +143,15 @@ I've adapted `prob3.m` to prob4's parameters:
 
 [include](./prob4.m)
 
-The next step is to backpropagate. Following the lec 3 slide, 
+The next step is to backpropagate. 
+
+We are using squared error: 
+
+$$ 
+\frac{ 1 }{ 2 }  \sum_{  }
+$$ 
+
+Following the lec 3 slide, 
 "Backpropagating dE/dy," 
 
 ![backpropagation_diagram](../../../assets/hinton_lec3_backpropagation.png)
@@ -190,6 +198,9 @@ TBD
 * [PDP Handbook Backpropagation Guide](https://web.stanford.edu/group/pdplab/pdphandbook/handbookch6.html)
 * [Wikipedia: Proportionality ($$ a \propto b $$)](https://www.cs.swarthmore.edu/~meeden/cs81/s10/BackPropDeriv.pdf)
 * [Swarthmore CS: Derivation of Backpropagation](https://www.cs.swarthmore.edu/~meeden/cs81/s10/BackPropDeriv.pdf)
+* [Stanford CS Machine Learning: Lecture 1](https://web.stanford.edu/class/cs221/lectures/learning1.pdf)
+  * defines squared loss: $$ _{ \text{Loss}_squared (x, y, \bm{w} ) } = (f_w(x) - y)^{2} $$ 
+    
 
 ## Week 7 People
 
