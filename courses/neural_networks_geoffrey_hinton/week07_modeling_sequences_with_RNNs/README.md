@@ -201,6 +201,7 @@ TBD
 * [Stanford CS Machine Learning: Lecture 1](https://web.stanford.edu/class/cs221/lectures/learning1.pdf)
   * defines squared loss: $$ _{ \text{Loss}_{\text{squared}} (x, y, w ) } = (f_w(x) - y)^{2} $$ 
 * [Stanford CS221 Artificial Intelligence: Principles and Techniques](https://web.stanford.edu/class/cs221/)
+* [CS CMU backprop pdf](https://www.cs.cmu.edu/afs/cs/academic/class/15883-f15/slides/backprop.pdf)
 
 ## Week 7 People
 
