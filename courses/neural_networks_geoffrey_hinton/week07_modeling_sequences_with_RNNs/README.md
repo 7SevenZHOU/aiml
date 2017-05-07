@@ -199,8 +199,8 @@ TBD
 * [Wikipedia: Proportionality ($$ a \propto b $$)](https://www.cs.swarthmore.edu/~meeden/cs81/s10/BackPropDeriv.pdf)
 * [Swarthmore CS: Derivation of Backpropagation](https://www.cs.swarthmore.edu/~meeden/cs81/s10/BackPropDeriv.pdf)
 * [Stanford CS Machine Learning: Lecture 1](https://web.stanford.edu/class/cs221/lectures/learning1.pdf)
-  * defines squared loss: $$ _{ \text{Loss}_squared (x, y, \bm{w} ) } = (f_w(x) - y)^{2} $$ 
-    
+  * defines squared loss: $$ _{ \text{Loss}_{\text{squared}} (x, y, w ) } = (f_w(x) - y)^{2} $$ 
+* [Stanford CS221 Artificial Intelligence: Principles and Techniques](https://web.stanford.edu/class/cs221/)
 
 ## Week 7 People
 
