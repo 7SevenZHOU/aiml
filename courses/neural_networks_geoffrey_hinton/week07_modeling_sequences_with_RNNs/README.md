@@ -145,11 +145,29 @@ I've adapted `prob3.m` to prob4's parameters:
 
 The next step is to backpropagate. 
 
-We are using squared error: 
+We are using squared error, which means that for each output unit, the 
+error is computed as one half the square of the residual, which is the 
+difference between the target output and the actual output for the unit:
 
 $$ 
-\frac{ 1 }{ 2 }  \sum_{  }
+E_j = \frac{ 1 }{ 2 }(t_j - y_j)^{2}
+$$
+
+The total error across all output units is the sum of the errors for all 
+output units:
+
 $$ 
+E_{ \text{ total } } 
+= \sum_{ j \in \text{all output units} } \frac{ 1 }{ 2 } ( t_j - y_j )^{2}
+$$ 
+
+now we have the total error, we wish to compute the partial derivative of the 
+total error $$ E $$ w.r.t. the incoming weights in the output layer, *i*:
+
+$$
+\frac{ \delta E }{ \delta w_i }
+= - \sum_n 
+$$
 
 Following the lec 3 slide, 
 "Backpropagating dE/dy," 
