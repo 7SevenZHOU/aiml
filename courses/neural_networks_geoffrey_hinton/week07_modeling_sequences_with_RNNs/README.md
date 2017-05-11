@@ -193,8 +193,8 @@ Following the lec 3 slide,
   = y_i \frac{ \delta E }{ \delta z_j }
   $$
 
-It may be useful here to go to the book [Neural Networks and Deep Learning Chapter 2](http://neuralnetworksanddeeplearning.com/chap2.html),
-which explains backpropagation in more of a systematic manner.
+It may be useful here to go to [*Neural Networks and Deep Learning* Chapter 2 - Backpropagation](http://neuralnetworksanddeeplearning.com/chap2.html),
+which explains this in more of a systematic manner.
 
 
 # Week 7 Vocab
