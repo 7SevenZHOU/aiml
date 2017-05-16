@@ -15,6 +15,14 @@ $$s \odot t$$:
 
 ### [The four fundamental equations behind backpropagation](http://neuralnetworksanddeeplearning.com/chap2.html#the_four_fundamental_equations_behind_backpropagation)
 
+* measure of error
+  * $$
+      \delta^l_j =
+      \frac{\partial C}{\partial z^l_j}
+    $$ - here delta is the "inexact derivative" or incremental amount changed in 
+    hidden neuron $$ j $$ at layer $$ l $$, and it's set to be the partial 
+    derivative of the Cost function w.r.t the logistic logit at that neuron.
+
 ### [Proof of the four fundamental equations (optional)](http://neuralnetworksanddeeplearning.com/chap2.html#proof_of_the_four_fundamental_equations_(optional))
 
 ### [The backpropagation algorithm](http://neuralnetworksanddeeplearning.com/chap2.html#the_backpropagation_algorithm)
