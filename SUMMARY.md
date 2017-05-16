@@ -1,4 +1,4 @@
-# Courses
+## Courses
 
 * [Courses Page](/./courses/README.md)
 
@@ -12,3 +12,10 @@
 * [Week 6 - Minibatch Gradient Descent](/./courses/neural_networks_geoffrey_hinton/week06_minibatch_gradient_descent/README.md)
 * [Week 7 - Modeling Sequences with RNNs](/./courses/neural_networks_geoffrey_hinton/week07_modeling_sequences_with_RNNs/README.md)
 
+## Books
+
+* [Books Page](/./books/README.md)
+
+### Neural Networks and Deep Learning
+
+* [Neural Networks and Deep Learning Notes](./books/neural_networks_and_deep_learning/README.md)

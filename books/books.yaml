@@ -1,0 +1,11 @@
+--- !aiml/books/books.yaml
+- title: Neural Networks and Deep Learning
+  authors:
+    - Michael Nielsen
+  url: http://neuralnetworksanddeeplearning.com/index.html
+- title: Deep Learning
+  authors:
+    - Ian Goodfellow
+    - Yoshua Bengio
+    - Aaron Courville
+  url: http://www.deeplearningbook.org/
