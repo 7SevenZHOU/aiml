@@ -1,6 +1,6 @@
 ## Courses
 
-* [Courses Page](/./courses/README.md)
+* [Course List](/./courses/README.md)
 
 ### Neural Networks for Machine Learning - Geoffrey Hinton - U Toronto
 
@@ -14,7 +14,7 @@
 
 ## Books
 
-* [Books Page](/./books/README.md)
+* [Book List](/./books/README.md)
 
 ### Neural Networks and Deep Learning
 
