@@ -6,7 +6,7 @@
 ## [How the backpropagation algorithm works](http://neuralnetworksanddeeplearning.com/chap2.html)
 
 ### [The Hadamard product](http://neuralnetworksanddeeplearning.com/chap2.html#the_hadamard_product_$s_\odot_t$)
-
+$$s_\odot_t$$ is the *elementwise* product of two vectors $$ s $$ and $$ t $$.
 
 ## [Improving the way neural networks learn](http://neuralnetworksanddeeplearning.com/chap3.html)
 
