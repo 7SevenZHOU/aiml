@@ -23,6 +23,45 @@ $$s \odot t$$:
     hidden neuron $$ j $$ at layer $$ l $$, and it's set to be the partial 
     derivative of the Cost function w.r.t the logistic logit at that neuron.
 
+#### BP1 - error in the output layer $$ \delta^L $$
+
+* **BP1**: $$
+  \begin{eqnarray} 
+    \delta^L_j = \frac{\partial C}{\partial a^L_j} \sigma'(z^L_j).
+  \tag{BP1}\end{eqnarray}
+  $$
+  * $$ \partial C / \partial a^L_j $$
+    * how fast cost is changing as a function of $$ j^{\text(th)} $$ output activation
+    * if cost *C* doesn't depend on neuron *j*, then $$ \delta^L_j $$ will be small
+    * if using quadratic / squared error, 
+      $$
+      C = \frac{1}{2} \sum_j
+      (y_j-a^L_j)^2
+      $$, and so
+      $$
+      \partial C / \partial a^L_j = (a_j^L-y_j)
+      $$ (notice the reversal of terms since the derivative of the inner term is -1)
+  * $$ \sigma'(z^L_j) $$
+    * how fast the activation function $$ \sigma $$ is changing at $$ z^L_j $$
+  * $$ z^L_j $$ is computed during forward pass
+  * it is a componentwise expression for $$ \delta^L $$
+* **BP1a**: $$
+  \begin{eqnarray} 
+    \delta^L = \nabla_a C \odot \sigma'(z^L).
+  \tag{BP1a}\end{eqnarray}
+  * $$ \nabla_a C $$
+    * a vector whose components are the partial derivatives
+      $$ \partial C / \partial a^L_j $$
+    * expresses the rate of change of *C* w.r.t. output activations
+  * equivalent to *BP1*
+  * with quadratic cost / squared error we have $$ \nabla_a C = (a^L-y) $$
+    * so then BP1 becomes $$
+      \begin{eqnarray} 
+        \delta^L = (a^L-y) \odot \sigma'(z^L).
+      \tag{30}\end{eqnarray}
+      $$
+    
+
 ### [Proof of the four fundamental equations (optional)](http://neuralnetworksanddeeplearning.com/chap2.html#proof_of_the_four_fundamental_equations_(optional))
 
 ### [The backpropagation algorithm](http://neuralnetworksanddeeplearning.com/chap2.html#the_backpropagation_algorithm)
