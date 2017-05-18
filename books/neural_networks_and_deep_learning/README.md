@@ -60,7 +60,66 @@ $$s \odot t$$:
         \delta^L = (a^L-y) \odot \sigma'(z^L).
       \tag{30}\end{eqnarray}
       $$
-    
+
+#### BP2 - An equation for the error $$ \delta^l $$ in terms of next layer
+
+* **BP2**: $$
+    \delta^l 
+    = (
+      ( w^{l+1} )^T \delta^{ l+1 } 
+    ) \odot \sigma'(z^l)
+  $$
+  * $$ (w^{l+1})^T $$: the transpose of the weight matrix $$ w^{l+1} $$ for
+    the next layer
+  * if we know the error $$ \delta^{l+1} $$ of the next layer, then when 
+    we multiply the transpose weight matrix $$ (w^{l+1})^T $$ by it,
+    we are moving the error backward through the network, giving 
+    the error at layer *l*.
+  * By taking Hadamard product $$ \odot \sigma'(z^l) $$, we move
+    error through the activation function in layer *l*, giving us error
+    $$ \delta^l $$ in the weighted input to layer *l*
+  * combining **BP2** and **BP1** we can use **BP1** to compute $$ \delta^L $$
+    then apply **BP2** to compute $$ \delta^{L-1} $$, then **BP2** again to 
+    compute $$ \delta^{L-2} $$ and so on through network
+
+#### BP3 - rate of change of cost w.r.t. any bias in network
+
+* **BP3**: $$
+  \frac{ \partial C }{ \partial b^l_j } =
+    \delta^l_j.
+  $$
+  * error $$ \delta^l_j $$ is equal to rate of change $$ 
+    \frac{ \partial C }{ \partial b^l_j } $$.
+* **BP3-vec**: $$
+  \frac{ \partial C }{ \partial b } = \delta
+  $$, where *b* is evaluated at same neuron as $$ \delta $$.
+
+#### BP4 - change of cost w.r.t. any weight in network:
+
+* **BP4**: $$
+  \frac{ \partial C }
+  { \partial w^l_{jk} } 
+  = a^{ l-1 }_k \delta^l_j
+  $$
+  * how to compute partial derivatives of cost w.r.t. weight using
+    $$ \delta^l $$ and $$ a^{l-1} $$, which are already known
+* **BP4-vec**: $$
+  \frac{ \partial C }
+  { \partial w } 
+  = a_{ \rm in } \delta_{ \rm out }
+  $$
+  * $$ a_{ \rm in } $$ is the activation into the weight *w*
+  * $$ \delta_{ \rm out } $$ is the error of neuron output w.r.t. the weight
+  * the product of these is the partial deriv of Cost w.r.t. the weight
+    * the partial deriv of Cost w.r.t. the weight is called "the gradient term"
+    * when $$ a_{ \rm in } $$ is near zero, weight *learns slowly*
+  * "the output neuron is *saturated*" when output neuron is low activation 
+    ($$ \approx 0 $$) or high activation ($$ \approx 1 $$)
+    * then learning happens slowly or has "stopped" learning
+
+#### Summary
+![backpropagation equations summary](../../assets/bk_nnadl_bp_eq_summary.png)
+
 
 ### [Proof of the four fundamental equations (optional)](http://neuralnetworksanddeeplearning.com/chap2.html#proof_of_the_four_fundamental_equations_(optional))
 
