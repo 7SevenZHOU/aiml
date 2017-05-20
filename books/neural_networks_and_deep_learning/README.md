@@ -113,7 +113,7 @@ $$s \odot t$$:
 #### Summary
 ![backpropagation equations summary](../../assets/bk_nnadl_bp_eq_summary.png)
 
-### [Proof of the four fundamental equations (optional)](http://neuralnetworksanddeeplearning.com/chap2.html#proof_of_the_four_fundamental_equations_(optional))
+### [Proof of the four fundamental equations](http://neuralnetworksanddeeplearning.com/chap2.html#proof_of_the_four_fundamental_equations_(optional))
 * proofs for BP1 and BP2 are provided in terms of base definitions using the 
   chain rule for derivatives
 * proofs for BP3 and BP4 are left as an exercise to the reader
