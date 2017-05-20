@@ -24,9 +24,7 @@ $$s \odot t$$:
 #### BP1 - error in the output layer $$ \delta^L $$
 
 * **BP1**: $$
-  \begin{eqnarray} 
-    \delta^L_j = \frac{\partial C}{\partial a^L_j} \sigma'(z^L_j).
-  \tag{BP1}\end{eqnarray}
+    \delta^L_j = \frac{\partial C}{\partial a^L_j} \sigma'(z^L_j)
   $$
   * $$ \partial C / \partial a^L_j $$
     * how fast cost is changing as a function of $$ j^{\text(th)} $$ output activation
@@ -53,9 +51,7 @@ $$s \odot t$$:
   * equivalent to *BP1*
   * with quadratic cost / squared error we have $$ \nabla_a C = (a^L-y) $$
     * so then BP1 becomes $$
-      \begin{eqnarray} 
-        \delta^L = (a^L-y) \odot \sigma'(z^L).
-      \tag{30}\end{eqnarray}
+        \delta^L = (a^L-y) \odot \sigma'(z^L)
       $$
 
 #### BP2 - An equation for the error $$ \delta^l $$ in terms of next layer
