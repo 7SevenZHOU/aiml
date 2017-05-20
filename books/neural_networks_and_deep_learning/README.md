@@ -50,18 +50,12 @@ $$s \odot t$$:
     * expresses the rate of change of *C* w.r.t. output activations
   * equivalent to *BP1*
   * with quadratic cost / squared error we have $$ \nabla_a C = (a^L-y) $$
-    * so then BP1 becomes $$
-        \delta^L = (a^L-y) \odot \sigma'(z^L)
-      $$
+    * so then BP1 becomes $$ \delta^L = (a^L-y) \odot \sigma'(z^L) $$
 
 #### BP2 - An equation for the error $$ \delta^l $$ in terms of next layer
 
-* **BP2**: $$
-    \delta^l 
-    = (
-      ( w^{l+1} )^T \delta^{ l+1 } 
-    ) \odot \sigma'(z^l)
-  $$
+* **BP2**: 
+  $$ \delta^l = (( w^{l+1} )^T \delta^{ l+1 } ) \odot \sigma'(z^l) $$
   * $$ (w^{l+1})^T $$: the transpose of the weight matrix $$ w^{l+1} $$ for
     the next layer
   * if we know the error $$ \delta^{l+1} $$ of the next layer, then when 
@@ -77,30 +71,18 @@ $$s \odot t$$:
 
 #### BP3 - rate of change of cost w.r.t. any bias in network
 
-* **BP3**: $$
-  \frac{ \partial C }{ \partial b^l_j } =
-    \delta^l_j.
-  $$
-  * error $$ \delta^l_j $$ is equal to rate of change $$ 
-    \frac{ \partial C }{ \partial b^l_j } $$.
-* **BP3-vec**: $$
-  \frac{ \partial C }{ \partial b } = \delta
-  $$, where *b* is evaluated at same neuron as $$ \delta $$.
+* **BP3**: $$ \frac{ \partial C }{ \partial b^l_j } = \delta^l_j $$
+  * error $$ \delta^l_j $$ is equal to rate of change 
+    $$ \frac{ \partial C }{ \partial b^l_j } $$.
+* **BP3-vec**: $$ \frac{ \partial C }{ \partial b } = \delta $$, 
+  where *b* is evaluated at same neuron as $$ \delta $$.
 
 #### BP4 - change of cost w.r.t. any weight in network:
 
-* **BP4**: $$
-  \frac{ \partial C }
-  { \partial w^l_{jk} } 
-  = a^{ l-1 }_k \delta^l_j
-  $$
+* **BP4**: $$ \frac{ \partial C }{ \partial w^l_{jk} } = a^{ l-1 }_k \delta^l_j $$
   * how to compute partial derivatives of cost w.r.t. weight using
     $$ \delta^l $$ and $$ a^{l-1} $$, which are already known
-* **BP4-vec**: $$
-  \frac{ \partial C }
-  { \partial w } 
-  = a_{ \rm in } \delta_{ \rm out }
-  $$
+* **BP4-vec**: $$ \frac{ \partial C }{ \partial w } = a_{ \rm in } \delta_{ \rm out } $$
   * $$ a_{ \rm in } $$ is the activation into the weight *w*
   * $$ \delta_{ \rm out } $$ is the error of neuron output w.r.t. the weight
   * the product of these is the partial deriv of Cost w.r.t. the weight
@@ -123,10 +105,8 @@ $$s \odot t$$:
 1. **Input _x_**: set the corresponding activation $$ a^1 $$ for the input layer
 2. **Feedforward**: For each *l* = 2, 3, ..., *L*, 
    1. compute the logit *z* at the layer $$ z^{l} = w^l a^{l-1}+b^l $$ 
-   2. compute the activation from the logit at layer *l*: $$
-      a^{l} = \sigma(z^{l}) $$
-3. **Output error $$ \sigma^L $$**: Compute the vector $$ 
-   \delta^{L} = \nabla_a C \odot \sigma'(z^L) $$. 
+   2. compute the activation from the logit at layer *l*: $$ a^{l} = \sigma(z^{l}) $$
+3. **Output error $$ \sigma^L $$**: Compute the vector $$ \delta^{L} = \nabla_a C \odot \sigma'(z^L) $$. 
    * compute the incremental error vector at output layer *L*
    * $$ \nabla_a C $$ is a vector whose components are the partial derivatives
       $$ \partial C / \partial a^L_j $$
