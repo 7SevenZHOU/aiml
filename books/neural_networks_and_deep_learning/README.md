@@ -105,8 +105,8 @@ $$s \odot t$$:
      * The [Nabla](https://en.wikipedia.org/wiki/Nabla_symbol#Modern_uses) is 
        used in vector calculus as part of the names of distinct differential operators:
        * the [gradient $$ \nabla $$](https://en.wikipedia.org/wiki/Gradient)
-       * the [divergence $$ \div $$](https://en.wikipedia.org/wiki/Divergence)
-       * the [curl](https://en.wikipedia.org/wiki/Curl_(mathematics))
+       * the [divergence](https://en.wikipedia.org/wiki/Divergence)
+       * the [curl](https://en.wikipedia.org/wiki/Curl_(mathematics)
    * $$ \odot $$ is elementwise matrix multiplication
    * $$ \sigma'(z^L) $$ is the derivative of the logit at layer *L*
    * so the incremental error at each unit equals the gradient of the 
