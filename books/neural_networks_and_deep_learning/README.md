@@ -46,9 +46,8 @@ $$s \odot t$$:
   * $$ z^L_j $$ is computed during forward pass
   * it is a componentwise expression for $$ \delta^L $$
 * **BP1a**: $$
-  \begin{eqnarray} 
-    \delta^L = \nabla_a C \odot \sigma'(z^L).
-  \tag{BP1a}\end{eqnarray}
+    \delta^L = \nabla_a C \odot \sigma'(z^L)
+  $$
   * $$ \nabla_a C $$
     * a vector whose components are the partial derivatives
       $$ \partial C / \partial a^L_j $$
@@ -120,10 +119,68 @@ $$s \odot t$$:
 #### Summary
 ![backpropagation equations summary](../../assets/bk_nnadl_bp_eq_summary.png)
 
-
 ### [Proof of the four fundamental equations (optional)](http://neuralnetworksanddeeplearning.com/chap2.html#proof_of_the_four_fundamental_equations_(optional))
+* proofs for BP1 and BP2 are provided in terms of base definitions using the 
+  chain rule for derivatives
+* proofs for BP3 and BP4 are left as an exercise to the reader
 
 ### [The backpropagation algorithm](http://neuralnetworksanddeeplearning.com/chap2.html#the_backpropagation_algorithm)
+
+1. **Input _x_**: set the corresponding activation $$ a^1 $$ for the input layer
+2. **Feedforward**: For each *l* = 2, 3, ..., *L*, 
+   1. compute the logit *z* at the layer $$ z^{l} = w^l a^{l-1}+b^l $$ 
+   2. compute the activation from the logit at layer *l*: $$
+      a^{l} = \sigma(z^{l}) $$
+3. **Output error $$ \sigma^L $$**: Compute the vector $$ 
+   \delta^{L} = \nabla_a C \odot \sigma'(z^L) $$. 
+   * compute the incremental error vector at output layer *L*
+   * $$ \nabla_a C $$ is a vector whose components are the partial derivatives
+      $$ \partial C / \partial a^L_j $$
+     * expresses the rate of change of *C* w.r.t. output activations
+     * The [Nabla](https://en.wikipedia.org/wiki/Nabla_symbol#Modern_uses) is 
+       used in vector calculus as part of the names of distinct differential operators:
+       * the [gradient $$ \nabla $$](https://en.wikipedia.org/wiki/Gradient)
+       * the [divergence $$ \div $$](https://en.wikipedia.org/wiki/Divergence)
+       * the [curl $$ \curl $$](https://en.wikipedia.org/wiki/Curl_(mathematics))
+   * $$ \odot $$ is elementwise matrix multiplication
+   * $$ \sigma'(z^L) $$ is the derivative of the logit at layer *L*
+   * so the incremental error at each unit equals the gradient of the 
+     cost w.r.t. the output activation multiplied by the output activation
+   * the incremental error vector is the vectorized form of that
+4. **Backpropagate the error**: For each $$ 
+   l = L-1, L-2, \ldots, 2 $$, compute $$ 
+   \delta^{l} = 
+   ( ( w^{l+1})^T \delta^{l+1} ) \odot
+     \sigma'(z^{l})
+   $$
+   * compute the incremental error $$ \delta^l $$ backward, starting from *L-1*
+   * $$ ( w^{l+1})^T \delta^{l+1} ) $$ - the weights of the next layer put in 
+     matrix multiplication with the derivatives of the next layer
+   * $$ \odot $$ is elementwise matrix multiplication
+   * $$ \sigma'(z^l) $$ is the derivative of the logit at layer *l*
+   * this takes deriv of activation function at layer *l* and puts it in 
+     elementwise multiplication with the matrix product of the weights and gradients
+     for the next layer
+5. **Output**: The gradient of the cost function is given by $$
+   \frac{\partial C}{\partial w^l_{jk}} = a^{l-1}_k \delta^l_j $$ and $$
+   \frac{\partial C}{\partial b^l_j} = \delta^l_j $$
+   * $$ w^l_{jk} $$ is the weight for the connection from the $$ k^{\rm th} $$
+     neuron in the $$ (l-1)^{\rm th} $$ layer to the j^{\rm th} neuron in the 
+     l^{\rm th} layer: 
+     ![backprop notation image](../../assets/backprop_index_notation.png)
+   * the change of cost w.r.t. a single weight that is leading to the *j*th 
+     unit of layer *l* from the *k*th unit of layer *l-1* is the activation
+     of the *k*th unit of layer *l-1* times the incremental change at the *j*th
+     unit of the *l*th layer
+   * recall that $$ \delta^l_j \equiv \frac{\partial C}{\partial z^l_j} $$, 
+     so the incremental change at the *j*th unit of layer *l* is defined as
+     the partial derivative of the cost w.r.t. the logit at that unit
+   * we're computing change of cost w.r.t. a single weight that is leading *to* the *j*th
+     unit of layer *l* *from* the *k*th unit of layer *l-1* 
+   * it is the activation of the *k*th unit of layer *l-1* times the incremental 
+     change at the *j*th unit of the *l*th layer, 
+   * and the incremental change at the *j*th unit of the *l*th layer is the partial 
+     derivative of the cost w.r.t. the logit of the unit at layer *l*
 
 ### [The code for backpropagation](http://neuralnetworksanddeeplearning.com/chap2.html#the_code_for_backpropagation)
 
