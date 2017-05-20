@@ -4,8 +4,6 @@
 
 ## [How the backpropagation algorithm works](http://neuralnetworksanddeeplearning.com/chap2.html)
 
-### [Warm up: a fast matrix-based approach to computing the output from a neural network](http://neuralnetworksanddeeplearning.com/chap2.html#warm_up_a_fast_matrix-based_approach_to_computing_the_output _from_a_neural_network)
-
 ### [The two assumptions we need about the cost function](http://neuralnetworksanddeeplearning.com/chap2.html#the_two_assumptions_we_need_about_the_cost_function)
 
 ### [The Hadamard product](http://neuralnetworksanddeeplearning.com/chap2.html#the_hadamard_product_$s_\odot_t$)
@@ -141,7 +139,7 @@ $$s \odot t$$:
        used in vector calculus as part of the names of distinct differential operators:
        * the [gradient $$ \nabla $$](https://en.wikipedia.org/wiki/Gradient)
        * the [divergence $$ \div $$](https://en.wikipedia.org/wiki/Divergence)
-       * the [curl $$ \curl $$](https://en.wikipedia.org/wiki/Curl_(mathematics))
+       * the [curl](https://en.wikipedia.org/wiki/Curl_(mathematics))
    * $$ \odot $$ is elementwise matrix multiplication
    * $$ \sigma'(z^L) $$ is the derivative of the logit at layer *L*
    * so the incremental error at each unit equals the gradient of the 
@@ -165,8 +163,8 @@ $$s \odot t$$:
    \frac{\partial C}{\partial w^l_{jk}} = a^{l-1}_k \delta^l_j $$ and $$
    \frac{\partial C}{\partial b^l_j} = \delta^l_j $$
    * $$ w^l_{jk} $$ is the weight for the connection from the $$ k^{\rm th} $$
-     neuron in the $$ (l-1)^{\rm th} $$ layer to the j^{\rm th} neuron in the 
-     l^{\rm th} layer: 
+     neuron in the $$ (l-1)^{\rm th} $$ layer to the $$ j^{\rm th} $$ neuron in the 
+     $$ l^{\rm th} $$ layer: 
      ![backprop notation image](../../assets/backprop_index_notation.png)
    * the change of cost w.r.t. a single weight that is leading to the *j*th 
      unit of layer *l* from the *k*th unit of layer *l-1* is the activation
