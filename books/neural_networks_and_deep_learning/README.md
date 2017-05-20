@@ -14,36 +14,27 @@ $$s \odot t$$:
 ### [The four fundamental equations behind backpropagation](http://neuralnetworksanddeeplearning.com/chap2.html#the_four_fundamental_equations_behind_backpropagation)
 
 * measure of error
-  * $$
-      \delta^l_j =
-      \frac{\partial C}{\partial z^l_j}
-    $$ - here delta is the "inexact derivative" or incremental amount changed in 
+  * $$ \delta^l_j = \frac{\partial C}{\partial z^l_j} $$ 
+    - here delta is the "inexact derivative" or incremental amount changed in 
     hidden neuron $$ j $$ at layer $$ l $$, and it's set to be the partial 
     derivative of the Cost function w.r.t the logistic logit at that neuron.
 
 #### BP1 - error in the output layer $$ \delta^L $$
 
-* **BP1**: $$
-    \delta^L_j = \frac{\partial C}{\partial a^L_j} \sigma'(z^L_j)
-  $$
+* **BP1**: 
+  $$ \delta^L_j = \frac{\partial C}{\partial a^L_j} \sigma'(z^L_j) $$
   * $$ \partial C / \partial a^L_j $$
     * how fast cost is changing as a function of $$ j^{\text(th)} $$ output activation
     * if cost *C* doesn't depend on neuron *j*, then $$ \delta^L_j $$ will be small
     * if using quadratic / squared error, 
-      $$
-      C = \frac{1}{2} \sum_j
-      (y_j-a^L_j)^2
-      $$, and so
-      $$
-      \partial C / \partial a^L_j = (a_j^L-y_j)
-      $$ (notice the reversal of terms since the derivative of the inner term is -1)
+      $$ C = \frac{1}{2} \sum_j (y_j-a^L_j)^2 $$, and so
+      $$ \partial C / \partial a^L_j = (a_j^L-y_j) $$ 
+      (notice the reversal of terms since the derivative of the inner term is -1)
   * $$ \sigma'(z^L_j) $$
     * how fast the activation function $$ \sigma $$ is changing at $$ z^L_j $$
   * $$ z^L_j $$ is computed during forward pass
   * it is a componentwise expression for $$ \delta^L $$
-* **BP1a**: $$
-    \delta^L = \nabla_a C \odot \sigma'(z^L)
-  $$
+* **BP1a**: $$ \delta^L = \nabla_a C \odot \sigma'(z^L) $$
   * $$ \nabla_a C $$
     * a vector whose components are the partial derivatives
       $$ \partial C / \partial a^L_j $$
@@ -95,7 +86,7 @@ $$s \odot t$$:
 #### Summary
 ![backpropagation equations summary](../../assets/bk_nnadl_bp_eq_summary.png)
 
-### [Proof of the four fundamental equations](http://neuralnetworksanddeeplearning.com/chap2.html#proof_of_the_four_fundamental_equations_(optional))
+### Proof of the four fundamental equations
 * proofs for BP1 and BP2 are provided in terms of base definitions using the 
   chain rule for derivatives
 * proofs for BP3 and BP4 are left as an exercise to the reader
@@ -122,11 +113,8 @@ $$s \odot t$$:
      cost w.r.t. the output activation multiplied by the output activation
    * the incremental error vector is the vectorized form of that
 4. **Backpropagate the error**: For each $$ 
-   l = L-1, L-2, \ldots, 2 $$, compute $$ 
-   \delta^{l} = 
-   ( ( w^{l+1})^T \delta^{l+1} ) \odot
-     \sigma'(z^{l})
-   $$
+   l = L-1, L-2, \ldots, 2 $$, compute 
+   $$ \delta^{l} = ( ( w^{l+1})^T \delta^{l+1} ) \odot \sigma'(z^{l}) $$
    * compute the incremental error $$ \delta^l $$ backward, starting from *L-1*
    * $$ ( w^{l+1})^T \delta^{l+1} ) $$ - the weights of the next layer put in 
      matrix multiplication with the derivatives of the next layer
@@ -135,9 +123,9 @@ $$s \odot t$$:
    * this takes deriv of activation function at layer *l* and puts it in 
      elementwise multiplication with the matrix product of the weights and gradients
      for the next layer
-5. **Output**: The gradient of the cost function is given by $$
-   \frac{\partial C}{\partial w^l_{jk}} = a^{l-1}_k \delta^l_j $$ and $$
-   \frac{\partial C}{\partial b^l_j} = \delta^l_j $$
+5. **Output**: The gradient of the cost function is given by 
+   $$ \frac{\partial C}{\partial w^l_{jk}} = a^{l-1}_k \delta^l_j $$ and 
+   $$ \frac{\partial C}{\partial b^l_j} = \delta^l_j $$
    * $$ w^l_{jk} $$ is the weight for the connection from the $$ k^{\rm th} $$
      neuron in the $$ (l-1)^{\rm th} $$ layer to the $$ j^{\rm th} $$ neuron in the 
      $$ l^{\rm th} $$ layer: 
