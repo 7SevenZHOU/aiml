@@ -14,7 +14,21 @@
 
 ## 7b - Training RNNs with backpropagation
 ### 7b-02 - The equivalence between feedforward nets and recurrent nets
+![recurrent cycles](../../../assets/hinton_lec7_ff_recur_equiv_1.png)
+![same weights](../../../assets/hinton_lec7_ff_recur_equiv_2.png)
+* assume that there is a time delay of 1 in using each connection
+* the recurrent net is just a layered net that **keeps reusing the same weights**.
+
 ### 7b-03 - Reminder: Backpropagation with weight constraints
+* it is easy to modify backprop to incorporate constraints between weights
+* compute gradients as usual then modify them so they satisfy constraints
+* if they started off satisfying them, they will continue to satisfy them
+* to constrain $$ w_{1,\text{t=0}} = w_{1,\text{t=1}} $$
+* we need: $$ \Delta w_{1,\text{t=0}} = \Delta w_{1,\text{t=1}} $$
+* compute: $$ \frac{\partial E}{\partial w_{1,\text{t=0}}} \text{and} \frac{ \partial E }{ \partial w_{1,\text{t=1}} } $$
+* then, use $$ \frac{\partial E}{\partial w_{1,\text{t=0}}} + \frac{ \partial E }{ \partial w_{1,\text{t=1}} } $$
+  for both $$ w_{1,\text{t=0}} $$ and $$ w_{1,\text{t=1}} $$.
+
 ### 7b-04 - Backpropagation through time
 ### 7b-05 - An irritating extra issue
 ### 7b-06 - Providing input to recurrent networks
@@ -143,59 +157,137 @@ I've adapted `prob3.m` to prob4's parameters:
 
 [include](./prob4.m)
 
-The next step is to backpropagate. 
+Plan: backpropagate to find $$ \frac{ \partial E }{ \partial z_1 } $$.
+
+$$
+\frac{ \partial E }{ \partial z_1 } = 
+\frac{ \partial E_1 }{ \partial z_1 } + 
+\frac{ \partial E_2 }{ \partial z_1 } 
+$$
+
+Expanding E1 w.r.t. z1:
+$$
+\frac{ \partial E_1 }{ \partial z_1 } = 
+\frac{ \partial E   }{ y_1          }
+\frac{ \partial y_1 }{ \partial h_1 }
+\frac{ \partial h_1 }{ \partial z_1 }
+$$
+
+Expanding E2 w.r.t. z1
+$$
+\frac{ \partial E_2 }{ \partial z_1 } = 
+\frac{ \partial E_2 }{ \partial y_2 }
+\frac{ \partial y_2 }{ \partial h_2 }
+\frac{ \partial h_2 }{ \partial z_2 }
+\frac{ \partial z_2 }{ \partial h_1 }
+\frac{ \partial h_1 }{ \partial z_1 }
+$$
+
+#### E1 w.r.t. z1
 
 We are using squared error, which means that for each output unit, the 
 error is computed as one half the square of the residual, which is the 
 difference between the target output and the actual output for the unit:
 
 $$ 
-E_j = \frac{ 1 }{ 2 }(t_j - y_j)^{2}
+E_{ j \in \text{all output units} } = \frac{ 1 }{ 2 }(t_j - y_j)^{2}
 $$
 
-The total error across all output units is the sum of the errors for all 
-output units:
-
-$$ 
-E_{ \text{ total } } 
-= \sum_{ j \in \text{all output units} } \frac{ 1 }{ 2 } ( t_j - y_j )^{2}
-$$ 
-
-now we have the total error, we wish to compute the partial derivative of the 
-total error $$ E $$ w.r.t. the incoming weights in the output layer, *i*:
+So by the chain rule and the power rule,
 
 $$
-\frac{ \delta E }{ \delta w_i }
-= - \sum_n 
+\frac{ \partial E_j }{ \partial y_j } = y_j - t_j
 $$
 
-Following the lec 3 slide, 
-"Backpropagating dE/dy," 
+$$
+\frac{ \partial E_1 }{ \partial z_1 } = 
+(y_1 - t_1)
+\frac{ \partial y_1 }{ \partial h_1 }
+\frac{ \partial h_1 }{ \partial z_1 }
+$$
 
-![backpropagation_diagram](../../../assets/hinton_lec3_backpropagation.png)
+Next, $$ \frac{ \partial y_1 }{ \partial h_1 } = W_{hy} $$; the derivative of 
+y1 w.r.t. the hidden unit 1 activation is just the weight connecting h1 to
+y1:
 
-1. 
-  $$
-  \frac{ \delta E }{ \delta z_j } 
-  = \frac{ dy_j }{ dz_j } \frac{ \delta E }{ \delta y_j } 
-  = y_j ( 1 - y_j ) \frac{ \delta E }{ \delta y_j }
-  $$
-2. 
-  $$
-  \frac{ \delta E }{ \delta y_j }
-  = \sum_j \frac{ dz_j }{ dy_i } \frac{ \delta E }{ \delta z_j } 
-  = \sum_{ij} \frac{ \delta E }{ \delta z_j }
-  $$
-3. 
-  $$
-  \frac{ \delta E }{ \delta w_{ij} }
-  = \frac{ \delta z_j }{ \delta w_{ij} } \frac{ \delta E }{ \delta z_j } 
-  = y_i \frac{ \delta E }{ \delta z_j }
-  $$
+$$
+\frac{ \partial E_1 }{ \partial z_1 } = 
+(y_1 - t_1) * 
+W_{hy} *
+\frac{ \partial h_1 }{ \partial z_1 }
+$$
 
-It may be useful here to go to [*Neural Networks and Deep Learning* Chapter 2 - Backpropagation](http://neuralnetworksanddeeplearning.com/chap2.html),
-which explains this in more of a systematic manner.
+Finally, $$ \frac{ \partial h_1 }{ \partial z_1 } $$ is the logistic 
+function derivative w.r.t. the logit, $$ h_1(1 - h_1) $$. For a review of this, 
+see week 3's slide, "The derivatives of a logistic neuron."
 
+$$
+\frac{ \partial E_1 }{ \partial z_1 } = 
+(y_1 - t_1) * 
+W_{hy} *
+h_1(1 - h_1)
+$$
+
+Given that $$ y_1 = 0.1 $$, $$ t_1 = -0.1 $$, $$ W_{hy} = 0.25 $$, $$ h_1 = 0.4 $$:
+$$
+\frac{ \partial E_1 }{ \partial z_1 } = 
+(0.1 - -0.1) * 
+0.25 *
+0.4(1 - 0.4)
+$$
+
+$$
+\frac{ \partial E_1 }{ \partial z_1 } = 0.012026
+$$
+
+#### E2 w.r.t. z1
+$$
+\frac{ \partial E_2 }{ \partial z_1 } = 
+\frac{ \partial E_2 }{ \partial y_2 }
+\frac{ \partial y_2 }{ \partial h_2 }
+\frac{ \partial h_2 }{ \partial z_2 }
+\frac{ \partial z_2 }{ \partial h_1 }
+\frac{ \partial h_1 }{ \partial z_1 }
+$$
+
+$$
+\frac{ \partial E_2 }{ \partial z_1 } = 
+(y_2 - t_2) *
+W_{hy} *
+h_2*(1 - h_2) * 
+W_{hh} *
+h_1*(1 - h_1)
+$$
+
+Given that $$ y_2 = -0.2 $$, $$ t_2 = -0.2 $$, $$ W_{hy} = 0.25 $$, $$ h_2 = 0.8 $$,
+$$ W_{hh} = 0.5 $$, $$ h_1 = 0.4 $$:
+
+$$
+\frac{ \partial E_2 }{ \partial z_1 } = 
+(0.2 - -0.2) *
+0.25 *
+0.8*(1 - 0.8) * 
+0.5 *
+0.4 * (1 - 0.4)
+$$
+
+$$
+\frac{ \partial E_2 }{ \partial z_1 } = 0.0019
+$$
+
+So completing, 
+
+$$
+\frac{ \partial E }{ \partial z1 } = 
+\frac{ \partial E_1 }{ \partial z_1 } + 
+\frac{ \partial E_2 }{ \partial z_1 } 
+$$
+
+$$
+\frac{ \partial E }{ \partial z1 } = 
+0.012026 + 
+0.0019080 = 0.013934
+$$
 
 # Week 7 Vocab
 

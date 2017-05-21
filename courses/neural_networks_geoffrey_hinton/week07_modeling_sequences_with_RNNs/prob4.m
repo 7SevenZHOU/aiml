@@ -68,11 +68,39 @@ endfunction
 [h_logits, h_outputs, y_outputs] = get_rnn_outputs(x_inputs, w_xh, w_hh, w_hy, h_bias, y_bias);
 [error_val] = get_squared_error_loss(y_outputs, t_outputs)
 
-disp("hidden inputs:"), disp(x_inputs)
-disp("hidden logits:"), disp(h_logits)
-disp("hidden outputs:"), disp(h_outputs)
-disp("y outputs:"), disp(y_outputs)
-disp("error amount"), disp(error_val)
+% disp("hidden inputs:"), disp(x_inputs)
+% disp("hidden logits:"), disp(h_logits)
+% disp("hidden outputs:"), disp(h_outputs)
+% disp("y outputs:"), disp(y_outputs)
+% disp("error amount"), disp(error_val)
+
+function [dE1dz1] = get_dE1dz1(y_1, t_1, w_hy, h_1)
+  dE1dy1 = y_1 - t_1;
+  dy1dh1 = w_hy;
+  dh1dz1 = h_1 * (1 - h_1);
+  dE1dz1 = dE1dy1 * dy1dh1 * dh1dz1;
+endfunction
+
+function [dE2dz1] = get_dE2dz1(y_2, t_2, w_hy, h_2, w_hh, h_1)
+  dE2dy2 = y_2 - t_2;
+  dy2dh2 = w_hy;
+  dh2dz2 = h_2 * ( 1 - h_2 );
+  dz2dh1 = w_hh;
+  dh1dz1 = h_1 * ( 1 - h_1 );
+  dE2dz1 = dE2dy2 * dy2dh2 * dh2dz2 * dz2dh1 * dh1dz1;
+endfunction
 
 
+y_1 = y_outputs(:, 2)
+y_2 = y_outputs(:, 3)
 
+t_1 = t_outputs(:, 2)
+t_2 = t_outputs(:, 3)
+
+h_1 = h_outputs(:, 2)
+h_2 = h_outputs(:, 3)
+
+dE1dz1 = get_dE1dz1(y_1, t_1, w_hy, h_1)
+dE2dz1 = get_dE2dz1(y_2, t_2, w_hy, h_2, w_hh, h_1)
+
+dEdz1 = dE1dz1 + dE2dz1
