@@ -30,6 +30,16 @@
   for both $$ w_{1,\text{t=0}} $$ and $$ w_{1,\text{t=1}} $$.
 
 ### 7b-04 - Backpropagation through time
+
+Training algorithm in the time domain:
+
+– The forward pass builds up a stack of the activities of all
+  the units at each time step.
+– The backward pass peels activities off the stack to
+  compute the error derivatives at each time step.
+– After the backward pass we add together the derivatives at
+  all the different times for each weight.
+
 ### 7b-05 - An irritating extra issue
 ### 7b-06 - Providing input to recurrent networks
 ### 7b-07 - Teaching signals for recurrent networks
@@ -41,6 +51,12 @@
 ### 7c-04 - A recurrent net for binary addition
 ### 7c-05 - The connectivity of the network
 ### 7c-06 - What the network learns
+* RNNs can emulate finite state automaton, but they are more powerful than FSAs
+  * with N hidden neurons, it has $$ 2^N $$ binary activity vectors
+  * it still has only $$ N^2 $$ weights
+  * when the imput stream has two things going on at once, this "is important"
+  * A finite state automaton "needs to square its number of states"
+  * An RNN "needs to double it's number of units"
 
 
 ## 7d - Why it is difficult to train an RNN
@@ -80,20 +96,38 @@
 # Week 7 Quiz
 
 ## Week 7 Quiz - Q1
-How many bits of information can be modeled by the vector of hidden activities 
-(at a specic time) of a Recurrent Neural Network (RNN) with 16 logistic hidden
-units?
-  1. `16`
-  2. `2`
-  3. `4`
-  4. `>16`    
+1. How many bits of information can be modeled by the vector of hidden activities 
+   (at a specic time) of a Recurrent Neural Network (RNN) with 16 logistic hidden
+   units?
+   1. `2`
+   1. `4`
+   1. `16`
+   1. `>16`
+2. How many bits of information can be modeled by the hidden state (at some specific
+   time) of a Hidden Markov Model with 16 hidden units?
+   1. `2`
+   1. `4`
+   1. `16`
+   1. `>16`
+
 
 *Q1 Notes*
 * **7c-06 - What the network learns**
   * "an RNN with *n* hidden neurons has $$ 2^{n} $$ possible binary activity 
-    vectors (but only $$ n^{2} $$ weights)"
+    vectors (but only $$ n^{2} $$ weights)" 
   * "A finite state automaton needs to square its number of states" while
-    "An RNN needs to double its number of units."
+    "An RNN needs to double its number of units." 
+* With Q1-1, the vector of hidden activities "has $$ 2^n $$ possible binary
+  activity vectors" which is much greater than 16.
+* With Q1-2, an HMM represents its states with integers. For example, if 
+  there are 16 possible states, it takes 4 bits to represent those 16 states, 
+  since $$ 2^4 $$ is 16. 
+  * Does this imply that HMMs usually have the same number of internal states
+    as the number of hidden units? There is unexplained context to this question
+    that I'm not picking up.
+  * [forum post *Difference between HMM and RNN*](https://www.coursera.org/learn/neural-networks/discussions/weeks/7/threads/g0s31eyMEeaq4BIsWS_kSA)
+    * > The state vector of an HMM is generated from a multinomial probability distribution over N state values--that's why it can only carry log2N bits of information. The state vector of an RNN with logistic hidden activations is generated from N probability distributions over binary state values.
+    * > RNNs can have dedicated outputs leaving the hidden states a black box whereas in HMMs the states are usually assigned interpretations ahead of time. In an HMM you can incorporate long-term dependencies by explicitly representing them in the the states and transitions leading to very large and sparse transition matrices--very typical in speech and language processing. Leaving the hidden states a black box allows the model to learn to encode long-term information on its own.
 
 ## Week 7 Quiz - Q2
 This question is about speech recognition. To accurately recognize what phoneme 
@@ -317,9 +351,18 @@ TBD
 
 ## Week 7 People
 
-### Hochreiter 
+### Sepp Hochreiter 
+* [researchgate link](https://www.researchgate.net/profile/Sepp_Hochreiter)
+* ["Long Short-term Memory."](https://www.researchgate.net/publication/13853244_Long_Short-term_Memory) 
+  Neural Computation 9(8): 1735-80. December 1997. 
+  DOI: 10.1162/neco.1997.9.8.1735
 
-### Schmidhuber
+### Jürgen Schmidhuber
+* [researchgate link](https://www.researchgate.net/researcher/40000894_Juergen_Schmidhuber)
+* ["Long Short-term Memory."](https://www.researchgate.net/publication/13853244_Long_Short-term_Memory) 
+  Neural Computation 9(8): 1735-80. December 1997. 
+  DOI: 10.1162/neco.1997.9.8.1735
+
 
 ### Alex Graves
 * Graves & Schmidhuber (2009) showed that RNNs with LSTM
