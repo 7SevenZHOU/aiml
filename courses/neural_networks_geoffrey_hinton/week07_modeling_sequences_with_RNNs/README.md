@@ -5,8 +5,57 @@
 ### 7a-03 - Memoryless models for sequences
 ### 7a-04 - Beyond memoryless models
 ### 7a-05 - Linear Dynamical Systems (engineers love them!)
+* [7a 5:50](https://www.coursera.org/learn/neural-networks/lecture/Fpa7y/modeling-sequences-a-brief-overview)
+* ![linear dynamical systems](../../../assets/hinton_lec7a_linear_dynamical_systems.png)
+* real-valued hidden state with linear dynamics shown by
+  red arrows above
+* the hidden state evolves probabilistically
+* there may be driving input influencing hidden state
+  directly (green arrows above)
+* we need to be able to infer the hidden states
+* used for tracking missiles
+* gauss used this for tracking planets assuming a certain
+  type of noise (Gaussian noise)
+* distribution over hidden state given data is Gaussian
+  * can be computed using "Kalman filtering"
+* given observations of the output of the system, we can't
+  know for sure what was happening inside, but we can 
+  infer with a certain probability what was going on
+
 ### 7a-06 - Hidden Markov Models (computer scientists love them!)
+* [7a 8:19](https://www.coursera.org/learn/neural-networks/lecture/Fpa7y/modeling-sequences-a-brief-overview)
+* ![hidden markov models](../../../assets/hinton_lec7a_hidden_markov_models.png)
+* The hidden state consists of a one-of-N choice.
+* System is always in exactly one of those states.
+* Transitions controlled by transition matrix: a matrix of probabilities.
+* The output model is stochastic. The state that the system is in doesn't
+  completely determine what output it produces. There is some variation in the 
+  output that each output can produce. 
+* *We can't be sure which state produced which output* - the states are hidden
+  "behind a veil"
+* It is easy to represent a probability distribution across N states with N numbers
+* Even though we can't know what state it's in for sure, we can easily represent
+  the probability distribution.
+* To predict the next output from the HMM, we need to predict what hidden state
+  it is probably in, and so we need to get our hands on that probability distribution.
+* There is a method based on Dynamic Programming that lets us take observations 
+  we've made and from those compute the probabitity dist across hidden states
+* Once we have the probability dist, there's a learning algorithm for HMMs and 
+  that's what make them appropriate for speech. In 1970 they took over speech 
+  recognition.
+
 ### 7a-07 - A fundamental limitation of HMMs
+* [7a 10:32](https://www.coursera.org/learn/neural-networks/lecture/Fpa7y/modeling-sequences-a-brief-overview)
+* It's easiest to understand the limitations of HMM if we consider what happens 
+  when an HMM generates data. 
+* At *each* time step it selects *one of its discrete hidden states*.
+* Consider that each of its N hidden states could be referred to by a single integer.
+  That integer can be represented in log N bits.
+* At each time stamp, that slice of the HMM only knows which integer was selected
+  by the immediately prior time stamp. 
+* Therefore each time slice of an HMM system with N states only has access to 
+  log N bits of memory about what has transpired before it.
+
 ### 7a-08 - Recurrent neural networks
 ### 7a-09 - Do generative models need to be stochastic?
 ### 7a-10 - Recurrent neural networks
@@ -125,9 +174,18 @@ Training algorithm in the time domain:
   * Does this imply that HMMs usually have the same number of internal states
     as the number of hidden units? There is unexplained context to this question
     that I'm not picking up.
-  * [forum post *Difference between HMM and RNN*](https://www.coursera.org/learn/neural-networks/discussions/weeks/7/threads/g0s31eyMEeaq4BIsWS_kSA)
-    * > The state vector of an HMM is generated from a multinomial probability distribution over N state values--that's why it can only carry log2N bits of information. The state vector of an RNN with logistic hidden activations is generated from N probability distributions over binary state values.
-    * > RNNs can have dedicated outputs leaving the hidden states a black box whereas in HMMs the states are usually assigned interpretations ahead of time. In an HMM you can incorporate long-term dependencies by explicitly representing them in the the states and transitions leading to very large and sparse transition matrices--very typical in speech and language processing. Leaving the hidden states a black box allows the model to learn to encode long-term information on its own.
+  * [Forum: *Difference between HMM and RNN*](https://www.coursera.org/learn/neural-networks/discussions/weeks/7/threads/g0s31eyMEeaq4BIsWS_kSA)
+    * > The state vector of an HMM is generated from a multinomial probability 
+      > distribution over N state values--that's why it can only carry log2N bits 
+      > of information. The state vector of an RNN with logistic hidden activations 
+      > is generated from N probability distributions over binary state values.
+    * > RNNs can have dedicated outputs leaving the hidden states a black box 
+      > whereas in HMMs the states are usually assigned interpretations ahead 
+      > of time. In an HMM you can incorporate long-term dependencies by explicitly 
+      > representing them in the the states and transitions leading to very large 
+      > and sparse transition matrices--very typical in speech and language 
+      > processing. Leaving the hidden states a black box allows the model to 
+      > learn to encode long-term information on its own.
 
 ## Week 7 Quiz - Q2
 This question is about speech recognition. To accurately recognize what phoneme 
