@@ -43,6 +43,14 @@
 * Once we have the probability dist, there's a learning algorithm for HMMs and 
   that's what make them appropriate for speech. In 1970 they took over speech 
   recognition.
+  
+#### 7a-06 - Hidden Markov Models notes and comments
+* I believe that Hinton means that a HMM network has one unit for each state for 
+  each timestamp. He doesn't really say that, though.
+* This part is a little confusing, because technically, if you have N states 
+  that are numbered 1 through N, you could have a single unit per time slot
+  that selected the integer for each time slot
+
 
 ### 7a-07 - A fundamental limitation of HMMs
 * [7a 10:32](https://www.coursera.org/learn/neural-networks/lecture/Fpa7y/modeling-sequences-a-brief-overview)
@@ -57,8 +65,43 @@
   log N bits of memory about what has transpired before it.
 
 ### 7a-08 - Recurrent neural networks
+* [12:56](https://www.coursera.org/learn/neural-networks/lecture/Fpa7y/modeling-sequences-a-brief-overview)
+* They have distributed state
+  * *several units can be active at once* so they can remember several different 
+    things at once
+  * "They are nonlinear"
+  * "a linear dynamical system has a whole hidden state vector"
+  * "it's got more than one value at a time,"
+  * "but those values are constrained to act in a linear way so as to 
+    make inference easy," 
+  * "and in a recurrent neural network we allow the dynamics to be much more 
+    complicated." 
+  * "non-linear dynamics" allows them "to update their hidden state in complicated 
+    ways" (?)
+* with enough neurons and enough time, a RNN can mimic any computer
+
+#### 7a-08 - RNNs Notes and Comments
+* It's unclear to me whether he's talking about RNNs, HMMs, LDSs, all three, 
+  or just one. The slide title is Recurrent Neural Networks, but it seems 
+  as though he is saying things only about Linear Dynamical Systems, because
+* HMMs don't have more than one state active at once
+* But how do linear dynamical systems exhibit "non-linear dynamics"?
+
 ### 7a-09 - Do generative models need to be stochastic?
+* compare the distribution of an HMM to the hidden state of an LDS
+
 ### 7a-10 - Recurrent neural networks
+* behavior they can exhibit
+  * can oscillate
+  * can settle to point attractors (retrieving memories?)
+    * hopfield networks
+  * behave chaotically (bad for information processing?)
+  * can potentially learn to implement lots of small programs 
+    that run in parallel and interact in complicated ways
+* drawbacks
+  * computational power of RNNs makes them very hard to train
+    * one successful example: Tony Robinson's speech recognizer
+      which uses "transputers"
 
 
 ## 7b - Training RNNs with backpropagation
@@ -171,9 +214,16 @@ Training algorithm in the time domain:
 * With Q1-2, an HMM represents its states with integers. For example, if 
   there are 16 possible states, it takes 4 bits to represent those 16 states, 
   since $$ 2^4 $$ is 16. 
-  * Does this imply that HMMs usually have the same number of internal states
+  * Does this imply that HMMs usually have the same number of hidden states
     as the number of hidden units? There is unexplained context to this question
     that I'm not picking up.
+  * Reading back through `7a-06 - Hidden Markov Models` and the following slide, 
+    I think that Hinton is implying that if there are 16 states, then there are 
+    16 hidden units per time slot and only one of them is active at a time, either 
+    that, or there is one hidden unit per time slot and it outputs an integer from
+    1 to 16.
+  * The important part is that the memory is *constrained to log N bits for N states
+    with an HMM*.
   * [Forum: *Difference between HMM and RNN*](https://www.coursera.org/learn/neural-networks/discussions/weeks/7/threads/g0s31eyMEeaq4BIsWS_kSA)
     * > The state vector of an HMM is generated from a multinomial probability 
       > distribution over N state values--that's why it can only carry log2N bits 
@@ -425,3 +475,7 @@ TBD
 ### Alex Graves
 * Graves & Schmidhuber (2009) showed that RNNs with LSTM
   are currently the best systems for reading cursive writing.
+  
+### Tony Robinson
+* [Google Scholar Page](https://scholar.google.com/citations?user=UPV1LHUAAAAJ&hl=en)
+* [Founder and CEO, Speechmatics](https://www.speechmatics.com/company/)
