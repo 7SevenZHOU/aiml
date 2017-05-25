@@ -431,6 +431,43 @@ $$
 0.0019080 = 0.013934
 $$
 
+## Week 7 Quiz - Q5
+Consider a Recurrent Neural Network with one input unit, one logistic hidden unit, 
+and one linear output unit. This RNN is for modeling sequences of length 4 only, 
+and the output unit exists only at the last time step, i.e. T=3. This diagram 
+shows the RNN unrolled in time:
+
+![recurrent net](../../../assets/hinton_lec7_quiz_prob5_recurrent_net.png)
+
+Suppose that the model has learned the following parameter values:
+
+* $$ w_{xh} = 1 $$
+* $$ w_{hh} = 2 $$
+* $$ w_{hy} = 1 $$
+* All biases are 0
+
+For one specific training case, the input is 1 at T=0 and 0 at T=1, T=2, and T=3. 
+The target output (at T=3) is 0.5, and we're using the squared error loss function.
+
+We're interested in the gradient for $$ w_{xh} $$, i.e. 
+$$ \frac{\partial E}{\partial w_{xh}} $$. Because it's only at T=0 that the input 
+is not zero, and it's only at T=3 that there's an output, the error needs to 
+be backpropagated from T=3 to T=0, and that's the kind of situation where 
+RNN's often get either vanishing gradients or exploding gradients. 
+Which of those two occurs in this situation?
+
+You can either do the calculations, and find the answer that way, or you can 
+find the answer with more thinking and less math, by thinking about the 
+slope $$ \frac{\partial y}{\partial z} $$ of the logistic function, and what 
+role that plays in the backpropagation process.
+
+- [A] Vanishing gradient
+- [B] Exploding gradient
+
+### Week 7 Quiz - Q5 Work
+I believe that it will vanish, but I'm not certain why. I'll need to come back 
+and work through the explanation for this one.
+
 # Week 7 Vocab
 
 * *Attenuation*:
