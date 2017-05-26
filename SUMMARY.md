@@ -11,6 +11,7 @@
 * [Assignment 2 - Learning Word Representations](/./courses/neural_networks_geoffrey_hinton/assignment2/README.md)
 * [Week 6 - Minibatch Gradient Descent](/./courses/neural_networks_geoffrey_hinton/week06_minibatch_gradient_descent/README.md)
 * [Week 7 - Modeling Sequences with RNNs](/./courses/neural_networks_geoffrey_hinton/week07_modeling_sequences_with_RNNs/README.md)
+* [Week 8 - More RNNs](/./courses/neural_networks_geoffrey_hinton/week08_more_RNNs/README.md)
 
 ## Books
 
