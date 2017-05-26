@@ -24,7 +24,7 @@
 * Newton’s method multiplies the gradient vector by the inverse of the
   curvature matrix, H: 
   $$
-  \delta \bm w = - \varepsilon H ( \bm w )^{-1} \frac{ dE }{ d \bm w }
+  \delta \bm w = - \varepsilon H( \bm w )^{-1} \frac{ dE }{ d \bm w }
   $$
 * On a real quadratic surface it jumps to the minimum in one step.
 * Unfortunately, with only a million weights, the curvature matrix has
