@@ -41,6 +41,13 @@
 ## 8b - Modeling character strings with multiplicative connections 
 ### 8b-02 - Modeling text: Advantages of working with characters
 * [00:00](https://www.coursera.org/learn/neural-networks/lecture/qGmdv/modeling-character-strings-with-multiplicative-connections-14-mins)
+* complications of pre-processing
+  * morphemes - prefixes and sufixes
+  * subtle effects like "sn" words for nose related things
+  * New York
+  * Finnish long words
+
+
 ### 8b-03 - An obvious recurrent neural net 
 ### 8b-04 - A sub-tree in the tree of all character strings
 ### 8b-05 - Multiplicative connections
