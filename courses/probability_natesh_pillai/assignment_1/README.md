@@ -52,7 +52,7 @@ a. Give a story proof of the identity
 
 b. Give a story proof of the identity
    $$ 1^3 + 2^3 + ··· + n^3 
-   = 6 \binom{n + 1}{4} + 6 \binom{n + 1}{3} + \binom{n + 1}{2} $$
+   = 6 \binom{n + 1}{4} + 6 \binom{n + 1}{3} + \binom{n + 1}{2} $$.
    
 It is then just basic algebra (not required for
 this problem) to check that the square of the
@@ -109,27 +109,21 @@ $$ P_1 $$ and $$ P_4 $$ play in the finals.
 
 ## R Exercises
 
-### R Exercise 1
-(R language basics) Given 
-$$ x = (7.3, 6.8, 0.005, 9, 12, 2.4, 18.9, 0.9) $$,
-
-(a) Calculate the mean of x.  
-(b) Remove the mean from x.  
-(c) Calculate the square root of each element in x.  
-(d) Find the element in x which is larger than its square root.  
-(e) Round the square root of each element in x to two decimals.
+1. (R language basics) Given 
+   $$ x = (7.3, 6.8, 0.005, 9, 12, 2.4, 18.9, 0.9) $$,
+   a. Calculate the mean of x.  
+   b. Remove the mean from x.  
+   c. Calculate the square root of each element in x.  
+   d. Find the element in x which is larger than its square root.  
+   e. Round the square root of each element in x to two decimals.
 
 2. (Data frame and plot) We use data state.x77 in R for this problem.
-
-(a) Select the country with highest Income.  
-(b) Sort the data with respect to
-variable Population in descending order.
-(c) Give the scatter plot: Illiteracy VS Murder.
-Please label the names of states on the plot.
-(d) In the previous plot, text "high" on the
-states with income higher than the 75% quantile.
-
+   a. Select the country with highest Income.  
+   b. Sort the data with respect to variable Population in descending order.
+   c. Give the scatter plot: Illiteracy VS Murder. Please label the names of 
+      states on the plot.
+   d. In the previous plot, text "high" on the states with income higher 
+      than the 75% quantile.
 3. (Function) Write a function to calculate the sample variance of a
-vector $$ x = (x_1, · · · , x_n) $$. The formula is given as follows:
-
-$$ \text{Var}(x) = \frac{1}{n-1} \sum_{i=1}^{n} (x_i - \hat x)^2 $$
+   vector $$ x = (x_1, · · · , x_n) $$. The formula is given as follows:
+   $$ \text{Var}(x) = \frac{1}{n-1} \sum_{i=1}^{n} (x_i - \hat x)^2 $$
