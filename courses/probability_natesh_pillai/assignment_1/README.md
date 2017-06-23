@@ -51,10 +51,8 @@ a. Give a story proof of the identity
    $$ 1 + 2 + · · · + n = \binom{n + 1}{2} $$.
 
 b. Give a story proof of the identity
-   $$ 
-   1^3 + 2^3 + ··· + n^3 
-   = 6 \binom{n + 1}{4} + 6 \binom{n + 1}{3} + \binom{n + 1}{2} 
-   $$
+   $$ 1^3 + 2^3 + ··· + n^3 
+   = 6 \binom{n + 1}{4} + 6 \binom{n + 1}{3} + \binom{n + 1}{2} $$
    
 It is then just basic algebra (not required for
 this problem) to check that the square of the
