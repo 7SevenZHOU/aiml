@@ -16,7 +16,8 @@
 ### Probability - 
 
 * [Overall Class Notes](/./courses/probability_natesh_pillai/README.md)
-* [Assignment 1](/./courses/probability_natesh_pillai/assignment_1/README.md)
+* [Assignment 1 Questions](/./courses/probability_natesh_pillai/assignment_1/README.md)
+* [Assignment 1 Submission](/./courses/probability_natesh_pillai/assignment_1/submission.md)
 
 ## Books
 
