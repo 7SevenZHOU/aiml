@@ -13,6 +13,11 @@
 * [Week 7 - Modeling Sequences with RNNs](/./courses/neural_networks_geoffrey_hinton/week07_modeling_sequences_with_RNNs/README.md)
 * [Week 8 - More RNNs](/./courses/neural_networks_geoffrey_hinton/week08_more_RNNs/README.md)
 
+### Probability - 
+
+* [Overall Class Notes](/./courses/probability_natesh_pillai/README.md)
+* [Assignment 1](/./courses/probability_natesh_pillai/assignment_1/README.md)
+
 ## Books
 
 * [Book List](/./books/README.md)
